@@ -228,7 +228,7 @@ $n$的最佳值可以通过交叉验证获得,通常~$n$~的较大值可以促�
 在我们的实验中,我们将其值均匀地设置为~$n =\binom{m} {2}/5$。
 除了上述三个参数外,我们在算法~\ref{alg}中设置常量~$c$ = 10,
 即如果基因数小于或等于~10,则~Loc-PCA-CMI~直接称为~PCA-CMI,
-并且在这种情况下,Loc-PCA-CMI~和~PCA-CMI~的性能是相同的。
+并且在这种情况下,~Loc-PCA-CMI~和~PCA-CMI~的性能是相同的。
 我们通过评估接收器工作特性曲线下面积~(AUROC)~和准确率召回率曲线下面积~(AUPR)~来评估~Loc-PCA-CMI~的性能。
 与稀疏生物网络一样,不存在的边~(负样本)的数量明显超过现有边~(正样本)的数量; 
 事实上,~AUPR~对~AUROC~\cite{saito2015precision}提供了更多信息。
@@ -302,7 +302,7 @@ Loc-PCA-CMI~和~PCA-CMI~的表现相同,就像~Loc-PCA-PMI~和~PCA-PMI~的情况
 我们使用~R~包~``minet" 和其默认参数来评估~ARACNE~和~MRNET~\cite{meyer2008minet}。
 使用~Pearson~相关系数直接从连续基因敲除表达数据~\cite{olsen2008impact,meyer2010information}~中近似估计方法的~MI~矩阵。
 为了实现~PCA-PMI~和~PCA-CMI, 我们根据~\cite{zhang2011inferring,zhao2016part}~中提供的~URL~下载了~MATLAB~代码。
-另外,PCA-PMI~和~PCA-CMI~方法中的参数使用默认值,也就是~$\beta$ = 0.03~和~$k$ = 2。
+另外,~PCA-PMI~和~PCA-CMI~方法中的参数使用默认值,也就是~$\beta$ = 0.03~和~$k$ = 2。
 对于~Loc-PCA-CMI, 我们还对这两个参数采用了相同的值进行比较。
 表~\ref{tab:performance_comparison}~给出了该实验的~AUROC~和~AUPR。
 从表中可以看出,当网络规模增大时, 所有的方法的~AUPR~都会急剧下降。
