@@ -1,6 +1,6 @@
 \section{一种新的单细胞稀有细胞及类型识别方法}
 
-基于液滴~(drop)的转录组学技术的出现,平台已经实现了对数千或数百万细胞的并发筛选。
+基于液滴的转录组学技术~(Drop-Seq)~的出现,平台已经能实现对数千或数百万细胞的并发筛选。
 其中一个具有挑战性的问题是如何从超大规模的~scRNA-seq~数据中识别稀有细胞及其类型。
 现有的寻找稀有细胞的算法非常耗时或耗费内存。
 本文中,我们提出了一种高效准确的方法~DoRC~(\underline{D}iscovery \underline{o}f \underline{R}are \underline{C}ells)。
@@ -38,7 +38,7 @@ scRNA-seq技术的一个非常迫切和具有挑战性的应用,是从组织中�
 RaceID~涉及到计算昂贵的参数模型,并用于检测离群的表达谱值。
 它使用了\textit{k}-means聚类这种典型的基于距离的方法和间隙统计计算,
 作为识别大量细胞类型的中间步骤,
-这些数据又反过来辅助确定离群事件~(基因)。
+这些数据又反过来辅助确定离群点~(基因)。
 另一方面,~GiniClust~使用了一个相当直接的双管齐下的算法。
 它首先使用~Gini~指数选择信息量大的基因,
 然后它应用基于密度的空间聚类应用与噪声~(DBSCAN)~\cite{ester1996density},来发现离群细胞。
@@ -67,7 +67,7 @@ DoRC~的设计灵感来自于对稀有度估计的观察。
 
 \subsubsection{数据集描述}
 \label{subsec:datasets} 
-第一个数据集\textit{PBMCs\_68k}由~68579~个从健康供体收集的~PBMCs~组成~\cite{zheng2017massively}。
+第一个数据集~\textit{PBMCs\_68k}由~68579~个从健康供体收集的~PBMCs~组成~\cite{zheng2017massively}。
 11~个纯化的~PBMCs~亚群的单细胞表达谱被用作细胞类型注释的参考。
 该数据集可在~\url{www.10xgenomics.com}。
 
@@ -86,9 +86,9 @@ Jurkat数据集由~3258~个细胞组成,而~293T~数据集由~2885~个细胞组�
 
 最后一个数据集~\textit{Splatter\_500}是一个人工仿真~scRNA-seq~数据,
 通过使用\textit{splatter} R~包~\cite{zappia2017splatter},由~500~个细胞组成。
-与两种细胞类型:25~个细胞是罕见的,其他~475~个细胞是丰富的。
+与两种细胞类型:~25~个细胞是罕见的~(i.e.rare cells),其它~475~个细胞是丰富的~(i.e. abundant cells)。
 在这个数据集中,每个细胞有~5000~个基因。
-使用下面的命令来生成这个数据集:
+在~R~中我们使用下面的命令来生成这个数据集:
 
 \texttt{splatSimulate(group.prob = c(0.95, 0.05), method = groups, 
 verbose = F, batchCells = 500, de.prob = c(0.4, 0.4), out.prob = 0, 
