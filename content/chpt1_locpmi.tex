@@ -143,7 +143,7 @@ CMI~值越高,表明给定变量~$Z$~,变量~$X$~和~$Y$~之间越可能存在�
 \end{figure}
 
 \begin{algorithm}[!htbp]
-    \caption{Loc-PCA-CMI} %?????
+    \caption{Loc-PCA-CMI~伪代码} %?????
     \label{alg}
     {\bf Input:} %?????? \hspace*{0.02in}??????????? \\ ????
     $M$ (the gene expression data matrix), $m$ (the number of genes), $n$ (the number of top ranked edges), $c$ (constant number); $k$ (CMI order number) and $\beta$ (order threshold) in subroutine PCA-CMI.
@@ -191,7 +191,9 @@ $t$~与基因数量~$m$~的顺序相同。
 
 表~\ref{tbl}~展示了这~6~个数据集的详细描述。
 \begin{table} [!htbp]
-\caption{Descriptions of the datasets in our experiments} 
+%\caption{Descriptions of the datasets in our experiments}
+\caption{实验所使用的数据集描述} 
+
 \label{tbl} 
 \begin{center}
 \resizebox{\columnwidth}{!}{%
@@ -289,11 +291,14 @@ Loc-PCA-CMI~和~PCA-CMI~的表现相同,就像~Loc-PCA-PMI~和~PCA-PMI~的情况
       \centerline{(D) DREAM3-100 Yeast}
       \medskip  
     \end{minipage}
-    \caption{AUPR and AUROC  by varying $k$ from 1 to 10 of four PCA based methods on four different datasets: 
+    \caption{%AUPR and AUROC  by varying $k$ from 1 to 10 of four PCA based methods on four different datasets: 
+    通过在四个不同的数据集上改变~k~从~1~到~10, 基于路径一致性的四个算法的~AUPR~和~AUROC~结果图。
     (A) DREAM3-50 Ecoli; 
     (B) DREAM3-100 Ecoli; 
     (C) DREAM3-50 Yeast; 
-    (D) DREAM3-100 Yeast.}
+    (D) DREAM3-100 Yeast。}
+
+
     \label{fig:k}
     \vspace{-0.5em}
   \end{figure*}
@@ -322,7 +327,8 @@ Loc-PCA-CMI~和~Loc-PCA-PMI~在~AUROC~上几乎相同。
     \resizebox{\columnwidth}{!}{%
       \centering  
       \begin{threeparttable}  
-      \caption{AUROC and AUPR for the six datasets using different methods}  
+      %\caption{AUROC and AUPR for the six datasets using different methods}  
+      \caption{使用不同方法在六个数据集上的~AUROC~和~AUPR~结果}  
       \label{tab:performance_comparison} 
         \begin{tabular}{ccccccccccccc}  
         \toprule  

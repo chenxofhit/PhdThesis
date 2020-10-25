@@ -94,7 +94,8 @@ ARNI~\cite{casadiego2017model}~是一个独立于模型的框架,用于推断网
 结果表明我们的方法在~AUPR~上具有优势。
 
 \begin{table}[!htbp]
-    \caption{Comparison of the related methods}
+    %\caption{Comparison of the related methods}
+    \caption{相关方法比较}
     \centering
 %    \begin{adjustbox}{max width=0.5\textwidth}
     \label{comparision}  
@@ -187,7 +188,8 @@ ARNI~算法被调用后,返回的是被选中的调控因子~$SM_j$~的一个有
 抽样和基于面积的打分方法的细节,以及计算复杂度分析,在后续的章节中会详细描述。
  
 \begin{algorithm}
-  \caption{D3GRN Pseudo Code}
+  %\caption{D3GRN Pseudo Code}
+  \caption{D3GRN~算法伪代码}
   \label{alg:D3GRN}
   \begin{algorithmic}[1]
   \Require $A \in \mathbb{R}^{M \times N}$, $I \subset \{1,\ldots,N\}$, 
@@ -384,7 +386,9 @@ DREAM5~数据集中的转录因子~(TFs)~是作为调控因子显式提供的,�
 
 \begin{table}[!htbp]
 \centering
-\caption{Detail of the datasets}
+%\caption{Detail of the datasets}
+\caption{实验数据集详情}
+
 \label{datasets}
 %\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lccccc}
@@ -434,12 +438,12 @@ P_k=\left\{\begin{matrix}
 \end{matrix}\right. 
 \end{equation}
 这隐含表达了我们不考虑一个目标基因的~2~阶及以上的阶的交互作用。
-事实上,~bLARS~\cite{singh2016blars}只考虑了一阶交互作用。
+事实上,~bLARS~\cite{singh2016blars}~只考虑了一阶交互作用。
 我们在本研究中也遵循这种简化的方式。
 换句话说,其他基因对目标基因的调控是基于多项式非线性函数的混合。
 
 D3GRN中有两个参数,
-包括抽样运行的次数~$b$~和~ARNI步数~$L$。
+包括抽样运行的次数~$b$~和~ARNI~步数~$L$。
 图~\ref{fig:performance_dr5}~展示了通过改变~DREAM5~网络1的~ARNI~步数和抽样运行次数这两个参数的结果。
 一般来说,较大的抽样运行次数~$b$~运行时间越长,但是它的性能会越趋于稳定和优异。
 然而,D3GRN~的性能对抽样运行次数相当稳定,只要它大于某一阈值,通常是~200~次左右。
@@ -449,7 +453,10 @@ D3GRN中有两个参数,
 \begin{figure}[!htbp]
 \centering
 \input{figperformance.tex}
-\caption{AUPR by varying ARNI steps $L$ and the bootstrapping number $b$ in DREAM5  Network 1.}
+%\caption{AUPR by varying ARNI steps $L$ and the bootstrapping number $b$ in DREAM5  Network 1.}
+\caption{
+在~DREAM5~网络1~上不同的~ARNI~步骤数~$L$~和抽样数目~$b$~取得的~AUPR~值}
+
 \label{fig:performance_dr5}
 \end{figure}
 
@@ -458,11 +465,11 @@ NIMEFI~用~R~实现,而~GENIE3、TIGRESS~和~PLSNET~用~Matlab~实现。
 这些方法的代码从对应论文提供的~URL~进行下载,在实验中各方法中的参数使用它们代码注释中提供的默认值。
 我们提出的方法~D3GRN~也是在~Matlab~中实现的,使用的数据集及代码公开在仓库~\url{https://github.com/chenxofhit/D3GRN}上。
 
-表~\ref{tab:performance_dr4}列出了~D3GRN~与其他~GRN~推理方法在五个~DREAM4~网络上比较的结果。
+表~\ref{tab:performance_dr4}~列出了~D3GRN~与其他~GRN~推理方法在五个~DREAM4~网络上比较的结果。
 其中,D3GRN~的参数是在抽样数~$b=200$,~ARNI~步数~$L=2$~下得到的。
 如表所示,除了在~DREAM4网络~2~上,~D3GRN~跟其它方法相比~AUPR~值最高。
 
-表~\ref{tab:performance_dr5}总结了~D3GRN~与其他网络的比较结果。
+表~\ref{tab:performance_dr5}~总结了~D3GRN~与其他网络的比较结果。
 GRN推理方法在~DREAM5~数据集上的应用。
 在参数设置为抽样数~$b=200$~的情况下,得到~D3GRN~的结果。
 网络~1~的~ARNI步数~$L=5$。
@@ -497,7 +504,9 @@ D3GRN~在网络~1~上跟其它方法相比~AUPR~值也最高。
   %\resizebox{\textwidth}{20mm}{
   \centering
   \begin{threeparttable}  
-  \caption{Performance comparisons of different GRN inference methods on the DREAM4 networks in terms of AUPR}
+%  \caption{Performance comparisons of different GRN inference methods on the DREAM4 networks in terms of AUPR}
+  \caption{不同~GRN~推理方法在~DREAM4~网络上的~AUPR~比较}
+
   \label{tab:performance_dr4} 
     \begin{tabular}{cccccc}  
     \toprule  
@@ -522,7 +531,9 @@ D3GRN~在网络~1~上跟其它方法相比~AUPR~值也最高。
   %\fontsize{6.5}{8}\selectfont  
    % \resizebox{\columnwidth}{!}{%
   \begin{threeparttable}  
-  \caption{Performance comparisons of different GRN inference methods on the DREAM5 Network 1 in terms of AUPR}  
+%  \caption{Performance comparisons of different GRN inference methods on the DREAM5 Network 1 in terms of AUPR}  
+  \caption{不同~GRN~推理方法在~DREAM5~网络~1~上的~AUPR~比较}
+
   \label{tab:performance_dr5} 
     \begin{tabular}{ccccccc}  
     \toprule  

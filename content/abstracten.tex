@@ -15,15 +15,15 @@ Local overlapping gene clusters are first identified, and then the local network
 The final GRN is constructed by aggregating the local network structure, i.e., the network of dependencies between genes.
 Loc-PCA-CMI reduces the redundant dependencies in the inference of network structure.
 We evaluated LOC-PCA-CMI on the DREAM3 knockout dataset,
-The performance of ~Loc-PCA-CMI~ was compared with other information theory-based network structure inference methods, including ~ARACNE, MRNET, PCA-CMI~ and ~PCA-PMI~.
-The experimental results showed that ~Loc-PCA-CMI~ outperformed the other four benchmark methods on the ~DREAM3~ dataset, especially on networks with gene numbers of ~50~ and ~100~.
+The performance of Loc-PCA-CMI was compared with other information theory-based network structure inference methods, including ARACNE, MRNET, PCA-CMI~ and ~PCA-PMI~.
+The experimental results showed that Loc-PCA-CMI outperformed the other four benchmark methods on the ~DREAM3~ dataset, especially on networks with gene numbers of ~50~ and ~100~.
 
 (2)~A novel data-driven gene regulatory network construction method ~D3GRN is proposed, in which the regulatory relationship of each target gene is translated into a functional decomposition problem, 
 and the sub-problems are solved by using an algorithm (ARNI) that reveals the network interactions. 
 To compensate for the limitations of ARNI in constructing networks only at the unit level, 
 we adopt sampling (bootstrapping) and area-based scoring methods to infer the final networks. 
 Studies on data-driven dynamic network construction provide us with new perspectives on solving regression problems. 
-The experimental results show that D3GRN is competitive with state-of-the-art algorithms on the ~DREAM4~ and ~DREAM5~ benchmark~ datasets in the term of AUPR.
+The experimental results show that D3GRN is competitive with state-of-the-art algorithms on the ~DREAM4~ and ~DREAM5~ benchmark~ datasets in terms of AUPR.
 
 (3)~A novel rare cell identification method DoRC based on single-cell RNA-seq data is proposed.
 A challenging problem is how to identify rare cells and their types from the ultra-large scale scRNA-seq data. 

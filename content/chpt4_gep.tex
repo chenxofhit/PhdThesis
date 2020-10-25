@@ -58,12 +58,18 @@ scGRNHunter~方法的流程图如图~\ref{fig:gep-flowchart}所示。
     \centering
     \includegraphics[width=0.4\textwidth]{flowchart-gep.pdf}
     \caption{
-        scGRNHunter flowchart. The input is the scRNA-seq expression data 2D-matrix, whose row stands for cells, column for genes, respectively.
-        (A) Data preprocessing with the input expression data, the output is  a normalized and the column dimension reduced matrix. 
-        Highly expressed genes with a fixed number are chosen for downstream analysis.
-        (B) Cell sampling with a user-defined ratio or a fixed number of cells  from the reduced expression data. 
-        (C) GEP detection with the algorithm WSSMFA. 
-        (D) Gene regulatory network construction with TRRUST.
+        % scGRNHunter flowchart. The input is the scRNA-seq expression data 2D-matrix, whose row stands for cells, column for genes, respectively.
+        % (A) Data preprocessing with the input expression data, the output is  a normalized and the column dimension reduced matrix. 
+        % Highly expressed genes with a fixed number are chosen for downstream analysis.
+        % (B) Cell sampling with a user-defined ratio or a fixed number of cells  from the reduced expression data. 
+        % (C) GEP detection with the algorithm WSSMFA. 
+        % (D) Gene regulatory network construction with TRRUST.
+        scGRNHunter~流程图。输入的是~scRNA-seq~表达数据,用二维矩阵表示,其行代表细胞,列代表基因。
+        (A)~用输入的表达数据进行数据预处理,输出的是经过归一化处理且列维度缩小的矩阵。
+        选择固定数量的高表达基因进行下游分析。
+        (B)~用用户定义的比例或固定数量的细胞从减少的表达数据中进行细胞采样。
+        (C)~用~WSSMFA~算法进行~GEP~检测。
+        (D)~用~TRRUST~构建基因调控网络。
     }
     \label{fig:gep-flowchart}
 \end{figure}
@@ -100,10 +106,13 @@ H~被设置为~500, 主要考虑的是包括足够的基因以检测微妙的生
     \centering
     \includegraphics[width=0.9\textwidth]{gep_mf.pdf}
     \caption{
-        Illustration of the algorithm WSSMFA.
-        A.Matrix factorization with the scRNA-seq data 2D-matrix. 
-        B.The objective function, where $W$ is the mask matrix, $\alpha$ and $\lambda$ are sparsity penalty parameters, and C is
-        the number of cells.
+        % Illustration of the algorithm WSSMFA.
+        % A.Matrix factorization with the scRNA-seq data 2D-matrix. 
+        % B.The objective function, where $W$ is the mask matrix, $\alpha$ and $\lambda$ are sparsity penalty parameters, and C is
+        % the number of cells.
+        算法~WSSMFA~的说明。
+        A. 对~scRNA-seq~数据进行矩阵因子化。
+        B.目标函数,其中~W~为掩码矩阵,~$\alpha$~和~$\lambda$~为稀疏度惩罚参数,C~为细胞数。
     }
     \label{fig:gep-mf}
 \end{figure}
@@ -142,15 +151,15 @@ $W$~跟~$X$~的维度相同,并且有：
     \caption{Weighted semi-nonnegative sparse matrix factorization algorithm~(WSSMFA)}
     \label{alg:wssmfa}
     \begin{algorithmic}[1]
-        \State Input: $X_{G \times C}$                                   \Comment{$G$ genes, $C$ cells, I index set of $n$ regulators}
+        \State Input: $X_{G \times C}$                                   \Comment{$G$ genes, $C$ cells}
         \State Output: $L_{G \times K}$, $F_{C \times K}$                \Comment{Loading matrix and factor matrix}
         \While{not converged}
-            \For{$i = 1 \to G$}                                              \Comment{For each bootstrapping run}
-                \State $l_{i} \leftarrow \min _{l_{i}}\left\|\left(x_{i}-l_{i} F^{T}\right) \odot w_{i}\right\|_{F}^{2}+\alpha\left\|l_{i}\right\|_{1}$ \Comment{Resampling with replacement}
+            \For{$i = 1 \to G$}                                           
+                \State $l_{i} \leftarrow \min _{l_{i}}\left\|\left(x_{i}-l_{i} F^{T}\right) \odot w_{i}\right\|_{F}^{2}+\alpha\left\|l_{i}\right\|_{1}$
                 \State which is equivalent to 
                 \State $l_{i} \leftarrow \min _{l_{i}}\left\|x_{i} \odot w_{i}-l_{i}\left(F^{T} \operatorname{diag}\left(w_{i}\right)\right)\right\|_{F}^{2}+\alpha\left\|l_{i}\right\|_{1}$
             \EndFor
-            \For{$j = 1 \to T$}
+            \For{$j = 1 \to C$}
                 \State $f_{j} \leftarrow \min _{f_{j}}\left\|\left(x_{j}-f_{j} L^{T}\right) \odot w_{j}\right\|_{F}^{2}+\lambda \mid f_{j}\left\|_{1},\right\| f_{j} \| \geq 0$
                 \State which is equivalent to 
                 \State $f_{j} \leftarrow \min _{f_{j}}\left\|\left(x_{j} \odot w_{j}-f_{j}\left(L^{T} \operatorname{diag}\left(w_{j}\right)\right)\right)\right\|_{F}^{2}+\lambda\left\|f_{j}\right\|_{1},\left\|f_{j}\right\| \geq 0$
@@ -173,7 +182,7 @@ TRRUST~数据库还提供了调控模式的信息~(激活或抑制)。
 \subsection{实验数据}
 本文中使用的数据集如表~\ref{tab:dataset}所示。
 \begin{table}[!htbp]
-    \caption{\label{tab:dataset}The published dataset we used} 
+    \caption{\label{tab:dataset}使用的公开数据集} 
     \resizebox{\columnwidth}{!}{%  
     \begin{tabular}{lllll}
     \hline
@@ -225,9 +234,14 @@ t-SNE~图反应了单细胞数据中细胞分布的宏观结构,可以看出单�
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.9\textwidth]{GEP_Usage_Vs_Published_Clusters_QuadratoEtAI.pdf}
-    \caption{GEPs detected with WSSMFA.
-    GEP1,~GEP2, $\ldots$,~GEP15 are the 15 GEPs derived with WSSMFA algorithm.
-    For each GEP, the loading values based on the 10 different clusters,i.e. C1, C2, $\ldots$, C10,  are visualized with boxplot.
+    \caption{
+    % GEPs detected with WSSMFA.
+    % GEP1,~GEP2, $\ldots$,~GEP15 are the 15 GEPs derived with WSSMFA algorithm.
+    % For each GEP, the loading values based on the 10 different clusters,i.e. C1, C2, $\ldots$, C10,  are visualized with boxplot.
+    用~WSSMFA~检测的~GEPs。
+    GEP1,~GEP2,$\ldots$,~GEP15~是用~WSSMFA~算法得出的~15~个~GEP。
+    对于每个~GEP,根据~10~个不同的聚类,
+    即~C1,~C2,$\ldots$,~C10,用箱形图直观地显示出其负载值。 
     }
     \label{fig:gep-gep}
 \end{figure}
@@ -236,7 +250,9 @@ t-SNE~图反应了单细胞数据中细胞分布的宏观结构,可以看出单�
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.9\textwidth]{tsne_Clusters_QuadratoEtAI.pdf}
-    \caption{The sampled brain organisms data visualized with t-SNE.
+    \caption{
+    %The sampled brain organisms data visualized with t-SNE.
+    采样后的大脑器官数据使用~t-SNE~可视化
     }
     \label{fig:gep-tsne}
 \end{figure}
@@ -256,7 +272,10 @@ GEP1~牵涉到类别~C2,~C4,~C6~和~C10; GEP14~牵涉到类别~C3,~C4,~C5。
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.95\textwidth]{GEP6.key_regulators.tsv.cs.network.tsv.png}
-    \caption{The gene regulatory network of GEP6, constructed with the TRRUST database.}
+    \caption{
+    %The gene regulatory network of GEP6, constructed with the TRRUST database.
+    结合~TRRUST~数据库构建的~GEP6~的基因调控网络
+    }
     \label{fig:gep-grn-gep6}
 \end{figure}
 
@@ -264,15 +283,21 @@ GEP1~牵涉到类别~C2,~C4,~C6~和~C10; GEP14~牵涉到类别~C3,~C4,~C5。
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.95\textwidth]{GEP8.key_regulators.tsv.cs.network.tsv.png}
-    \caption{The gene regulatory network of GEP8, constructed with the TRRUST database.}
+    \caption{
+    %The gene regulatory network of GEP8, constructed with the TRRUST database.
+    结合~TRRUST~数据库构建的~GEP8~的基因调控网络
+    }
     \label{fig:gep-grn-gep8}
 \end{figure}
 
-由于~GEP14~构建的基因调控网络如图~\ref{fig:gep-grn-gep14}~所示:
+由~GEP14~构建的基因调控网络如图~\ref{fig:gep-grn-gep14}~所示:
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.95\textwidth]{GEP14.key_regulators.tsv.cs.network.tsv.png}
-    \caption{The gene regulatory network of GEP14, constructed with the TRRUST database.}
+    \caption{
+    %The gene regulatory network of GEP14, constructed with the TRRUST database.
+    结合~TRRUST~数据库构建的~GEP14~的基因调控网络
+    }
     \label{fig:gep-grn-gep14}
 \end{figure}
 
