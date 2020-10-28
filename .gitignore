@@ -22,7 +22,9 @@
 ~$*.docx
 ~$*.xlsx
 ~$*.pptx
+*.ppt
 *.swn
 *.swo
 *.swp
 settings.json
+public/*

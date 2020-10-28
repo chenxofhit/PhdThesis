@@ -1,11 +1,12 @@
 \section{一种新的单细胞稀有细胞及类型识别方法}
+\label{sec:dorc}
 
 基于液滴的转录组学技术~(Drop-Seq)~的出现,平台已经能实现对数千或数百万细胞的并发筛选。
 其中一个具有挑战性的问题是如何从超大规模的~scRNA-seq~数据中识别稀有细胞及其类型。
 现有的寻找稀有细胞的算法非常耗时或耗费内存。
-本文中,我们提出了一种高效准确的方法~DoRC~(\underline{D}iscovery \underline{o}f \underline{R}are \underline{C}ells)。
+本文中,我们提出了一种高效准确的方法~DoRC~(Discovery of Rare Cells)。
 DoRC~产生的稀有度分数可以帮助生物学家们着重于下游分析,只对超大规模内的部分表达细胞~scRNA-seq~数据进行分析。
-为了在随后的下游分析的过程中区分细胞类型,我们提出了新颖有效的细胞聚类方法~RafClust。
+为了在随后的下游分析的过程中区分稀有细胞的细胞类型,我们提出了新颖有效的细胞聚类方法~RafClust。
 我们使用~${\sim}68$k~人血细胞的单细胞表达谱还证明了~DoRC~在划分人类血液树突状细胞亚型方面的效果。
 DoRC可以识别仿真数据集里面的稀有细胞,并且对细胞类型特征也很敏感。
 
@@ -29,25 +30,24 @@ scRNA-seq技术的一个非常迫切和具有挑战性的应用,是从组织中�
 
 由于最近发现了基于液滴的单细胞转录组学,使得数以万计的单细胞的并行测序成为可能。
 单个细胞的测序成本显著降低的情况下,稀有细胞的鉴别也变为可行。
-迄今为止,已经有许多研究发表了使用的转录组,细胞数量范围在~${\sim} 20$k和~${\sim} 70$k~之间。
+迄今为止,已经有许多研究发表了使用的转录组,细胞数量范围在~${\sim} 20$k~和~${\sim} 70$k~之间。
 大的转录组样本量通过削弱由于扩增阶段的失败所带来的影响,可以更好地捕捉到组织中的微小细胞亚群。
 事实上,稀有细胞检测已经成为目前下游分析流程中的不可缺少的一环。
 
 到目前为止,聚焦于研究怎样去检测稀有细胞转录组的算法还很少。
 其中突出的方法有~RaceID~\cite{grun2015single},GiniClust~\cite{jiang2016giniclust}和FiRE~\cite{jindal2018discovery}。
 RaceID~涉及到计算昂贵的参数模型,并用于检测离群的表达谱值。
-它使用了\textit{k}-means聚类这种典型的基于距离的方法和间隙统计计算,
+它使用了~\textit{k}-means~聚类这种典型的基于距离的方法和间隙统计计算,
 作为识别大量细胞类型的中间步骤,
 这些数据又反过来辅助确定离群点~(基因)。
 另一方面,~GiniClust~使用了一个相当直接的双管齐下的算法。
 它首先使用~Gini~指数选择信息量大的基因,
 然后它应用基于密度的空间聚类应用与噪声~(DBSCAN)~\cite{ester1996density},来发现离群细胞。
-值得注意的是,~RaceID~和~GiniClust~都使用聚类来区分主要和次要细胞类型之间。
+值得注意的是,~RaceID~和~GiniClust~都使用聚类来区分主要和次要细胞类型。
 对于超大的~scRNA-seq~数据来说,速度非常慢,而且内存使用效率低。
 相比之下,~FiRE~为研究中的每一个细胞表达谱计算出一个稀有度分数。
 它使用~Sketching~技术~\cite{wang2007sizing}来估计每个细胞的密度,
-对于大量数据点的低维编码来说,FiRE~是非常强大的。
-对于大量的~scRNA-seq~数据,FiRE~的运行时间效率令人印象深刻。
+对于大规模细胞的低维编码来说,~FiRE~运行速度非常快。
 
 我们提出了~DoRC,
 从超大规模~scRNA-seq~数据中快速检测稀有细胞的方法。
@@ -55,7 +55,7 @@ DoRC~的设计灵感来自于对稀有度估计的观察。
 多维空间中某一特定点,可以看作是机器学习中的异常检测问题。
 据我们所知,~DoRC~是第一个从超大规模~scRNA-seq~数据中发现稀有细胞的异常检测方法。
 在~DoRC~中,每个细胞的稀有度用每个给定点的``异常得分"来表示。
-这是通过使用孤立森林~\cite{liu2008isolation}实现的。
+这是通过使用孤立森林~\cite{liu2008isolation}~实现的。
 我们在多个真实和模拟数据集上对~DoRC~进行了评估。
 我们展示了~DoRC~在使用~${\sim}68$k~这个人血细胞的单细胞表达谱来划分人血树枝状细胞亚型。
 此外,在其他两个模拟数据集上的实验显示~DoRC~可以识别仿真数据集中的稀有细胞,
@@ -81,12 +81,12 @@ DoRC~的设计灵感来自于对稀有度估计的观察。
 Jurkat数据集由~3258~个细胞组成,而~293T~数据集由~2885~个细胞组成。
 首先,从~293T~数据集中不放回抽样~1500~个细胞。
 然后,通过从~Jurkat~数据集中取样不同数量的细胞,
-产生~8~个数据集,其中~Jurkat~细胞数分别为0.5\%、1\%、1.5\%、2\%、2.5\%、5\%、10\%、15\%。
-这两个数据集的表达矩阵也可以从~\url{www.10xgenomics.com}下载。
+产生~8~个数据集,其中~Jurkat~细胞数分别为~0.5\%、1\%、1.5\%、2\%、2.5\%、5\%、10\%、15\%。
+这两个数据集的表达矩阵也可以从~\url{www.10xgenomics.com}~下载。
 
 最后一个数据集~\textit{Splatter\_500}是一个人工仿真~scRNA-seq~数据,
 通过使用\textit{splatter} R~包~\cite{zappia2017splatter},由~500~个细胞组成。
-与两种细胞类型:~25~个细胞是罕见的~(i.e.rare cells),其它~475~个细胞是丰富的~(i.e. abundant cells)。
+与两种细胞类型:~25~个细胞是罕见的~(i.e.rare cells),其它~475~个细胞是丰富的~(i.e.~abundant cells)。
 在这个数据集中,每个细胞有~5000~个基因。
 在~R~中我们使用下面的命令来生成这个数据集:
 
@@ -112,10 +112,10 @@ DoRC~方法是用于从超大型~scRNA-seq~数据中发现稀有细胞,包括几
     % (F) Rare cells with types visualization, different colors represent different rare cell types in the t-SNE-based 2D plot of the rare cells.
     % (G) Different expression genes analysis with different types of rare cells, the cell type specific genes are consequently obtained. 
     % }
-    \caption{DoRC~流程图。该流程图说明了我们提出的从超大规模~scRNA-seq~数据中检测稀有细胞的过程。
+    \caption{DoRC~流程图。该流程图展示了我们提出的从超大规模~scRNA-seq~数据中检测稀有细胞的过程。
     本图中的每个注释小图代表了相应过程的输入或输出可视化。
     (A)~输入的是~scRNA-seq~表达数据二维矩阵,其行分别代表细胞,列代表基因。
-    (B~用输入的表达数据进行数据预处理,输出的是一个归一化和列维缩小的矩阵。
+    (B~用输入的表达数据进行数据预处理,输出的是一个归一化和列的维度减小的矩阵。
     (C-D)~用~Isolation Forest~发现稀有细胞,这是~DoRC~的核心程序。
     (C)~用~Isolation Forest~进行稀有细胞评分,输出的是所有细胞的连续的异常得分向量。
     分数可以在基于~t-SNE~的数据集二维图中可视化。
@@ -140,9 +140,9 @@ DoRC~方法是用于从超大型~scRNA-seq~数据中发现稀有细胞,包括几
 
 孤立森林是一种无模型算法,它的计算效率很高,非常适合并行计算方法的使用~\cite{hariri2018batch}。
 事实证明,它在检测异常方面也是非常有效的~\cite{susto2017anomaly}。
-该算法的主要优越性在于,它并不依赖于为数据设置一个配置文件,以寻找不严格匹配该配置文件的样本。
+该算法的主要优越性在于,它并不依赖于为数据设置一个配置文件~(configuration files),以寻找不严格匹配该配置文件的样本。
 相反,它利用了异常数据``少而不同"的特点。
-其他大多数异常检测算法都是通过了解异常数据的属性分布,并将其从其他正常数据样本中分离出来,从而找到异常数据~\cite{noto2010anomaly,chen2011ordinal,das2016incorporating}。
+其他大多数异常检测算法~(anomaly detection algorithms)~都是通过了解异常数据的属性分布,并将其从其他正常数据样本中分离出来,从而找到异常数据~\cite{noto2010anomaly,chen2011ordinal,das2016incorporating}。
 在孤立森林中结合树结构,从数据中抽取子样本,
 并根据数据集中随机选取的特征值进行随机切割。
 树枝路径越长,那么该样本为异常样本的可能性越低;
@@ -178,9 +178,9 @@ $s(x,n)$~的值接近~1~表示异常,远小于~0.5~表示正常观测值。
 我们在这里使用的参数默认值与~\cite{liu2008isolation,liu2012isolation}一样,
 即在所有实验中子样本数据为~256,树的集合数目为~100。
 
-虽然连续的异常得分是很有帮助的,但有时关于细胞稀有度的二进制注释可以极大地简化分析管道。
+虽然连续的异常得分是很有帮助的,但有时关于细胞稀有度的二进制注释可以极大地简化分析管道~(pipeline)。
 因此,如果一个细胞的~DoRC~得分,即聚合异常得分,大于~$q_3 + 1.5 \times IQR$,则~DoRC~将其标记为罕见,
-其中~$q_3$和~$IQR$分别表示所有细胞中~DoRC~分数的第三分位数和四分位数范围(第75百分位数$-$第25百分位数)。
+其中~$q_3$和~$IQR$~分别表示所有细胞中~DoRC~分数的第三分位数和四分位数范围(第75百分位数$-$第25百分位数)。
 
 \subsubsection{使用~RafClust确定细胞类型}
 \label{subsec:rafclust} 
@@ -188,26 +188,25 @@ $s(x,n)$~的值接近~1~表示异常,远小于~0.5~表示正常观测值。
 
 类似于其它的许多方法~\cite{kiselev2017sc3,pouyan2018random,mohammadi2018geometric,sinha2018dropclust,Srinivasan511626,Li530378,zheng2019sinnlrr},
 RafClust~也是两个步骤的方法,
-第一个步骤是我们使用随机森林进行相似度学习~(相似性学习步骤),
-在第二步骤中我们使用层次聚类~(聚类步骤)。
+第一个步骤是我们使用随机森林进行相似度学习~(相似性学习步骤,~similarity learning),
+在第二步骤中我们使用层次聚类~(聚类步骤,~clustering)。
 在相似度学习步骤中,一个非常关键的预处理程序是特征矩阵的构建。
 我们假设归一化的~$n$~细胞的基因表达数据~(观测值)~和~$p$~的基因(特征),
 组成成一个~$n \times p$~的表达式矩阵~$X=\left(x_{1}, x_{2}, \ldots, x_{n} \right)^ T$。
-其中$x_{i}$表示$p$基因在细胞$i$中的表达。
-$x_{i}=\left(x_{i1}, x_{i2} ,\ldots, x_{ip} \right)$。
-矩阵~$X$在加上~1的伪数后进行对数变换。
-$X^{\prime} = log_2 (X + 1)$。
-然后,如果基因在所有细胞中的平均累积表达量低于一个预定义的分数~$\beta$,则会被删除。
+其中$x_{i}$表示$p$基因在细胞~$i$~中的表达。
+$x_{i}=\left(x_{i1}, x_{i2},\ldots, x_{ip} \right)$。
+矩阵~$X$在加上~1的伪数后进行对数变换,即~$X^{\prime} = log_2 (X + 1)$。
+然后,如果基因在所有细胞中的平均累积表达量低于一个预定义的分数~$\beta$,则该基因会被过滤掉。
 默认情况下,$\beta$~设置为~0.06。 
 基因过滤的动机是,除了保守的基因外,其它一些很普通的基因往往对聚类没有参考价值。
-基因过滤这一步骤是可选的,如果基因本身都是高表达的,这个步骤可以跳过。
-稀有细胞与丰富细胞不同,我们打算选择更多不同类型的细胞和细胞的相似性来充分刻画它们的本性特征。
+基因过滤这一步骤是可选的,如果基因本身都是高表达的,这个步骤可以省略。
+稀有细胞~(rare cells)~与丰富细胞~(abundant cells)~不同,我们打算选择更多不同类型的细胞和细胞的相似性来充分刻画它们的本性特征。
 因此,在基于基因过滤后的表达矩阵~$X^{\prime}$~上,
 我们利用欧几里德~(Euclidean)、皮尔逊~(Pearson)~和斯皮尔曼~(Spearman)~指标分别计算出三种不同的细胞-细胞距离矩阵~$\{C_1, C_2, C_3\}$。
 然后将PCA应用于每个距离矩阵,也用~$X^{\prime}$,来减少数据维度的同时也去除其本能噪声。
 每个矩阵中信息量最大的成分由``elbow法''~\cite{thorndike1953belongs}保留。
 这就产生了四个~$\left\{ {F}_{i} \in \mathbb {R} ^ {n \times m_{i}} \right\}_{i = 0}^{3}$~矩阵。
-最终的人工指定的特征矩阵~$F$~由这些矩阵并列拼接组成。
+最终的特征矩阵~$F$~由这些矩阵按行拼接组成, 行代表细胞, 列代表手工特征~(handcrafted features)\footnote{区分于现在比较流行的利用深度学习学习到的~auto-learned features}。
 \begin{equation}
 \label{lab:f}
 {F} = ({F}_{0}, {F}_{1}, {F}_{2}, {F}_{3})
@@ -238,41 +237,41 @@ RF~(随机森林,~Random Forest)~是一种应用非常广泛的基于决策树�
 特别是像单细胞~RNA~测序图谱。
 我们按照以下步骤来学习细胞-细胞的相似性。
 在选择一个单一的特征~$j$~(特征矩阵~$F$~中的第~$j$~列)~后, 
-我们使用围绕质心点的分区,并估计类别的数量,如由~R~包中的~\textit{pamk}~函数~\textit{fpc}~\cite{package-fpc}来获取该特征~$j$~的向量中的类标签。
+我们使用围绕质心点进行划分的算法~PAM~(partitioning around medoids),并估计类别的数量。
+与~\textit{k}-means~聚类算法相比,~PAM~对孤立点不敏感。
+我们直接使用~R~包~\textit{fpc}~\cite{package-fpc}中的~\textit{pamk}~函数来获取该特征~$j$~的向量中的类标签。
 然后,我们从~$F$~中去掉第~$j$~列,并且使用~RF~分类器对缩减后的数据集~$F_{-j}$~进行类别的标签学习。
 让~$f_p$~表示~$F_{-j}$~的第~$p$~行,
 如果~RF~分类器包含~$N$~树,并定义~$nt(f_p,f_q)$, 作为通过同一片叶子对细胞~$f_p$~和~$f_q$~进行分类的树的数量。
 基于~RF~的~$n \times n$~相似度矩阵~$S_j$~是通过以下方式定义:
 $S_{j_{pq}} = nt(f_p,f_q) / N, 1 \le p,q \le n$。
-我们使用~R~包\cite{package-randomforest},其默认森林大小为~500~棵,即~$N=500$。
+我们使用~R~包~\cite{package-randomforest},其默认森林大小为~500~棵,即~$N=500$。
 对所有的~$\tilde{p}$~特征重复这个过程,得到~$\tilde{p}$~相似度矩阵~$S_j$,$j=1,2,\ldots,\tilde{p}$。
 通过对所有~$S_j$~进行平均,得到最终的细胞-细胞相似度矩阵~$S$,
 并通过~$D=1-S$~得到异质矩阵~$D$。
 
-接下来,对异质矩阵~$D$,使用平均联结分层聚类来对细胞进行分组。
-要对树枝图进行切割,可以使用~\textit{cutreeDynamic}~函数。
-是使用了来自~\textit{dynamicTreeCut}的~R~包~\cite{langfelder2007defining,package-dynamicTreeCut}自动确定细胞的类别,
+接下来,对异质矩阵~$D$,使用层次聚类中的平均连锁聚类方法~(average linkage clustering)~来对细胞进行分组聚类。
+是使用了来自~R~包~\textit{dynamicTreeCut}~\cite{langfelder2007defining,package-dynamicTreeCut}~的~\textit{cutreeDynamic}~函数自动确定细胞的类别,
 并为每个细胞分配正确的类标签。
 另外,我们还提供了使用~\textit{dynamicTreeCut}~R~包中的~\textit{cutree}~函数来支持用户自定义细胞的类别数。
 
-
-RafClust~旨在围绕细胞的类型或子类型的发现或表征。
-在本研究中,应用~DoRC~的一个子程序~RafClust~来解决稀有细胞的异质性。
+在本研究中,~RafClust~是作为~DoRC~的一个子程序来解决稀有细胞的异质性,
 但实际上,它可以适应一般的单细胞聚类问题。
-它是一种纯粹的无模型和数据驱动的方法,不需要其他的先验信息,如细胞或基因的群体结构、通路信息。
-实验表明,RafClust~与其它知名的单细胞聚类方法相比具有一定的优越性。
-
-RafClust~R包可在~\url{https://github.com/chenxofhit/RafClust}~免费下载和使用。
+它是一种纯粹的无模型~(model free)~和数据驱动~(data driven)~的方法,不需要其他的先验信息,如细胞或基因的群体结构、通路信息等。
+实验表明,~RafClust~与其它知名的单细胞聚类方法相比具有一定的优越性。
 
 \subsubsection{差异基因分析}
 \label{subsec:de}
-在至少~2~个细胞中表达数超过~3~的基因被考虑进行后续分析。
-我们使用~NODES~\cite{Sengupta049734}~这一快速的非参数化、差异化表达~(DE)~分析工具进行~DE~基因分析。
-以~0.05~作为假发现率~(FDR)~的阈值,阈值的倍数变化为~log2(5)。
+
+使用~RafClust~得到了细胞的类别标签后，
+我们采用~NODES~\cite{Sengupta049734}~这一快速的非参数化、差异化表达~(DE)~分析工具进行差异基因分析。
+NODES~被证明比传统的基于批量细胞测序的差异分析方法~DESeq2~\cite{love2014moderated}、edgeR~\cite{robinson2010edger},
+以及针对单细胞的差异表达分析方法~scde~\cite{kharchenko2014bayesian}~和~Wilcoxon~秩和检验~(Wilcoxon rank sum test)~都有效~\cite{Sengupta049734}。
+以~0.05~作为~FDR~(False Discovery Rate)~的阈值,~FC~(fold change)~变化(也就是两个组间表达量的比值)~阈值默认为~log2(5)。
 在~DE~基因中,在特定类中相对于其余各类显著上调的基因被命名为细胞类型特异基因。
 
 \subsubsection{调整后的~Rand~指数和~F1得分}
-聚类的效果是使用真实的类别标签~$L_T$和估计的类别标签~$L_E$之间的相似性来衡量,
+聚类的效果是使用真实的类别标签~$L_T$~和估计的类别标签~$L_E$~之间的相似性来衡量,
 使用的是调整后的~Rand~指数~\cite{hubert1985comparing,wu2005dynamic}:
 \begin{equation}
 \label{eq:ARI}
@@ -292,7 +291,7 @@ $n_e$~和~$n_t$~分别是估计的类别~$e$~和真实的类别~$t$~中的单细
 ARI~的范围是~-1~到~1~,其中~1~表示估计的聚类与真实的聚类完全相同。
 ARI~值越高,聚类算法的预测能力越强。
 
-在两类实验中,直接构建一个混淆矩阵,其数字为真阳性~(TP)、假阳性~(FP)、真阴性~(TP)、假阴性~(FN)。
+在两类实验中,直接构建一个混淆矩阵~(confusion matrix),其数字为真阳性~(TP)、假阳性~(FP)、真阴性~(TP)、假阴性~(FN)。
 混淆矩阵上的精确性、召回率和~F1-score~可以很容易地计算如下:
 \begin{equation}
     \label{eq:precision}
@@ -318,15 +317,15 @@ RaceID~中的~\textit{k}-means~聚类是基于距离的,
 而~GiniClust~中的~DBSCAN~聚类是基于密度的。
 它们都属于基于近似的方法进行离群点检测。
 基于近似的方法假设一个离群物体与其最近邻居的接近程度与该物体与数据集中大多数其他物体的接近程度有很大的差异。
-聚类通常取决于一些敏感参数 且工作效率低下,因为不同分布的数据点之间的近似度不同。
+聚类通常取决于一些敏感参数且工作效率低下,因为不同分布的数据点之间的近似度不同。
 另一个主要问题是决定群体身份的解析。
 一般来说,多级聚类变得至关重要,因为次要的类经常在第一次筛选就被忽略~\cite{campbell2017molecular}。
 发生这种情况是因为其他主要细胞类型会影响数据集中的表达差异,
 特别是在处理大型~scRNA-seq~数据集时,情况变得更加糟糕。
 
-为了解决上述问题,我们提出了发现稀有细胞~(DoRC),
-这是一种从超大规模~scRNA-seq~数据中检测稀有细胞的非常快速的方法。
-DoRC~的设计灵感来自于稀有细胞往往是``少而不同”的观察, 容易受到一种叫做孤立的机制影响。
+为了解决上述问题,我们提出了一种从超大规模~scRNA-seq~数据中检测稀有细胞的非常快速的方法,
+命名为~DoRC。
+DoRC~的灵感来自于稀有细胞往往是``少而不同”的观察, 容易受到一种叫做孤立的机制影响。
 孤立森林可以充分捕捉稀有细胞的特征,
 其中,每个细胞的稀有性是以树枝的聚合长度为特征的。
 一个细胞的长度越长,该细胞与其他细胞区分的因素就越多,它成为稀有细胞的可能性就越大。
@@ -356,7 +355,7 @@ DoRC~的设计灵感来自于稀有细胞往往是``少而不同”的观察, �
     % highest DoRC scores.
     % (C) Rare cells identified by DoRC using IQR-thresholding-criteria
     DoRC在~PBMCs\_68k~上的性能评估。
-    (A)~基于~t-SNE~的二维嵌入数据集可视化图,对应鉴定的类别用不同的颜色标记,如~Zheng~等人报道的~\cite{zheng2017massively}。
+    (A)~基于~t-SNE~的二维嵌入数据集可视化图,按~Zheng~等所报道的~\cite{zheng2017massively}鉴定的不同类别用不同的颜色标记。
     (B)~PBMCs\_68k~上细胞的~DoRC~得分热图。巨核细胞群~(0.3\%),是所有细胞类型中最稀有的细胞,获得了最高的~DoRC~分数。
     (C)~使用~IQR-阈值标准的~DoRC~识别的稀有细胞。
     }
@@ -369,14 +368,14 @@ DoRC~的设计灵感来自于稀有细胞往往是``少而不同”的观察, �
     \caption{
     % DoRC discovers cells with varying degrees of rarity. In the ${\sim}68$k PBMC data~\cite{zheng2017massively}, minor cell populations with different grades of rarity show up with an
     % increase in the number of selected rare cells. (A-C) The top 0.1, 1.0 and 3.0\% cells, respectively, selected on the basis of DoRC scores are highlighted
-    DoRC发现了不同稀有度的细胞。在~${\sim}68$~PBMC~数据~cite{zheng2017massively}~中,不同级别的稀有度对应了一个数量不断增加的稀有细胞群。
+    DoRC发现了不同稀有度的细胞。在~${\sim}68$k~PBMC~数据~\cite{zheng2017massively}~中,不同级别的稀有度对应了一个数量不断增加的稀有细胞群。
     (A-C)~根据~DoRC~得分选出的前~0.1\%、1.0\%~和~3.0\%~的细胞分别以高亮显示。    
     }
     \label{fig:dorcsummary}
 \end{figure*}
 
 虽然连续的分数是有意义的,
-有时候细胞稀有性的二元标注有助于后续的简化分析。
+有时候细胞稀有性的二元标注~(binary annotations)~有助于后续的简化分析。
 为了解决这个问题,我们引入了一个基于分数分布特性的阈值方法。
 图~\ref{supp-fig:dorcsummary} C突出了~${\sim}68$k~PBMC~数据中检测到的细胞。
 利用基于阈值的二分法来稀有细胞,
@@ -392,27 +391,115 @@ DoRC~的设计灵感来自于稀有细胞往往是``少而不同”的观察, �
 我们将其应用在十个知名的~scRNA-seq~数据集上,这些~scRNA-seq~数据集从小规模到中等规模不等。
 每个数据集以第一作者的姓氏命名如下: 
 ~\textit{Biase}~\cite{biase2014cell},
-\textit{Treutlein}~\cite{treutlein2014reconstructing}, \textit{Pollen}~\cite{pollen2014low}, 
-\textit{Kolod}~\cite{kolodziejczyk2015single}, \textit{Usoskin}~\cite{usoskin2015unbiased}, 
-\textit{Zeisel}~\cite{zeisel2015cell}, \textit{Darmanis}~\cite{darmanis2015survey}, 
-\textit{Tasic}~\cite{tasic2016adult}, 
+\textit{Treutlein}~\cite{treutlein2014reconstructing}, 
+\textit{Pollen}~\cite{pollen2014low}, 
+\textit{Kolod}~\cite{kolodziejczyk2015single}, 
+\textit{Usoskin}~\cite{usoskin2015unbiased}, 
+\textit{Darmanis}~\cite{darmanis2015survey}, 
 \textit{Goolam}~\cite{goolam2016heterogeneity}, 
-\textit{Li}~\cite{li2017reference}~(\ref{supp-tbl:clusteringdatasets})。
+\textit{Li}~\cite{li2017reference},
+\textit{Tasic}~\cite{tasic2016adult}, 
+\textit{Zeisel}~\cite{zeisel2015cell}
+~(\ref{supp-tbl:clusteringdatasets})。
 我们还将其结果~ARI~与其他六种基准方法进行比较,
 包括~RaceID2~\cite{grun2016novo}, CIDR~\cite{lin2017cidr}, SIMLR~\cite{wang2018simlr}, SAFE~\cite{yang2018safe}, RtsneKmeans~\cite{hartigan1979algorithm,maaten2008visualizing,van2014accelerating}, RAFSIL~\cite{pouyan2018random}。
 这六种聚类方法均以~R~包的形式实现并公开了代码,其概述见表~\ref{supp-tbl:clustereringmethods}~所示。
 通过将每种方法的聚类结果与每个基准数据集的细胞类型注释进行比较,计算出对应的~ARI~值。 
 实验在每个数据集上对每个方法重复~5~次,结果中位数的~ARI~值如图~\ref{fig:rafari}~所示,
-由图~\ref{fig:rafari}~可知,RafClust~在~ARI~上优于其他六种方法。
-我们还记录了每个方法在每个数据集上的执行时间,并将平均执行时间与其他基准方法进行比较,结果如图~\ref{supp-fig:clusteringtime}~所示。
-由图~\ref{supp-fig:clusteringtime}~可知,RafClust~针对数据规模从小型到中型的~scRNA-seq~数据在计算效率上是可以接受的。
+由图~\ref{fig:rafari}~可知,~RafClust~在~ARI~上优于其他六种方法。
+我们还记录了这个对比实验每个方法在每个数据集上的执行时间如图~\ref{fig:running-detail}~所示,并将平均执行时间与其他基准方法进行比较,结果如图~\ref{fig:running-summary}~所示。
+时间测量是在运行~GNU Linux/Ubuntu 16.04~操作系统与~4.15.0-46-generic~内核的工作站上进行的,
+硬件配置如下:~Intel(R) Xeon(R) CPU E5-2630 v4 @ 2.20GHz,~40~个核心,~256GB~内存。
+由图~\ref{fig:running-summary}~可知,~RafClust~针对数据规模从小型到中型的~scRNA-seq~数据在计算效率上是可以接受的。
+
+\begin{figure*}[!htbp]
+    \centering
+    \begin{minipage}[b]{0.45\linewidth}
+      \centering
+      \centerline{
+        \includegraphics[width = \linewidth]{Biase.pdf}}
+      \medskip  
+    \end{minipage}
+    \begin{minipage}[b]{0.45\linewidth}
+      \centering
+      \centerline{
+        \includegraphics[width =\linewidth]{Darmanis.pdf}}
+      \medskip  
+    \end{minipage}
+      \begin{minipage}[b]{0.45\linewidth}
+      \centering
+      \centerline{
+        \includegraphics[width = \linewidth]{Goolam.pdf}}
+      \medskip  
+    \end{minipage}
+    \begin{minipage}[b]{0.45\linewidth}
+      \centering
+      \centerline{
+        \includegraphics[width =\linewidth]{Kolod.pdf}}
+      \medskip  
+    \end{minipage}
+    \begin{minipage}[b]{0.45\linewidth}
+        \centering
+        \centerline{
+          \includegraphics[width =\linewidth]{Li.pdf}}
+        \medskip  
+      \end{minipage}
+      \begin{minipage}[b]{0.45\linewidth}
+        \centering
+        \centerline{
+          \includegraphics[width =\linewidth]{Pollen.pdf}}
+        \medskip  
+      \end{minipage}
+      \begin{minipage}[b]{0.45\linewidth}
+        \centering
+        \centerline{
+          \includegraphics[width =\linewidth]{Treutlein.pdf}}
+        \medskip  
+      \end{minipage}
+      \begin{minipage}[b]{0.45\linewidth}
+        \centering
+        \centerline{
+          \includegraphics[width =\linewidth]{Usoskin.pdf}}
+        \medskip  
+      \end{minipage}
+      \begin{minipage}[b]{0.45\linewidth}
+        \centering
+        \centerline{
+          \includegraphics[width =\linewidth]{Tasic.pdf}}
+        \medskip  
+      \end{minipage}
+      \begin{minipage}[b]{0.45\linewidth}
+        \centering
+        \centerline{
+          \includegraphics[width =\linewidth]{Zeisel.pdf}}
+        \medskip  
+      \end{minipage}
+    \caption{%AUPR and AUROC  by varying $k$ from 1 to 10 of four PCA based methods on four different datasets: 
+    RafClust~与其它六种基准方法分别在~10~个数据集上的中位数运行时间示意图。
+    }
+    \label{fig:running-detail}
+    \vspace{-0.5em}
+  \end{figure*}
+
+    
+  \begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Average.pdf}
+    \caption{
+    % Median execution time details (in seconds) across  different runs for each dataset with the benchmark methods. 
+    % The time measurements were taken on a workstation that running GNU Linux/Ubuntu 16.04 operating system with 4.15.0-46-generic kernel with the
+    % following hardware configuration: Intel(R) Xeon(R) CPU E5-2630 v4 @ 2.20GHz with 40 cores and 256 GB of RAM.
+    RafClust~与其它六种基准方法在~10~个数据集上的平均中位数运行时间示意图。
+    }
+    \label{fig:running-summary}
+\end{figure}
 
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.9\textwidth]{Figure_ari_summary.pdf}
     \caption{
     % Median ARI across different runs on the same dataset for the methods
-    同一数据集上不同方法的~ARI~中位数值
+    不同数据集上不同方法的~ARI~中位数结果,颜色越深表示~ARI~中位数值越高。
     }
     \label{fig:rafari}
 \end{figure}
@@ -436,11 +523,11 @@ DoRC~的设计灵感来自于稀有细胞往往是``少而不同”的观察, �
     %Patel     &GSE57872     &Smart-Seq 	&TPM   	&430     &5 948      &5			&\cite{patel2014single}\\
     Kolod     &E-MTAB-2600  &SMARTer    &CPM    &704     &38 616     &3         &\cite{kolodziejczyk2015single}\\
     Usoskin   &GSE59739  	&STRT-Seq  	&RPM   	&622     &25 334     &11 		&\cite{usoskin2015unbiased}\\
-    Zeisel    &GSE60361     &STRT-Seq  	&UMI   	&3 005   &19 972     &9			&\cite{zeisel2015cell}\\
     Darmanis  &GSE67835  	&SMARTer    &CPM    &466     &22 088     &9         &\cite{darmanis2015survey}\\
-    Tasic     &GSE71585     &SMARTer    &RPKM   &1 679   &24 057     &18        &\cite{tasic2016adult}\\
     Goolam    &E-MTAB-3321  &Smart-Seq2	&CPM  	&124     &41 480     &5			&\cite{goolam2016heterogeneity}\\
     Li     	  &GSE81861  	&SMARTer    &CPM   &561     &55 186      &9         &\cite{li2017reference}\\
+    Tasic     &GSE71585     &SMARTer    &RPKM   &1 679   &24 057     &18        &\cite{tasic2016adult}\\
+    Zeisel    &GSE60361     &STRT-Seq  	&UMI   	&3 005   &19 972     &9			&\cite{zeisel2015cell}\\
     \bottomrule                   
     \end{tabular}
     }
@@ -491,22 +578,9 @@ DoRC~的设计灵感来自于稀有细胞往往是``少而不同”的观察, �
         \end{tabular}
         }
     \end{table}
-    
-    \begin{figure}[!htbp]
-        \centering
-        \includegraphics[width=0.9\textwidth]{Exp_RafClust_time.pdf}
-        \caption{
-        % Median execution time details (in seconds) across  different runs for each dataset with the benchmark methods. 
-        % The time measurements were taken on a workstation that running GNU Linux/Ubuntu 16.04 operating system with 4.15.0-46-generic kernel with the
-        % following hardware configuration: Intel(R) Xeon(R) CPU E5-2630 v4 @ 2.20GHz with 40 cores and 256 GB of RAM.
-        在每个数据集上不同的基准方法执行花费时间的中位数~(秒)。
-        时间测量是在运行~GNU Linux/Ubuntu 16.04~操作系统与~4.15.0-46-generic~内核的工作站上进行的,
-        硬件配置如下:~Intel(R) Xeon(R) CPU E5-2630 v4 @ 2.20GHz,~40~个核心,~256GB~内存。
-        }
-        \label{supp-fig:clusteringtime}
-    \end{figure}
 
-\subsubsection{DoRC揭示了树突状细胞之间的异质性}
+
+\subsubsection{DoRC~揭示了树突状细胞之间的异质性}
 树突状细胞~(DC)~在感知、吞噬和和抗原监视~\cite{villani2017single}~方面起着至关重要的作用。
 DCs~是最罕见的免疫细胞类型之一,构成约~0.5\%~的~PBMCs~\cite{zheng2017massively}。
 Villani~\cite{villani2017single}的研究划分了六种不同的树突状细胞的亚型。
@@ -525,13 +599,13 @@ DoRC~通过使用基于~IQR~的二分法,共发现了~3844~个稀有细胞。
 C4、C5、C9~和~C11~完全由树枝状细胞组成,根据~Zheng~等人提供~\cite{zheng2017massively}的注释,
 如图~\ref{fig:dorc_dendritic} A-C~所示。
 对于这~4~个~DC~类别,我们进行差异表达分析,找出细胞类型特异性基因~(见~\ref{subsec:de})。
-共有~21~个基因被检测为细胞类型特异性基因,使用截止~log2(1.5)~的~FC~(fold change)。
+共有~21~个基因被检测为细胞类型特异性基因,使用阈值为~log2(1.5)~的~FC~(fold change)。
 通过将我们的差异基因与~Villani~\cite{villani2017single}~报道的基因进行叠加。
 我们可以有信心地解析~6~个亚型中的~5~个~(DC1、DC2、DC4、DC6)~(图~\ref{fig:dorc_dendritic} D、表~\ref{supp-tbl:dendritic})。
 从~\cite{villani2017single}~可以看出,DC5~是未解决的,因为该类型是新分离的罕见类型。
 在基于~t~分布的随机邻域嵌入~(t-SNE)~的二维嵌入图中,DC3~与~DC2~属于同一类~\cite{maaten2008visualizing}。
 在~DoRC~检测到的稀有细胞上进行~RafClust~聚类,不能完全划分出树突状细胞亚型正确的数量。
-然而,在最初~\cite{zheng2017massively}的研究中,DC1~和~DC4~并没有被无监督聚类解决。
+然而,在最初~\cite{zheng2017massively}的研究中,~DC1~和~DC4~并没有被聚类解决识别到。
 事实上,在~t-SNE~图中~\cite{zheng2017massively},
 这些细胞类型在视觉上共同聚集在自身或单核细胞内。
 \begin{figure}[!htbp]
@@ -549,8 +623,8 @@ C4、C5、C9~和~C11~完全由树枝状细胞组成,根据~Zheng~等人提供~\c
     % (C) These four dendritic sub-types cells are highlighted on the~\textit{PBMCs\_68k} dataset t-SNE-based 2D plot.
     % (D) Characterization of dendritic cell sub-types utilizing markers obtained from DE analysis (See~\ref{subsec:de})
     DoRC~划分的人类血液树突状细胞异质性。
-    (A)~DoRC检测到的稀有细胞在~RafClust~中被聚成~12~个亚型。
-    即~C0,C1,$\ldots$,C11。通过~\cite{zheng2017massively}给出的注释,~C4、C5、C9、C11~多为树枝状细胞亚型。
+    (A)~DoRC~检测到的稀有细胞在~RafClust~中被聚成~12~个亚型,即~C0,C1,$\ldots$,C11。
+    通过~\cite{zheng2017massively}给出的注释,~C4、C5、C9、C11~多为树枝状细胞亚型。
     用~RafClust~聚类稀有细胞,同种颜色的点代表一个亚群。
     对于每个亚群,根据~\cite{zheng2017massively}~给出的注释,
     用星号标记的细胞也是树突状细胞。
@@ -566,7 +640,7 @@ C4、C5、C9~和~C11~完全由树枝状细胞组成,根据~Zheng~等人提供~\c
     \centering
     \caption{
         %The dendritic cell types correspond to class types reported by Villani~\cite{villani2017single}
-        树枝状细胞类型对应于~Villani~报告的类别~\cite{villani2017single}
+        树枝状细胞类型对应于~Villani~报告的细胞类别~\cite{villani2017single}
         }
     \label{supp-tbl:dendritic}
     \resizebox{\columnwidth}{!}{
@@ -597,13 +671,13 @@ C4、C5、C9~和~C11~完全由树枝状细胞组成,根据~Zheng~等人提供~\c
 
 随着~Jurkat~(稀有)~细胞在所有细胞中的占比变化,比例从~0.5\%~到~15\%,
 我们得到八个数据集。
-对于每个数据集,F1-score~是用通过~DoRC~评分和~IQR~阈值标准确定预测标签,然后与两个类的真实标签对照计算。
+对于每个数据集,~F1-score~是用通过~DoRC~评分和~IQR~阈值标准确定预测标签,然后与两个类的真实标签对照计算。
 重复这个过程~100~次,可以得到该数据集的~F1~分数的标准差。
-标准差反映了该方法识别人工伪造的稀有细胞的稳定性~(图~\ref{fig:jurkat} A)。 
-F1-score~反映了精度和灵敏度之间的平衡。
+标准差反应了该方法识别人工伪造的稀有细胞的稳定性~(图~\ref{fig:jurkat} A)。 
+F1-score~反应了精度和灵敏度之间的平衡。
 当稀有比处于低水平时,即~0.5\%~和~1\%~时,DoRC~无法匹配~FiRE。
 但是,当稀有率从~1.5\%~增加到~15\%~时~DoRC~的性能优于~FiRE。
-此外,FiRE的性能在~15\%~的罕见比例下急剧下降,但是~DoRC~更保守,性能损失较小。
+此外,~FiRE的性能在~15\%~的罕见比例下急剧下降,但是~DoRC~更保守,性能损失较小。
 
 我们仔细研究一下在稀有细胞占比为~2.5\%~时的细节。
 从~100~个生成的数据集中随机选取了一个有~1539~个细胞的混合数据集,作为基准数据集。
@@ -625,19 +699,19 @@ F1-score~反映了精度和灵敏度之间的平衡。
     % (G) DoRC, FiRE detected rare cells and true rare cells overlap with each other, shown in this Venn diagram. 
     % (H) Detail of the confusion matrices with TP, FP, FN, TN prediction metrics for DoRC and FiRE.
     在由~Jurkat~和~293T~细胞组成的模拟数据集中,次要细胞类型的可检测性图示。
-    (A)~计算关于稀有类别~(也就是~Jurkat)~的~DoRC~和~FiRE~的~F1~分数,按照生物信息上逐渐改变人工植入的稀有细胞的比例。
-    (B)~基准数据集上细胞的基于~t-SNE~的二维嵌入图, 不同颜色代表不同的身份类别。
-    (C-D)~DoRC~和~FiRE~得分分别绘制在基于~t-SNE~的二维嵌入图上。
-    (E-F)~DoRC~和~FiRE~分别检测到的稀有细胞被高亮显示。
-    (G)~DoRC、FiRE检测到的稀有细胞和真正的稀有细胞相互重叠,在此维恩图中显示。
-    (H)~DoRC~和~FiRE~的混淆矩阵与~TP、FP、FN、TN~预测指标的细节。
+    (A)~按照生物信息上逐渐改变人工植入的稀有细胞的比例, 计算关于稀有类别~(也就是~Jurkat)~的~DoRC~和~FiRE~的~F1~分数。
+    (B)~基准数据集上细胞的基于~t-SNE~的二维嵌入可视化图, 不同颜色代表不同的细胞类别。
+    (C-D)~DoRC~和~FiRE~得分分别绘制在基于~t-SNE~的二维嵌入可视化图上。
+    (E-F)~DoRC~和~FiRE~分别检测到的稀有细胞,用高亮来显示。
+    (G)~DoRC、FiRE检测到的稀有细胞和真正的稀有细胞相互重叠,在该维恩图中显示出来。
+    (H)~DoRC~和~FiRE~的混淆矩阵与~TP、FP、FN、TN~预测指标的计算细节。
     }
     \label{fig:jurkat}
 \end{figure}
 
 \subsubsection{DoRC~对细胞类型敏感}
 我们设计了一项模拟研究来分析~DoRC~评分的鲁棒性和敏感性与差异表达基因数量的关系。
-我们首先生成一个由~500~个两种细胞类型组成的人工~scRNA-seq~数据。
+我们首先生成一个由~500~个两种细胞类型组成的人工仿真的~scRNA-seq~数据。
 数量小的细胞类型约占细胞的~5\％~(见节~\ref{subsec:datasets})~。
 我们将通过严格的标准选择的差异表达~(DE)~基因保留在一边。
 对于每次实验的迭代,我们将预先确定的~DE~基因附加到固定数量的非~DE~基因上。
@@ -665,27 +739,27 @@ F1-score~反映了精度和灵敏度之间的平衡。
     % specific number of differentially expressed genes. 
     % The AUC analysis is performed using cell-type annotations, 
     % and DoRC scores are assigned to individual cells.
-    DoRC~对细胞类型特征的敏感性示意图。
+    DoRC~对细胞类型特征的敏感。
     在~scRNA-seq~数据集~\textit{Splatter\_500}上,
     DoRC~从正确识别比例小的细胞类型开始,
     只要差异表达基因的数量变得足以产生一个代表小细胞亚群的微小簇。
     左上角图作为后续AUC图的图例。
-    每个~t-SNE~和~ROC~图对作为~1000~次重复实验的代表,
-    对应一个特定数量的差异表达基因。
+    每个~t-SNE~和~ROC~图对对应为为~1000~次重复实验的一个代表结果,
+    对应于一种特定数量的差异表达基因。
     AUC~是使用各个细胞的类型注释进行和~DoRC~得分来计算到的。
     }
     \label{fig:simulate:roc}
 \end{figure}
 
-此外,由于~DoRC和~FiRE都可以给一个细胞做二元标注,
+此外,由于~DoRC~和~FiRE~都可以给一个细胞做二元标注,
 我们对其性能差异感到好奇。
-在这个数据集中,我们考虑了~DoRC和~FiRE之间的~AUC、召回率、精度和~F1-score。
+在这个数据集中,我们考虑了~DoRC~和~FiRE~之间的~AUC、召回率、精度和~F1-score。
 由于~F1-score~取决于召回率和精度,我们也包括这两个指标作为参考。
 把细胞类型标注为真实标签,~AUC~是用~DoRC~评分计算的。
 而~F1-score是用~DoRC~评分产生的稀有度标注与~IQR~阈值标准获得的。
 在总共~25~个稀有细胞中,~DoRC~和~FiRE~都能正确检测出~23~个相同的稀有细胞。
 DoRC~可以检测到其他~2~个稀有细胞和~1~个假阳性稀有细胞,
-而~FiRE未能识别出左边~2~个稀有细胞~(图~\ref{fig:simulate:venn_auc_f1} A)~。
+而~FiRE~未能识别出左边~2~个稀有细胞~(图~\ref{fig:simulate:venn_auc_f1} A)~。
 在这个数据集中, 阳性样品~(丰富细胞)~和阴性样品~(稀有细胞)~的数量是不平衡的。
 这两种方法的~AUC~和精度基本没有变化,
 但~DoRC的召回率和~F1-score均高于~FiRE~(图~\ref{fig:simulate:venn_auc_f1} B)。
@@ -698,9 +772,9 @@ DoRC~可以检测到其他~2~个稀有细胞和~1~个假阳性稀有细胞,
     % DoRC could detect other 2 rare cells and 1 false positive rare cells, 
     % while FiRE failed to identify the left 2 rare cells.
     % (B) The AUC and precision of DoRC and FiRE are almost the same, while the Recall and  F1-score of DoRC is higher than FiRE.
-    DoRC~和~FiRE~对数据集中稀有细胞检测的比较~\textit{Splatter\_500}。
+    在~\textit{Splatter\_500}数据集上,~DoRC~和~FiRE~对数据集中稀有细胞检测的比较。
     (A)~在所有~25~个稀有细胞中,~23~个稀有细胞全部被~DoRC~和~FiRE~检测出来。
-    DoRC~可以检测到另外~2~个稀有细胞和~1~个假阳性稀有细胞,而~FiRE~则未能识别出左侧~2~个稀有细胞。
+    DoRC~可以检测到另外~2~个稀有细胞和~1~个假阳性稀有细胞,而~FiRE~则未能识别出剩下的~2~个稀有细胞。
     (B)~DoRC~和~FiRE~的~AUC~和精度几乎相同,而~DoRC~的~Recall~和~F1-score~高于~FiRE。
     }
     \label{fig:simulate:venn_auc_f1}
@@ -710,21 +784,22 @@ DoRC~可以检测到其他~2~个稀有细胞和~1~个假阳性稀有细胞,
 \label{subsec:scalable} 
 DoRC的核心算法孤立森林~(Isolation Forest)~的时间复杂度为~$O(ntlog\psi)$~\cite{liu2008isolation}。
 其中~$n$、$t$~和~$\psi$~分别代表样本数、树的数目和每棵树的子样本数。
-值得注意的是,DoRC~中的~Isolation Forest~在这种情况下没有训练的阶段。
-该方法的参数我们使用默认值,~t~设置为~100,$\psi$~设置为~256。
-因此,DoRC~的时间复杂度为~$O(n)$。
+值得注意的是,~DoRC~中的~Isolation Forest~在这种情况下没有训练的阶段。
+该方法的参数我们使用默认值,~t~设置为~100,~$\psi$~设置为~256。
+因此,~DoRC~的时间复杂度为~$O(n)$。
 RafClust~的稀有细胞类型细化的复杂性没有考虑。
-因为如果不需要稀有细胞的类型,这个步骤是可选的,FiRE~和~LOF~这两种方法中也没有包含这个步骤。
+因为如果不需要稀有细胞的类型,这个步骤是可选的,
+~FiRE~和~LOF~这两种方法中也没有包含这个步骤。
 
 我们改变输入数据大小,
-统计了~DoRC、FiRE、GiniClust、LOF~\cite{breunig2000lof}和~RaceID所花费的时间,
+统计了~DoRC、FiRE、GiniClust、LOF~\cite{breunig2000lof}和~RaceID~所花费的时间,
 如图~\ref{fig:timecomplexity}所示。
-测试机器为一台运行~GNU Linux/Ubuntu 16.04操作系统~4.15.0-47-generic~内核的工作站上,
-硬件配置如下:~Intel(R) Xeon(R) Silver 4116 CPU @ 2.10GHz,48~核,64GB~内存。
-DoRC由~Python实现,使用scikit-learn包~(版本0.20.2)~\cite{pedregosa2011scikit}和~pyod包~(版本0.6.7)~~\cite{zhao2019pyod}。
-由于其他方法不能区分稀有细胞类型,在DoRC中我们也因此省略~RafClust~的稀有细胞类型细化子程序。
-FiRE从~\url{https://github.com/princethewinner/FiRE}下载(分支:master,最新提交的~abcba5b)。
-因为其内核算法是用C++编写的,我们在实验中使用的是其~Python~扩展分支。
+测试机器为一台运行~GNU Linux/Ubuntu 16.04~操作系统~4.15.0-47-generic~内核的工作站上,
+硬件配置如下:~Intel(R) Xeon(R) Silver 4116 CPU @ 2.10GHz,~48~核,~64GB~内存。
+DoRC由~Python~实现,使用~scikit-learn包~(版本0.20.2)~\cite{pedregosa2011scikit}和~pyod包~(版本0.6.7)~~\cite{zhao2019pyod}。
+由于其他方法不能区分稀有细胞类型,在~DoRC~中我们也因此省略~RafClust~的稀有细胞类型细化子程序。
+FiRE~从~\url{https://github.com/princethewinner/FiRE}~下载(分支:master,最新提交的~abcba5b)。
+因为其内核算法是用~C++~编写的,我们在实验中使用的是其~Python~扩展分支。
 GiniClust从~\url{https://github.com/lanjiangboston/GiniClust}下载~(分支:master,最新提交~a442d45)。
 我们在命令行界面直接使用~R~脚本,
 额外的步骤包括~t-SNE~可视化和~DE~分析被省略。
@@ -738,13 +813,13 @@ LOF~(local outlier factor)~是数据挖掘领域应用广泛的算法。
     \includegraphics[width=0.9\textwidth]{Rplot_timecomplexity.pdf}
     \caption{
     % DoRC is fast. Execution time is recorded for DoRC, FiRE, GiniClust, LOF and RaceID, while varying the number of cells from 1k to ${\sim} 68$k
-    DoRC速度快。DoRC、FiRE、GiniClust、LOF~和~RaceID~的执行时间同时被记录下来,通过改变单元数从~1k~到~${\sim} 68$k。    
+    DoRC的执行速度仅次于~FiRE。我们从~1k~到~${\sim} 68$k~逐渐改变细胞的数目, 同时记录下~DoRC、FiRE、GiniClust、LOF~和~RaceID~的执行时间。    
     }
     \label{fig:timecomplexity}
 \end{figure}
 
 如图~\ref{fig:timecomplexity}所示,为了从~${\sim}68$k scRNA-seq数据中发现稀有细胞。 
-GiniClust和~RaceID~要么耗时,要么耗内存;
+GiniClust~和~RaceID~要么耗时,要么耗内存;
 LOF~对输入数据规模非常敏感;
 然而,~DoRC~和~FiRE~都是非常快的,因为它们只需要不到~2~分钟就可以完成任务。
 与~DoRC~相比,~FiRE~的速度明显更快。
@@ -752,18 +827,17 @@ LOF~对输入数据规模非常敏感;
 因此,我们认为~DoRC~的性能还有提升空间。
 
 \subsection{讨论和结论}
-近来,单细胞转录组学大大改善了我们对细胞表型性质的理解。
-它还加速了新细胞类型的发现。
+近来,单细胞转录组学大大改善了我们对细胞表型性质的理解,
+并且,还加速了新细胞类型的发现。
 这些新的细胞类型大多是罕见的,因为显然一种丰富的细胞类型如果在很长一段时间内不被我们观察到是很不可能的。
 一个真正稀有的细胞类型只有通过分析成千上万的细胞才能被发现。
 虽然过去几年的技术进步使我们能够进行超高通量的单细胞测序,
-稀有细胞检测的可扩展方法几乎不存在。
-与~FiRE~方法类似,~DoRC~试图用一种务实和适用的设计来填补这一空白。
-最值得一提的是,~DoRC~避免了使用聚类作为中间步骤。
+可扩展性的稀有细胞检测方法几乎不存在。
+DoRC~避免了使用聚类作为中间步骤。
 因为典型的聚类技术不仅耗时,但也不可能一次性完全绘制复杂组织中的细胞类型。
 
 DoRC~给每一个单独的表达图谱都给出了一个稀有度分数。
-通过~IQR阈值,~DoRC也可以像~RaceID~和~GiniClust~一样提供二元预测。
+通过~IQR~阈值,~DoRC~也可以像~RaceID~和~GiniClust~一样提供二元预测。
 DoRC的核心是通过使用~Isolation Forest~作为核心算法实现的。
 Isolation Forest~是机器学习中被广泛研究、应用得很广的一种无监督的异常点~(离群值)~检测方法。
 每个细胞的稀有度用``异常点得分"来表示,对于每个给定的点在相应的高维空间中。
@@ -775,12 +849,11 @@ RafClust~方法可以应用于一般的单细胞转录组聚类。
 
 其实,除了孤立森林外,最近在一些领域提出了这几种方法~\cite{aggarwal2015theoretical,zhao2019pyod,liu2019generative,weng2019multi}~也值得关注。
 特别是当处理超大型~scRNA-seq~数据的稀有细胞发现。
-据我们所知,~DoRC~是首次将异常检测方法之一应用于稀有细胞的发现。
+据我们所知,~DoRC~是首次将异常检测方法的思想应用于稀有细胞的发现。
 因此,我们相信~DoRC~在未来检测稀有细胞领域上对于生物学家来说是一个很有前途和潜力的工具。
-
-\subsection{可重复性}
-DoRC~方法的~Python~实现代码可在以下网址获得~\url{https://github.com/chenxofhit/DoRC}。
-其他代码和相关数据集根据用户的要求酌情提供。
+DoRC~的实现代码可在以下网址获得~\url{https://github.com/chenxofhit/DoRC},
+RafClust~的~R~包可在~\url{https://github.com/chenxofhit/RafClust}~免费下载和使用,
+本章节相关的实验代码和相关数据集根据用户的要求提供。
 
 % \subsection{鸣谢}
 % 我们要感谢与印度理工学院~Aashi Jindal博士富有成效的讨论。

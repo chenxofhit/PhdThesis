@@ -1,34 +1,35 @@
 \section{一种新的单细胞基因表达调控网络方法}
+\label{sec:scgrnhunter}
 
 识别细胞类型特征和细胞的基因表达活动程序~(如生命周期过程、对环境因素的反应)~对于理解细胞和组织的组成至关重要。
-虽然单细胞~RNA-Seq~(scRNA-Seq)~可以量化成个体细胞中的转录本,
+虽然单细胞~RNA-seq~(scRNA-seq)~可以量化成个体细胞中的转录本,
 每个细胞的表达谱可能是这两种类型的程序的混合物,使它们难以分离。
 在这里,我们提出了一个使用矩阵分解的算法~WSSMFA~来解决这个问题。
 % 通过模拟表明,我们提出的~scGRNHunter~方法可以准确地推断出身份和活动性的子程序~(包括它们在每个细胞的相对贡献), 
 % 并在此基础上构建基因调控网络。
-通过在公开的大脑类器官~scRNA-Seq~数据集上的实验表明,我们提出的~scGRNHunter~方法可以准确地推断出身份和活动性的子程序, 
+通过在公开的大脑类器官~scRNA-seq~数据集上的实验表明,我们提出的~scGRNHunter~方法可以准确地推断出身份和活动性的子程序, 
 并在此基础上构建成基于细胞类别身份的基因调控网络和基于细胞活动的基因调控网络。
 
-% 为了说明这种方法的效果,我们将其应用于已公布的大脑类器官和视觉皮层~scRNA-Seq~数据集;
+% 为了说明这种方法的效果,我们将其应用于已公布的大脑类器官和视觉皮层~scRNA-seq~数据集;
 % ~scGRNHunter~细化细胞类型,并确定预期的~(如细胞周期和缺氧)~和新的活动程序,包括可能是神经分泌表型和突触发生的基础的程序。
-% 为了说明这种方法的效果,我们将其应用于公开的大脑类器官~scRNA-Seq~数据集上。
+% 为了说明这种方法的效果,我们将其应用于公开的大脑类器官~scRNA-seq~数据集上。
 
 \subsection{介绍}
 在基因调控网络中,基因的协同作用,维持细胞作为特定细胞类型的身份,对外界信号作出反应,并进行复杂的细胞活动,如复制和代谢。
 协调这些功能所需的基因通常是通过转录共同调控来实现的,即基因作为一个基因表达程序~(GEP)~一起被诱导,
 以响应适当的内部或外部信号~\cite{eisen1998cluster,segal2003module}。
-通过实现对整个转录组的无偏的测量,~RNA-Seq~等剖析技术正在为系统地发现~GEPs~并揭示其支配的生物机制铺平道路~\cite{liberzon2015molecular}。
+通过实现对整个转录组的无偏的测量,~RNA-seq~等剖析技术正在为系统地发现~GEPs~并揭示其支配的生物机制铺平道路~\cite{liberzon2015molecular}。
 
-单细胞~RNA-Seq~(scRNA-Seq)~极大地提高了我们解析~GEPs~的潜力,通过让可以观察到许多单个细胞的基因表达变化。
+单细胞~RNA-seq~(scRNA-seq)~极大地提高了我们解析~GEPs~的潜力,通过让可以观察到许多单个细胞的基因表达变化。
 即使如此,推断出~GEPs~仍然具有挑战性,
-因为~scRNA-Seq~数据是高噪声和高维度的,需要合适的计算方法来发现潜在的模式。
+因为~scRNA-seq~数据是高噪声和高维度的,需要合适的计算方法来发现潜在的模式。
 此外,技术上的人为因素,如双胞~(doublets,两个或两个以上不同的细胞被错误地折叠成一个细胞)和高度表达值缺失~(dropout)~可能会混淆分析。
 在降维、聚类、系谱轨迹追踪和差异表达分析方面的方法学进展有助于克服其中一些问题~\cite{amir2013visne,kharchenko2014bayesian,satija2015spatial,trapnell2014dynamics}。
 
-在这里,我们专注于从~scRNA-Seq~数据中推断基因调控网络的关键是,推断出表达程序:
-事实上,单个细胞可能表达多个~GEPs,但我们只检测反映它们组合的细胞表达谱,而不是~GEPs~本身。
+在这里,我们专注于从~scRNA-seq~数据中推断基因调控网络的关键是,推断出表达程序:
+事实上,单个细胞可能表达多个~GEPs,但我们只检测反应它们组合的细胞表达谱,而不是~GEPs~本身。
 一个细胞的基因表达是由许多因素形成的,包括其细胞类型,其在时间依赖性过程中的状态,如细胞周期,以及其对不同环境刺激的反应（Wagner等,2016）。
-我们可以在~scRNA-Seq~数据中检测到的表达程序归为两个大类:
+我们可以在~scRNA-seq~数据中检测到的表达程序归为两个大类:
 \begin{enumerate}
     \item 对应于特定细胞类型身份, 如肝细胞或黑色素细胞的~GEPs~(identity program);
     \item 独立于细胞类型表达,在任何正在进行特定活动的细胞中,如细胞分裂或免疫细胞激活中表达的~GEPs~(activity program)。
@@ -36,20 +37,20 @@
 在这种表述中,身份程序在特定细胞类型的细胞中唯一表达,
 而活动程序在一种或多种类型的细胞中可能动态变化,并且可能是连续的或离散的。
 
-如果由~scRNA-Seq~剖析的细胞子集表达一个给定的活动~GEP,有可能直接从数据推断程序,而不需要控制实验。
+如果由~scRNA-seq~剖析的细胞子集表达一个给定的活动~GEP,有可能直接从数据推断程序,而不需要控制实验。
 然而,这可能是显着更具有挑战性的比确定身份~GEPs;
 虽然一些细胞可能有表达配置文件,主要是身份程序的输出,活动程序将总是表达一个或常常伴随着许多细胞类型的身份程序。
 因此,虽然寻找相似细胞群的平均表达量往往足以找到合理准确的身份~GEPs,但对于活性~GEPs~来说,它往往会失败。
 
-我们看到三个主要动机,在~scRNA-Seq~数据共同推断身份和活动~GEPs。
+我们看到三个主要动机,在~scRNA-seq~数据共同推断身份和活动~GEPs。
 首先,系统地发现~GEPs~可以揭示在原生生物组织背景下意想不到的或新颖的活动程序,
 反应重要的生物过程~(如免疫激活或缺氧)。
 其次,它可以描述每个活动~GEP~在组织中各个细胞类型间普遍性的特征。
 最后,活动程序的鉴别可以通过避免活动程序基因被错误地包含在身份程序中, 从而来改进身份程序的推断。
 众所周知,对应于细胞周期不同阶段的~GEP~是广泛存在活动程序的,
-并且会混淆~scRNA-Seq~数据中的身份~(细胞类型)~程序推断~\cite{scialdone2015computational,chen2017controlling}。
+并且会混淆~scRNA-seq~数据中的身份~(细胞类型)~程序推断~\cite{scialdone2015computational,chen2017controlling}。
 在这项研究中, 我们提出了一个带约束的矩阵分解模型, 称为加权半非负稀疏矩阵分解的方法,
-在~scRNA-Seq~数据共同推断身份和活动~GEPs,然后在此基础上结合~TRRUST~这个~TF-TG~(调控子-靶标基因)~数据库构建基因调控网络。
+在~scRNA-seq~数据共同推断身份和活动~GEPs,然后在此基础上结合~TRRUST~这个~TF-TG~(调控子-靶标基因)~数据库构建基因调控网络。
 据我们所知,目前还没有在已发表的文章中发现有类似的思路来解决单细胞数据集上的基因调控问题。
 
 \subsection{方法}
@@ -111,8 +112,8 @@ H~被设置为~500, 主要考虑的是包括足够的基因以检测微妙的生
         % B.The objective function, where $W$ is the mask matrix, $\alpha$ and $\lambda$ are sparsity penalty parameters, and C is
         % the number of cells.
         算法~WSSMFA~的说明。
-        A. 对~scRNA-seq~数据进行矩阵因子化。
-        B.目标函数,其中~W~为掩码矩阵,~$\alpha$~和~$\lambda$~为稀疏度惩罚参数,C~为细胞数。
+        A.~对~scRNA-seq~数据进行矩阵因子化。
+        B.~目标函数,其中~W~为掩码矩阵,~$\alpha$~和~$\lambda$~为稀疏度惩罚参数,~C~为细胞数。
     }
     \label{fig:gep-mf}
 \end{figure}
@@ -122,12 +123,12 @@ H~被设置为~500, 主要考虑的是包括足够的基因以检测微妙的生
 对于矩阵~$X$, 可以表示为一个因子矩阵~(factor matrix)~$F_{G \times K}$~和一个负荷矩阵~(loading matrix)~$L_{C \times K}$,
 并且满足~$X=LF^T$, 如图~\ref{fig:gep-mf} a~所示。 
 
-我们设计了一个具有以下三个特征的矩阵分解目标函数: 
+我们设计了一个具有以下三个特征的矩阵分解目标函数:
 \begin{enumerate}
-    \item 对残差加权和的惩罚: 为了考虑基因表达值本身的不确定性,也就是~dropout~效应带来的影响,具有~dropout~值的对应位置处的残差被赋予零权重。
+    \item 对残差加权和的惩罚:~为了考虑基因表达值本身的不确定性,也就是~dropout~效应带来的影响,具有~dropout~值的对应位置处的残差被赋予零权重。
           通过这种方式,基因具有更确定的表达值的对最优参数估计有更大的影响。
-    \item 稀疏性: 为了减少过拟合,对分解后的矩阵进行了~$l_1$~惩罚。
-    \item 分解矩阵的半非负性: 因子矩阵捕捉组织间的影响模式,因此,使因子矩阵非负易于解释是一个自然约束。
+    \item 稀疏性:~为了减少过拟合,对分解后的矩阵进行了~$l_1$~惩罚。
+    \item 分解矩阵的半非负性:~因子矩阵捕捉组织间的影响模式,因此,使因子矩阵非负易于解释是一个自然约束。
           同时,由于输入矩阵中数值可能有正有负,因此对负荷矩阵没有这样的约束。
 \end{enumerate}
 基于此,最终的目标函数定义如下~(如图~\ref{fig:gep-mf} b~所示):
@@ -224,12 +225,12 @@ $C$~中的值在~$0$~和~$1$~之间,代表一对细胞被分配到同一个因�
 在大脑类器官数据集上,我们在数据预处理之后保留了~500~个分散度最高的基因~($H = 500$),
 按照~0.05\%~的比例随机抽取了~2623~个细胞,按照模型选择的准则操作后,
 最终确定~$K = 15$,~$\alpha = 50$,~$\lambda = 5$, 
-即~15~个因子~(f1,~f2, $\ldots$,~f15), 也就是对应~15~个~GEP。
-负荷矩阵~$L$~揭示了各细胞的表达量与因子之间的组合线性关系, 我们按照细胞类别对负荷矩阵进行统计,
-针对每个~GEP~我们可以画出对应类别的负荷的箱形图~(boxplot), 如图~\ref{fig:gep-gep}所示。
+即~15~个因子~(f1,~f2, $\ldots$,~f15),也就是对应~15~个~GEP。
+负荷矩阵~$L$~揭示了各细胞的表达量与因子之间的组合线性关系,我们按照细胞类别对负荷矩阵进行统计,
+针对每个~GEP~我们可以画出对应类别的负荷的箱形图~(boxplot),如图~\ref{fig:gep-gep}~所示。
 另外,为了辅助说明, 我们也对该单细胞数据结合已知的细胞的标注类别信息使用基于~t~分布的随机邻域嵌入~(t-SNE)~进行二维可视化,
 t-SNE~图反应了单细胞数据中细胞分布的宏观结构,可以看出单细胞数据是否有不同的类别,即细胞是否存在异质性。
-结合该数据集提供的细胞类别标签,我们对抽样之后的数据可视化,如图~\ref{fig:gep-tsne}所示。
+结合该数据集提供的细胞类别标签,我们对抽样之后的数据可视化,如图~\ref{fig:gep-tsne}~所示。
 
 \begin{figure}[!htbp]
     \centering
@@ -264,39 +265,42 @@ GEP6~和~GEP8~是典型的身份~GEPs~(分别对应到类别~C3~和~C1), GEP1、
 GEP1~牵涉到类别~C2,~C4,~C6~和~C10; GEP14~牵涉到类别~C3,~C4,~C5。
 
 \subsubsection{身份调控网络与活动调控网络的构建}
-结合因子矩阵~$F$,每一列中系数不为零的基因即是该因子~(也就是~GEP)~中所包含的基因,
-针对每个~GEP,我们可以结合~TRRUST~(version 2)~构建其调控网络。
-如图所示,即为每个~GEP~所对应的大脑类器官数据集上的基因调控网络。
+结合因子矩阵~$F$,每一列中系数不为零的基因即是该因子~(也就是~GEP~)~中所包含的基因,
+针对每个~GEP,我们可以结合~TRRUST~(version 2)~提供的~web service~获取这些基因的~TF~从而构建其调控网络。
 
-由~GEP6~构建的基因调控网络如图~\ref{fig:gep-grn-gep6}~所示:
+由~GEP6~构建的基因调控网络如图~\ref{fig:gep-grn-gep6}~所示,
+该网络总共包含~30~个节点~(TF~用蓝色节点表示,~TG~用红色节点表示),~41~条调控边\footnote{默认的调控方向都是~TF~调控~TG, 因此在可视化图中不显式突出边的方向。
+}。
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=0.95\textwidth]{GEP6.key_regulators.tsv.cs.network.tsv.png}
+    \includegraphics[width=0.95\textwidth]{GEP6.key_regulators.tsv.cs.png}
     \caption{
     %The gene regulatory network of GEP6, constructed with the TRRUST database.
-    结合~TRRUST~数据库构建的~GEP6~的基因调控网络
+    由~GEP6~构建的基因调控网络
     }
     \label{fig:gep-grn-gep6}
 \end{figure}
 
-由~GEP8~构建的基因调控网络如图~\ref{fig:gep-grn-gep8}~所示:
+由~GEP8~构建的基因调控网络如图~\ref{fig:gep-grn-gep8}~所示。
+该网络总共包含~74~个节点~(TF~用蓝色节点表示,~TG~用红色节点表示),~127~条调控边。
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=0.95\textwidth]{GEP8.key_regulators.tsv.cs.network.tsv.png}
+    \includegraphics[width=0.95\textwidth]{GEP8.key_regulators.tsv.cs.png}
     \caption{
     %The gene regulatory network of GEP8, constructed with the TRRUST database.
-    结合~TRRUST~数据库构建的~GEP8~的基因调控网络
+    由~GEP8~构建的基因调控网络
     }
     \label{fig:gep-grn-gep8}
 \end{figure}
 
-由~GEP14~构建的基因调控网络如图~\ref{fig:gep-grn-gep14}~所示:
+由~GEP14~构建的基因调控网络如图~\ref{fig:gep-grn-gep14}~所示。
+该网络总共包含~122~个节点~(TF~用蓝色节点表示,~TG~用红色节点表示),~195~条调控边。
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=0.95\textwidth]{GEP14.key_regulators.tsv.cs.network.tsv.png}
+    \includegraphics[width=0.95\textwidth]{GEP14.key_regulators.tsv.cs.png}
     \caption{
     %The gene regulatory network of GEP14, constructed with the TRRUST database.
-    结合~TRRUST~数据库构建的~GEP14~的基因调控网络
+    由~GEP14~构建的基因调控网络
     }
     \label{fig:gep-grn-gep14}
 \end{figure}
@@ -313,9 +317,9 @@ VAEs~代表了一个高度灵活的隐式空间中的单元, 可以捕捉隐式�
 但它们是否可以直接或间接地解释为不同的~GEPs~相互作用, 还有待证明。
 在可预见的未来, 需要综合权衡考虑模型本身的灵活性与训练和解释它们的输出的难度这两个方面。
 
-随着~RNA~捕获效率和通量的不断技术进步, scRNA-Seq~数据可能会变得更加丰富和广阔。
+随着~RNA~捕获效率和通量的不断技术进步, scRNA-seq~数据可能会变得更加丰富和广阔。
 这将使得检测越来越细微的~GEPs~成为可能, 从而捕捉细胞类型、细胞状态和活动的生物变异性。
 在这里, 我们已经展示了一个计算方法框架~scGRNHunter, 
-可以用来直接从~scRNA-Seq~中推断出这样的~GEPs, 
+可以用来直接从~scRNA-seq~中推断出这样的~GEPs, 
 而不需要进行实验操作, 从而为细胞和组织行为提供了至关重要的解释, 
 并为基因调控网络的构建提供了一个全新的思路。
