@@ -157,7 +157,7 @@ $n$~个基因的~GRN~推断问题可以分解为~$n$~个子问题,
 其中每个子问题都可以看作是机器学习中的特征选择问题~\cite{nasrabadi2007pattern}。
 更具体地说,对于每个目标基因,我们希望从表达水平上确定直接影响它的基因子集。
 设~$A$~是等式~(\ref{eq:definion})~中定义的基因表达数据,
-第~$i$~个基因为靶基因,我们在~$M$~实验条件下定义了其他候选表达调节因子:
+第~$i$~个基因为靶基因,我们在~$M$~个实验条件~(即样本)~下定义了其它候选表达调节因子:
 \begin{equation}
   \label{eq:x}
   x^{-i} = [x_1,\ldots,x_{i-1},x_{i+1},\ldots,x_N]
@@ -168,7 +168,7 @@ $n$~个基因的~GRN~推断问题可以分解为~$n$~个子问题,
 \label{eq:fs}
 x_i =  F(x^{-i}) + \epsilon , \forall i \in \{1,2,\ldots,N\}
 \end{equation}
-其中,$F$~是任意一个平滑, 典型的如~$x^{-i}$~个基因~(也就是跟基因~$i$~相关的基因)~表达值的非线性函数;$\epsilon$~是噪声项~\cite{huynh2010inferring,Haury2012}。
+其中,~$F$~是任意一个平滑, 典型的如~$x^{-i}$~个基因~(也就是跟基因~$i$~相关的基因)~表达值的非线性函数;$\epsilon$~是噪声项~\cite{huynh2010inferring,Haury2012}。
 % Generally, the function $F$ is unknown which can be defined indirectly as:
 % \begin{equation}
 % \label{eq:ffunction}
@@ -227,7 +227,7 @@ ARNI~转向获得哪些节点~$j$~的网络提供了直接的物理相互作用,
 而不是探索方程中这些节点之间的交互函数的细节。
 
 详细地, 对于~$N$~个节点的动态系统, 
-ARNI~首先将单元~$i$~的动态性分解为与网络中其他单元的交互项~\cite{casadiego2017model}:
+ARNI~首先将单元~$i$~的动态性分解为与网络中其它单元的交互项~\cite{casadiego2017model}:
 \begin{equation}
 \label{eq:xi}
 \begin{split}
@@ -245,9 +245,9 @@ ARNI~首先将单元~$i$~的动态性分解为与网络中其他单元的交互�
 
 其中~$\dot{x}_i :=[\dot{x}_{i,1}, \dot{x}_{i,2},\ldots,\dot{x}_{i,M}]\in \mathbb{R}^M$,
 $f:\mathbb{R}^N \to \mathbb{R}$~是一个平滑函数, 
-对角矩阵~$\Lambda^i \in \{0,1\}^{N \times N}$~和~$\Lambda^i_{j}=1$如果~$j$~直接作用于~$i$, 
+对角矩阵~$\Lambda^i \in \{0,1\}^{N \times N}$~和~$\Lambda^i_{j}=1$~如果~$j$~直接作用于~$i$, 
 否则~$\Lambda^i_{j}=0$,~$g^i_j:\mathbb{R} \to \mathbb{R}$, $g^i_{js}:\mathbb{R}^2 \to \mathbb{R}$, $g^i_{jsw}:\mathbb{R}^3 \to \mathbb{R}$,
-并且一般~$g^i_{j_{1}j_{2}\ldots\\j_{K}}:\mathbb{R}^K \to \mathbb{R}$~表示(未知)单元~$j_k$($k \in \{1,2,\ldots,K\}$)~和单元~$i$~的第~$K$~阶相互作用, 
+并且一般~$g^i_{j_{1}j_{2}\ldots\\j_{K}}:\mathbb{R}^K \to \mathbb{R}$~表示(未知)单元~$j_k$~($k \in \{1,2,\ldots,K\}$)~和单元~$i$~的第~$K$~阶相互作用, 
 最后一项~$\epsilon_{i}$~代表于作用于~$i$~的额外噪声。
 
 函数~$g^i_{j_{1}j_{2}\ldots\\j_{K}}$~无法访问,可以将其分解为基函数~$h$,
@@ -275,8 +275,7 @@ $c^i_{j,p}$,~$c^i_{js,p}$,~$c^i_{jsw,p}$~为未知系数。
 需要注意的是, 该框架旨在揭示动态系统中各单位的直接交互作用,尤其是时间序列数据。
 对于~GRN~推理问题,尤其是来自非时间序列数据的推理,
 可以对等式~(\ref{eq:xi_with_h})~做一个修改。
-更特别的是,将等式~(\ref{eq:xi_with_h})~中左边的时变项~$\dot{x_i}$~替换为~$\dot{x_i}$。
-与一个非时间变化的项~$x_i$, 这是一个矢量。
+更特别的是,将等式~(\ref{eq:xi_with_h})~中左边的时变项~$\dot{x_i}$~替换为一个非时间变化的项~$x_i$, 注意这是一个矢量。
 不考虑自我作用的同时,修改后的方程可以定义为:
 \begin{equation}
 \label{eq:x_i_fs}
@@ -301,7 +300,7 @@ $c^i_{j,p}$,~$c^i_{js,p}$,~$c^i_{jsw,p}$~为未知系数。
 分别代表不存在和现有的相互作用。
 这些结构化的解是由沿~$c^i$~分布的非零条目~(代表作用于单位~$i$~的非零交互作用)的块~$c^i_s$~构成的。
 提出了揭示网络交互作用的算法~(ARNI)~来解决这个数学分组变量的回归问题。
-这是一种基于块正交最小二乘~(BOLS)~算法的贪婪方法~\cite{majumdar2009fast}。
+这是一种基于块正交最小二乘~(BOLS)~算法的贪心方法~(greedy method)~\cite{majumdar2009fast}。
 ARNI~在本质上可以看作是一种合适的特征选择方法。
 与著名的~Sparse Group Lasso~\cite{friedman2010note}~相同。
 算法的细节在文献~\cite{casadiego2017model}~的附件中详细解释。
@@ -368,10 +367,10 @@ DREAM~联盟举办国际逆向工程挑战赛, 提供标准化的通用输入数
 
 在实验中,
 我们使用~DREAM4~和~DREAM5~挑战赛中的~6~个模拟数据集~\cite{marbach2012wisdom}。
-数据集详情如表~\ref{datasets}~所示,其中~Network:~数据集名称,
-#Genes~表示基因的数量, #Regulators~表示调控因子的数量, #Samples~表示样本的数量, 
-#Verified interactions~表示网络中的调控边数~(有向)。
-如果一个数据集用矩阵表示,那么样本表示行,基因表示列。
+数据集详情如表~\ref{datasets}~所示,其中~Network~表示~数据集名称,
+\#Genes~表示基因的数量, \#Regulators~表示调控因子的数量, \#Samples~表示样本的数量, 
+\#Verified interactions~表示网络中的有向调控边数。
+如果一个数据集用矩阵表示,那么行表示样本,列表示基因。
 我们采用~DREAM4~挑战赛中的~5~个多因素数据集,
 每个包含~100~个基因和~100~个样本。
 这~5~个数据集中的样本是通过从原始数据中同时微扰动所有基因表达值, 借助于使用开源的~GeneNetWeaver~软件~\cite{marbach2009generating}生成的。
@@ -450,7 +449,7 @@ P_k=\left\{\begin{matrix}
 这隐含表达了我们不考虑一个目标基因的~2~阶及以上的阶的交互作用。
 事实上,~bLARS~\cite{singh2016blars}~只考虑了一阶交互作用。
 我们在本研究中也遵循这种简化的方式。
-换句话说,其他基因对目标基因的调控是基于多项式非线性函数的混合。
+换句话说,其它基因对目标基因的调控是基于多项式非线性函数的混合。
 
 D3GRN中有两个参数,
 包括抽样运行的次数~$b$~和~ARNI~步数~$L$。
@@ -475,11 +474,11 @@ NIMEFI~用~R~实现,而~GENIE3、TIGRESS~和~PLSNET~用~Matlab~实现。
 这些方法的代码从对应论文提供的~URL~进行下载,在实验中各方法中的参数使用它们代码注释中提供的默认值。
 我们提出的方法~D3GRN~也是在~Matlab~中实现的,使用的数据集及代码公开在仓库~\url{https://github.com/chenxofhit/D3GRN}上。
 
-表~\ref{tab:performance_dr4}~列出了~D3GRN~与其他~GRN~推理方法在五个~DREAM4~网络上比较的结果。
-其中,D3GRN~的参数是在抽样数~$b=200$,~ARNI~步数~$L=2$~下得到的。
+表~\ref{tab:performance_dr4}~列出了~D3GRN~与其它~GRN~推理方法在五个~DREAM4~网络上比较的结果。
+其中,~D3GRN~的参数是在抽样数~$b=200$,~ARNI~步数~$L=2$~下得到的。
 如表所示,除了在~DREAM4网络~2~上,~D3GRN~跟其它方法相比~AUPR~值最高。
 
-表~\ref{tab:performance_dr5}~总结了~D3GRN~与其他网络的比较结果。
+表~\ref{tab:performance_dr5}~总结了~D3GRN~与其它网络的比较结果。
 GRN推理方法在~DREAM5~数据集上的应用。
 在参数设置为抽样数~$b=200$~的情况下,得到~D3GRN~的结果。
 网络~1~的~ARNI步数~$L=5$。
@@ -574,11 +573,11 @@ ARNI~采用的~BOLS~算法的~Moore-Penrose~伪逆运算,对于大型生物网�
 D3GRN~中采用的抽样策略使其在处理大规模~GRNs~推理时更加糟糕。
 关于~ARNI~的改进空间,~D3GRN~中抽样策略中的``for"~循环是完全可以并行的,
 可以在多核甚至集群中的分布式机器上同时进行。
-这也值得其他方法尝试,比如用~BOMP~\cite{majumdar2009fast}来替代~BOLS~算法,这是留给未来的工作。
+这也值得其它方法尝试,比如用~BOMP~\cite{majumdar2009fast}来替代~BOLS~算法,这是留给未来的工作。
 目前最先进的算法性能的差异性表明,
 没有一种算法在所有数据集上都表现得同样出色。
 然而,所有这些算法都可以应用于为元算法~(meta algorithm)提供输入,
-利用``聚合智慧"(Wisdom of crowds)~来创建一个共识和可靠的社区网络~\cite{Marbach2012a,zheng2008gene}。
+利用``群体智慧"~(Wisdom of crowds)~来创建一个共识和可靠的社区网络~\cite{Marbach2012a,zheng2008gene}。
 另外,从小网络到大网络,所有算法的性能都在下降,这或许反应了不同规模的底层调控网络的复杂性在增加。
 我们的方法推进了当前的技术水平, 但要把这个问题完全解决, 还有很长的路要走。
 
