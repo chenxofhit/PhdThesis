@@ -31,11 +31,11 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 % ------------------------------------%
 % 支持中文的 ctex 宏包
 \RequirePackage{ctex}
-
 % 页面布局
 \RequirePackage{geometry}
 % 数学宏包
 \RequirePackage{amsmath}
+\RequirePackage{ntheorem}
 \RequirePackage{amsfonts}
 \RequirePackage{amssymb}
 \RequirePackage{bm}
@@ -85,12 +85,14 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 \RequirePackage{enumitem}
 % 提供\AtBeginEnvironment以方便全局调整一些结构的设置
 \RequirePackage{etoolbox}
-\RequirePackage{adjustbox}
-\RequirePackage{threeparttable}
+% % 下划线 
+% \RequirePackage{ulem}
+% % 尺寸计算
+% \RequirePackage{calc}
+% 算法编号
+\RequirePackage{algorithm}
 
-\RequirePackage[noend]{algpseudocode}
-\RequirePackage{algorithmicx,algorithm}
-\floatname{algorithm}{算法}
+
 
 \usepackage{tikz}
 \usepackage{algorithm,algorithmicx,algpseudocode}
@@ -102,26 +104,31 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
                automata,backgrounds,
                petri,topaths}   
 
-% % 下划线 
-% \RequirePackage{ulem}
-% % 尺寸计算
-% \RequirePackage{calc}
+
 
 % 参考文献格式 GBT7714-2005
 % 来自https://github.com/CTeX-org/gbt7714-bibtex-style
 % \RequirePackage{natbib} % gbt7714.sty已经包含了natbib宏包
 \RequirePackage[numbers,2005]{gbt7714}
 
+
 % 页面布局 %
 % -------------------------------------------------------%
-\geometry{top=25.4mm,bottom=25.4mm,left=31mm,right=31mm}
+\geometry{top=25.4mm,bottom=25.4mm,left=31.4mm,right=31.4mm}
 % 给页眉留足空间（否则会有 \headheight is too small的warning）
-\setlength{\headheight}{14.5pt}
 % “磅”是衡量印刷字体大小的单位,约等于七十二分之一英寸。
 % 而 1英寸＝25.4毫米，则1磅＝25.4/72≈0.353毫米。
 % 磅和 LaTeX的 pt- points (大约 1/72 inch) 是一致的。
 \renewcommand*{\baselinestretch}{1.0}   % 几倍行间距
 \setlength{\baselineskip}{20pt}         % 基准行间距
+\setlength{\parskip}{0pt}         % 基准行间距
+%行间距：\lineskip = \baselineskip * \baselinestretch
+%段间距：\lineskip + \parskip
+%三号字体的磅值是16磅
+%小三号字体的磅值是15磅
+%四号字体的磅值是14磅
+%小四号字体的磅值是12磅
+%五号字体的磅值是10.5磅，本源码按10磅计算
 
 \setlength{\bibsep}{0.5ex} % 参考文献条目间距
 
@@ -137,7 +144,7 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
     \belowdisplayshortskip 6.5\p@ \@plus3.5\p@ \@minus3\p@
 }
 % 协议页的标题按模板是华文新魏
-\setCJKfamilyfont{hwxw}{STXinwei}
+\setCJKfamilyfont{hwxw}{STXinwei}[AutoFakeBold]
 \newcommand{\huawenxinwei}{\CJKfamily{hwxw}}
 % 重定义ctex定义好的宋体和黑体，以支持伪加粗AutoFakeBold
 % 即支持类似word里的给黑体、宋体等中文字体加粗的操作，用\bfseries
@@ -145,6 +152,8 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 \newCJKfontfamily[hei]\heiti{SimHei}[AutoFakeBold]
 \let\songti\relax
 \newCJKfontfamily[song]\songti{SimSun}[AutoFakeBold]
+\let\TimesNewRoman\relax
+\newCJKfontfamily[TimesNewRoman]\TimesNewRoman{Times New Roman}[AutoFakeBold]
 
 
 % 每行缩进两个汉字
@@ -163,6 +172,7 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
  %%%  中文关键字
 \newcommand*{\csu@cap@keywordsname}{关键字}
 
+
 % 定制titlepage
 % 定义命令和定义相应的宏。
 %----------------------------------------------------------------------%
@@ -178,6 +188,8 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 \newcommand*{\supervisor}[1]{\gdef\@supervisor{#1}}                     % 导师
 \newcommand*{\subsupervisor}[1]{\gdef\@subsupervisor{#1}}               % 副导师
 \newcommand*{\studentid}[1]{\gdef\@studentid{#1}}                       % 学号
+\newcommand*{\thesistype}[1]{\gdef\@thesistype{#1}}                     % 学位论文类型
+\newcommand*{\thesistypefinal}{\@thesistype}                     % 学位论文类型
 
 \newcommand*{\clcnumber}[1]{\gdef\@clcnumber{#1}}                       % 中图分类号 Chinese Library Classification
 \newcommand*{\schoolcode}[1]{\gdef\@schoolcode{#1}}                     % 学校代码
@@ -219,32 +231,35 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
     {
         \centering
         \linespread{1.5}
-        \vspace*{1.5cm}
-        {\zihao{-2} \bfseries \heiti 博士学位论文 \par} % 小二号黑体
-        \vspace{2cm} % 两个空行
+        \vspace*{4.5cm}
+        {\zihao{-2} \bfseries \heiti \thesistypefinal \par} % 小二号黑体
+        \vspace{1.5cm} % 两个空行
         {\zihao{2} \bfseries \heiti \@titlecn \par} % 二号黑体
-        {\zihao{-2}\bfseries \@titleen \par} % 小二号，timesnewroman
-        \vspace{4cm} % 两个空行
+        {\zihao{-2} \bfseries \TimesNewRoman \@titleen \par} % 小二号，timesnewroman
+        \vspace{1.25cm} % 两个空行
         {
-            \zihao{3} \songti
+            \zihao{3} \bfseries \songti
+            \setlength\parindent{2em} % 由于这里填写的内容不对称，完全居中反而不够美观，于是缩进一个汉字的宽度
             \begin{tabular}{ll}
-                \makebox[4em][s]{学科专业} & \@priormajor \\
-                \makebox[4em][s]{学科方向} & \@minormajor \\        
+                % 利用\makebox[7em][s]{} 实现两端对齐，即字数不同但左右对齐。
+                % 7em表示分散对齐的最长的长度为7个字的长度，参数s表示两端分散对齐。
+                \makebox[6em][s]{学科专业}      &  \makebox[14em]{\@priormajor}    \\[0pt]
+                \makebox[6em][s]{学科方向}      &  \makebox[14em]{\@minormajor}    \\[0pt]
 \ifblindreview
-                \makebox[4em][s]{研究方向} & \@interestmajor \\
-                \makebox[4em][s]{学   号}  & \@studentid \\
+                \makebox[6em][s]{研究方向}      &  \makebox[14em]{\@interestmajor}        \\[0pt]
+                \makebox[6em][s]{学   号}      &  \makebox[14em]{\@studentid}    \\[0pt]
 \else
-                \makebox[4em][s]{作者姓名} & \@author \\
-                \makebox[4em][s]{指导教师} & \@supervisor \\
+                \makebox[6em][s]{作者姓名}      &  \makebox[14em]{\@author}        \\[0pt]
+                \makebox[6em][s]{指导教师}      &  \makebox[14em]{\@supervisor}    \\[0pt]
 \fi
             \end{tabular}
         }
         \par
-        \vspace{4cm} 
+        \vspace{3.5cm} 
         % \vfill
         {
             \centering
-            {\centering \zihao{-3} \songti 中\quad 南\quad 大\quad 学 \par} 
+            {\centering \zihao{-3} \songti  \quad  \quad  \quad  \par} 
             {\centering \zihao{-3} \songti \@thesisdate \par}
         }
     }
@@ -275,14 +290,14 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
         {
             \zihao{-2}
             % 注意centering的使用，只在局部环境中使用。
-            \vspace{4ex} % 空行
-            { \bfseries \heiti 博士学位论文 \par} % 小二号黑体
-            \vspace{4ex} % 空行
-            { \bfseries \heiti \@titlecn \par} % 中文标题小二号黑体
-            { \bfseries \@titleen \par} % 英文标题小二号 Times New Roman
+            \vspace{2ex} % 空行
+            { \bfseries \heiti \thesistypefinal \par} % 小二号黑体加粗
+            \vspace{5ex} % 空行
+            {\zihao{2} \bfseries \heiti \@titlecn \par} % 中文标题二号黑体加粗
+            { \bfseries \TimesNewRoman \@titleen \par} % 英文标题小二号 Times New Roman，加粗
         }
 
-        \vspace{3cm} % 空行
+        \vspace{1.2cm} % 空行
 
         {
             \zihao{3} \songti 
@@ -290,17 +305,17 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
             \begin{tabular}{ll}
                 % 利用\makebox[7em][s]{} 实现两端对齐，即字数不同但左右对齐。
                 % 7em表示分散对齐的最长的长度为7个字的长度，参数s表示两端分散对齐。
-                \makebox[7em][s]{作者姓名：}      &  \@author        \\
-                \makebox[7em][s]{学科专业：}      &  \@priormajor    \\
-                \makebox[7em][s]{学科方向：}      &  \@minormajor    \\
-                \makebox[7em][s]{研究方向：}      &  \@interestmajor \\
-                \makebox[7em][s]{二级培养单位：}  &  \@department    \\
-                \makebox[7em][s]{指导教师：}      &  \@supervisor    \\
-                % \makebox[7em][s]{副指导教师：}    &  \@subsupervisor \\
+                \makebox[6em][s]{作者姓名}      &  \makebox[14em]{\@author}        \\[6pt]
+                \makebox[6em][s]{学科专业}      &  \makebox[14em]{\@priormajor}    \\[6pt]
+                \makebox[6em][s]{学科方向}      &  \makebox[14em]{\@minormajor}    \\[6pt]
+                \makebox[6em][s]{研究方向}      &  \makebox[14em]{\@interestmajor} \\[6pt]
+                \makebox[6em][s]{二级培养单位}  &  \makebox[14em]{\@department}    \\[6pt]
+                \makebox[6em][s]{指导教师}      &  \makebox[14em]{\@supervisor}    \\[6pt]
+                % \makebox[6em][s]{副指导教师}    &  \makebox[14em]{\@subsupervisor} \\[6pt]
             \end{tabular}
         }
 
-        \vspace{3cm}
+        \vspace{1.5cm}
 
         {
             \zihao{-3} \songti
@@ -325,42 +340,45 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 % 2. 原创性声明和学位论文版权使用授权书 
 % -----------------------------------------------%
 % 单独设一页，排在扉页后
-% 按模板，标题二号，内容四号，这里学校没有特别强调字体字号，
-% 应该有一定自由度。
+% 按模板，标题二号加粗，内容四号，学校要求用下发的模板不能改动，
+% 已按要求排版。
 
 \newcommand{\announcement}{
     % 按学校模板这里是华文新魏字体
 
-    \linespread{1.5} % 这部分的行间距跟正文不一样
+    \renewcommand{\baselinestretch}{1.45} % 这部分的行间距跟正文不一样
+    {~}
+    \vspace{10pt}
 
-    {\centering \zihao{2} \huawenxinwei 学位论文原创性声明 \par}
+    {\centering \zihao{2} \bfseries \huawenxinwei 学位论文原创性声明 \par}
 
-    \vspace{0.5cm}
+    \vspace{21pt}
 
     \setlength{\parindent}{2em} % 首行缩进
     {
         \zihao{4}
-        本人郑重声明，所呈交的学位论文是本人在指导教师指导下进行的研究工作及取得的研究成果。尽我所知，除了论文中特别加以标注和致谢的地方外，论文中不包含其他人已经发表或撰写过的研究成果，也不包含为获得中南大学或其他教育机构的学位或证书而使用过的材料。与我共同工作的同志对本研究所作的贡献均已在论文中作了明确的说明。
+        本人郑重声明，所呈交的学位论文是本人在导师指导下进行的研究工作及取得的研究成果。尽我所知，除了论文中特别加以标注和致谢的地方外，论文中不包含其他人已经发表或撰写过的研究成果，也不包含为获得中南大学或其他教育机构的学位或证书而使用过的材料。与我共同工作的同志对本研究所作的贡献均已在论文中作了明确的说明。
 
         申请学位论文与资料若有不实之处，本人承担一切相关责任。
 
-        \vspace{0.5cm}
+    		{~}
+    		\vspace{10pt}
 
-        \begin{flushright}
+        %\begin{flushright}
             作者签名：\underline{\makebox[5em][c]{}} ~~
             日期：
             \underline{\makebox[3em][c]{}} 年
             \underline{\makebox[1.5em][c]{}} 月
             \underline{\makebox[1.5em][c]{}} 日
-        \end{flushright}
+        %\end{flushright}
         
     }
 
-    \vspace{1cm}
+    \vspace{1.75cm}
 
-    {\centering \zihao{2} \huawenxinwei 学位论文版权使用授权书 \par}
+    {\centering \zihao{2} \bfseries \huawenxinwei 学位论文版权使用授权书 \par}
 
-    \vspace{0.5cm}
+    \vspace{21pt}
 
     {
         \zihao{4} 
@@ -368,13 +386,15 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 
         保密论文待解密后适应本声明。
 
-        \vspace{1cm}
+    		{~}
+    		\vspace{10pt}
 
         \begin{table}[!ht]
             \zihao{4} 
             \begin{tabular*}{\hsize}{@{}@{\extracolsep{\fill}}lll@{}}
             作者签名：\underline{\makebox[5em][c]{}} & &
             指导教师签名：\underline{\makebox[5em][c]{}} \\
+    			\vspace{-6pt}
             \\
             日期：
             \underline{\makebox[3em][c]{}} 年
@@ -389,6 +409,9 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
     }
 }
 
+
+\RequirePackage{printlen} %调试
+%current \texttt{baselineskip} =\printlength{\baselineskip}; \texttt{baselinestretch} = \baselinestretch. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 3. 中文摘要
 % -----------------------------------------------%
@@ -396,20 +419,23 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 %
 \newcommand*{\keywordscn}[1]{\gdef\@keywordscn{#1}} % 定义中文关键词
 \newcommand*{\categorycn}[1]{\gdef\@categorycn{#1}} % 定义中文分类
+\newcommand*{\itemcountcn}[1]{\gdef\@itemcountcn{#1}} % 定义中文图表参考文献统计信息
 \newenvironment{abstractcn} { % 定义中文摘要环境
-
-    \linespread{1.2}
-
+	\setlength{\baselineskip}{20pt}         % 基准行间距
+	\renewcommand{\baselinestretch}{1.0}   % 几倍行间距
+	{~}
+    \vspace{-3pt}
     \begin{center} \zihao{3} \bfseries \heiti \@titlecn \end{center}
-
-    \vspace{0.5cm}
-
-    \noindent {\zihao{4} \bfseries \heiti 摘\quad 要：} % 摘要俩字为四号黑体
+    \vspace{23pt}
+    \noindent{\zihao{4}\bfseries\heiti{摘\quad 要：}} % 摘要俩字为四号黑体
     \zihao{4}\songti \noindent % 内容为四号宋体
 }
 % 显示中文关键词和分类号
 {
     \begin{flushleft}
+		\vspace{10pt}
+        \noindent {\zihao{4} \songti \@itemcountcn} \par % 图表统计信息为四号宋体
+		\vspace{40pt}
         \noindent {\zihao{4} \bfseries \heiti 关键词：} {\zihao{4} \songti \@keywordscn} \par % 关键词为四号黑体，内容为四号宋体
         \noindent {\zihao{4} \bfseries \heiti 分类号：} {\zihao{4} \songti \@categorycn} \par % 分类号为四号黑体，内容为四号宋体
     \end{flushleft}
@@ -422,20 +448,24 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 % 定义英文摘要，字体全部为timesnewroman
 \newcommand*{\keywordsen}[1]{\gdef\@keywordsen{#1}} % 英文关键词
 \newcommand*{\categoryen}[1]{\gdef\@categoryen{#1}} % 中文分类
+\newcommand*{\itemcounten}[1]{\gdef\@itemcounten{#1}} % 定义英文图表参考文献统计信息
 \newenvironment{abstracten} { % 新建英文摘要环境
-    \linespread{1.2}
-
-    \begin{center} \zihao{3} \bfseries \@titleen \end{center}
-
-    \vspace{0.5cm}
-
-    \noindent {\zihao{4} \bfseries Abstract:~} % 摘要俩字为四号黑体
-    \zihao{4} \noindent % 内容为四号宋体
+	\setlength{\baselineskip}{20pt}         % 基准行间距
+	\renewcommand{\baselinestretch}{1.0}   % 几倍行间距
+	{~}
+    \vspace{-3pt}
+    \begin{center}\TimesNewRoman \zihao{3} \bfseries \@titleen \end{center}
+    \vspace{23pt}
+    \noindent {\TimesNewRoman \zihao{4} \bfseries Abstract:} % 摘要俩字为四号黑体
+    \TimesNewRoman \zihao{4} \noindent % 内容为四号Times New Roman
 }
 {
     \begin{flushleft}
-        \noindent {\zihao{4} \bfseries Keywords:~} {\zihao{4} \@keywordsen} \par % 关键词为四号黑体，内容为四号宋体
-        \noindent {\zihao{4} \bfseries Classification:~} {\zihao{4} \@categoryen} \par % 分类号为四号黑体，内容为四号宋体
+		\vspace{10pt}
+        \noindent {\zihao{4} \songti \@itemcountcn} \par % 图表统计信息为四号宋体
+		\vspace{40pt}
+        \noindent {\TimesNewRoman \zihao{4} \bfseries Keywords:~} {\zihao{4} \@keywordsen} \par % 关键词为四号黑体，内容为四号宋体
+        \noindent {\TimesNewRoman \zihao{4} \bfseries Classification:~} {\zihao{4} \@categoryen} \par % 分类号为四号黑体，内容为四号宋体
     \end{flushleft}
 }
 
@@ -446,7 +476,7 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 % 目录应列出论文的大标题、一级和二级节标题，逐项标明页码（具体见样例10）。各级标题应简明扼要、点出各部分主要内容。学位论文的页码编排为：正文和后置部分用阿拉伯数字编连续码，前置部分用罗马数字单独编连续码（封面除外）。
 % “目录”两字居中（三号黑体），下空两行为章、节、小节及其开始页码（靠右顶格）。章、节、小节分别以阶梯式排列：1（第1章）、1.1、1.1.1依次标出。章、节、小节的题名与页码之间用“．．．．．．”连接。除“目录”两字外，其余字体均为小四号宋体。
 
-\setcounter{secnumdepth}{3}
+\setcounter{secnumdepth}{5}
 % 定义作为标题的格式
 % \titleformat{command}[shape]%定义标题类型和标题样式
 %               {format}%定义标题格式
@@ -454,9 +484,16 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 %               {sep}%定义标题和标号之间的水平距离
 %               {before-code}%定义标题前的内容
 %               [after-code]%定义标题后的内容
-\titleformat{\section}{\zihao{3} \bfseries \heiti}{\thesection}{1em}{}
-\titleformat{\subsection}{\zihao{4} \bfseries \heiti}{\thesubsection}{1em}{}
-\titleformat{\subsubsection}{\zihao{-4} \bfseries \songti}{\thesubsubsection}{1em}{}
+\titleformat{\section}{\zihao{3} \bfseries \heiti}{第{\thesection}章}{1em}{\centering} % 正文章名居中
+\titlespacing{\section} {0pt}{18pt}{12pt}
+\titleformat{\subsection}{\zihao{4} \songti}{\thesubsection}{1em}{}
+\titlespacing{\subsection} {0pt}{12pt}{4pt}
+\titleformat{\subsubsection}{\zihao{-4} \songti}{\thesubsubsection}{1em}{}
+\titlespacing{\subsubsection} {0pt}{11pt}{4pt}
+\titleformat{\paragraph}{\zihao{-4} \songti}{\theparagraph}{1em}{}
+\titlespacing{\paragraph} {0pt}{11pt}{4pt}
+\titleformat{\subparagraph}{\zihao{-4} \songti}{(\arabic{subparagraph})}{1em}{}
+\titlespacing{\subparagraph} {2em}{11pt}{4pt}
 % 定义在目录中的格式
 % \titlecontents{标题名}
 %               [左间距]
@@ -465,22 +502,39 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 %               {无序号标题}
 %               {指引线与页码}
 %               [下间距]
+
+
+% \titlecontents{section}[4em]{\bfseries \zihao{5} \vspace{10pt}}{\contentslabel{4em}}{\hspace*{-4em}}{~\titlerule*[0.6pc]{$.$}~\contentspage}
+% \titlecontents{subsection}[4em]{\zihao{5}}{\contentslabel{2em}}{\hspace*{-2em}}{~\titlerule*[0.6pc]{$.$}~\contentspage}
+% \titlecontents{subsubsection}[7em]{\zihao{5}}{\contentslabel{3em}}{\hspace*{-2em}}{~\titlerule*[0.6pc]{$.$}~\contentspage}
+% \titlecontents{paragraph}[11em]{\zihao{5}}{\contentslabel{4em}}{\hspace*{-2em}}{~\titlerule*[0.6pc]{$.$}~\contentspage}
+
+
+
 \titlecontents{section}
-              [0.75em] % 按样例目录左侧是和前置部分文字左侧对齐的
-              {\zihao{-4} \songti}
-              {\contentslabel {1em}}
-              {\hspace*{-1em}}
-              {\titlerule*[0.5pc]{.}\contentspage}
+               [0pt]
+               {\zihao{-4} \heiti} % 章名设置为黑小四
+               {\contentspush{第\thecontentslabel\ 章\quad}} % 第x章
+               {}
+               {\titlerule*[0.5pc]{.}\contentspage}
+% \titlecontents{section}
+%               [0.75em] % 按样例目录左侧是和前置部分文字左侧对齐的
+%               {\zihao{-4} \songti}
+%             %   {}
+%               {\contentslabel{1em}}
+%             % {第\thesection 章}
+%               {\hspace*{-1em}}
+%               {\titlerule*[0.5pc]{.} ~\contentspage}
 
 \titlecontents{subsection}
-    [2.5em]
+    [3.2em]
     {\zihao{-4} \songti} % note that 3.8 = 1.5 + 2.3
     {\contentslabel{2.2em}}
     {\hspace*{-3.5em}}
     {\titlerule*[0.5pc]{.}\contentspage}
 
 \titlecontents{subsubsection}
-    [4em]
+    [6em]
     {\zihao{-4} \songti} % note that 3.8 = 1.5 + 2.3
     {\contentslabel{3.0em}}
     {\hspace*{-5em}}
@@ -550,11 +604,32 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 	font={kai,five},   % 图的字体, 宋体小四
 	position=bottom    % position=bottom, 不代表标题放在下面, 标题仍放在你放\caption的位置.
 }
+
+%\captionsetup[subfigure]{labelfont=bf,labelsep=period,labelformat=mysublabelfmt}
+\renewcommand\p@subfigure{\thefigure{-}}
+%\renewcommand\thesubfigure{\alph{subfigure})}
+%\DeclareCaptionLabelFormat{mysublabelfmt}{\alph{sub\@captype}}
+
+% If desired for table as well:
+\renewcommand\p@subtable{\thetable{-}}
+% \renewcommand\thesubtable{\alph{subtable})}
+
 % 表格格式
 % ------------------------------------------------------%
 \renewcommand{\thetable}{\arabic{section}-\arabic{table}}
 % \renewcommand {\thetable} {\thesection-\arabic{table}}
 \captionsetup[table]{
+	format=plain,      % 标题从第二行开始是否缩进，plain无缩进，hang有缩进
+	labelsep=quad,     % 分隔符是一个空格
+	font={kai,five},   % 表的字体, 宋体小四
+	position=top
+}
+% 算法
+% ------------------------------------------------------%
+\floatname{algorithm}{算法}
+\renewcommand{\thealgorithm}{\arabic{section}-\arabic{algorithm}}
+% \renewcommand {\thealgorithm} {\thesection-\arabic{algorithm}}
+\captionsetup[algorithm]{
 	format=plain,      % 标题从第二行开始是否缩进，plain无缩进，hang有缩进
 	labelsep=quad,     % 分隔符是一个空格
 	font={kai,five},   % 表的字体, 宋体小四
@@ -588,24 +663,11 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
     \csu@endoldtabular\egroup
 }
 
-% 表格字号应比正文小，一般五号/10.5pt，但是暂时没法在cls里设置（不然会影响到封面等tabular环境）
+% 表格字号应比正文小，一般五号/10.5pt，但是暂时没法再cls里设置（不然会影响到封面等tabular环境）
 % 所以目前只好在主文件里局部\AtBeginEnvironment
 
 % 数学环境, 定理等设置 %
 % -------------------------------------------------------%
-\newtheorem{definition}{\csu@cap@definition}
-\newtheorem{theorem}{\csu@cap@theorem}
-\newtheorem{lemma}{\csu@cap@lemma}
-\newtheorem{corollary}{\csu@cap@corollary}
-\newtheorem{assumption}{\csu@cap@assumption}
-\newtheorem{conjecture}{\csu@cap@conjecture}
-\newtheorem{axiom}{\csu@cap@axiom}
-\newtheorem{principle}{\csu@cap@principle}
-\newtheorem{problem}{\csu@cap@problem}
-\newtheorem{example}{\csu@cap@example}
-\newtheorem{proof}{\csu@cap@proof}
-\newtheorem{solution}{\csu@cap@solution}
-
 % 数学定理相关的常量
 \newcommand*{\csu@cap@definition}{定义}
 \newcommand*{\csu@cap@theorem}{定理}
@@ -620,12 +682,28 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 \newcommand*{\csu@cap@proof}{证明}
 \newcommand*{\csu@cap@solution}{解}
 
+\newtheorem{definition}{\csu@cap@definition}
+\newtheorem{theorem}{\csu@cap@theorem}
+\newtheorem{lemma}{\csu@cap@lemma}
+\newtheorem{corollary}{\csu@cap@corollary}
+\newtheorem{assumption}{\csu@cap@assumption}
+\newtheorem{conjecture}{\csu@cap@conjecture}
+\newtheorem{axiom}{\csu@cap@axiom}
+\newtheorem{principle}{\csu@cap@principle}
+\newtheorem{problem}{\csu@cap@problem}
+\newtheorem{example}{\csu@cap@example}
+\newtheorem*{proof}{\it{\csu@cap@proof}}
+\newtheorem{solution}{\csu@cap@solution}
+
 % 编号分章节。如需要连续编号，注释\makeatletter下面对应内容即可。
 \renewcommand{\theequation}{\arabic{section}-\arabic{equation}}
 \makeatletter
 \@addtoreset{figure}{section}
 \@addtoreset{table}{section}
 \@addtoreset{equation}{section}
+%取消插图索引、表格索引的左缩进
+\renewcommand*\l@figure{\@dottedtocline{1}{0em}{2.3em}}% Default: 1.5em/2.3em
+\let\l@table\l@figure
 \makeatother
 
 % 8. 参考文献 %
@@ -655,7 +733,7 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 % \pagestyle{fancy}
 % \fancyhf{} % 清空原有格式
 % \fancyhf[RH]{\small\leftmark} % 设置所有（奇数和偶数）右侧页眉
-% \fancyhf[LH]{中南大学博士学位论文} % 设置所有（奇数和偶数）左侧页眉
+% \fancyhf[LH]{中南大学\thesistypefinal} % 设置所有（奇数和偶数）左侧页眉
 % \fancyhf[CF]{\thepage} % 所有（奇数和偶数）中间页脚
 
 \endinput

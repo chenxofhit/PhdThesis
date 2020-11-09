@@ -1,0 +1,374 @@
+%!TEX root = ../csuthesis_main.tex
+% 论文正文是主体，主体部分应从另页右页开始，每一章应另起页。一般由序号标题、文字叙述、图、表格和公式等五个部分构成。
+\section{绪论}
+
+Word不难用，但是想用得漂亮还得费一番功夫。本文提供标准的学位论文 Latex 模板，让排版从此无忧。
+
+\subsection{研究背景与意义}
+
+\subsubsection{研究背景}
+
+%current \texttt{baselineskip} =\printlength{\baselineskip}; \texttt{baselinestretch} = \baselinestretch; \texttt{parskip} =\printlength{\parskip}. 
+
+Word不难用，但是想用得漂亮还得费一番功夫。
+
+对于小白来说，（注意！！是对于小白来说，不要跟我杠！！！我就是word小白，高端玩法玩不动）：
+
+插入个图片，下面的说明文字是不是插入文本框？那文本框要不要跟图片“组合”？，是不是直接圈没法圈起来？因为图片要变成浮动格式，和文本框绑定后再改回嵌入格式，你说蛋疼不蛋疼？不组合？那有一定概率发生你的图片在上一页，描述文字在下一页。呵呵。
+
+插入参考文献，手动编辑？我的天哪，一百多个文献，中间插一个，怎么改序号？
+很好，可以用交叉引用，一个个编辑文献格式？
+很好，可以用endnote或者noteexpress的插入功能，你有没有发现插入是个宏，ctrl+z的时候会烦死你啊……
+叮叮！让我们祭出LaTeX！！，有bibliography，一个 $\\cite$ 包打天下！不要太爽。
+
+插入公式，对word小白来说，公式居中编号靠右就是一道百度搜索能力过滤器。
+
+word里编辑三线表，啊烦躁。
+
+等等等等……
+
+\paragraph{哪些便利}
+
+让我们，专心写论文好不好？
+
+\subparagraph{参考文献}
+
+爱你们。
+
+等等等等……
+
+\subparagraph{三线表}
+
+等等等等……
+
+
+\subsection{主要研究工作}
+我堂堂双一流高校竟然没有官方研究生论文LaTeX模板！！！虽然我LaTeX水平也很水……但是通过大量debug也勉强给大家凑出来一个格式绝对标准的LaTeX模板，模板代码丑就丑吧，能用就行。写了大量注释，有一点LaTeX基础就可以根据自己需要修改CSUthesis.cls文件。
+
+(1) 提供图片插入示例。
+
+(2) 提供表格插入示例。
+
+(3) 提供公式插入示例。
+
+(4) 提供参考文献插入示例。
+
+\subsection{论文组织结构}
+
+全文内容共六章，具体内容组织如下：
+
+第一章为绪论。
+
+第二章为图片插入示例。
+
+第三章为表格插入示例。
+
+第四章为公式插入示例。
+
+第五章为参考文献插入示例。
+
+第六章总结与展望，总结了本文的主要工作，展望了下一阶段的研究方向。
+
+\newpage
+
+\section{图像布局}
+\label{sec.figure}
+\textbf{按学校格式要求，每个子图的小标(a)、(b)、(c)等在【左下角】。}
+
+\subsection{单图布局}
+
+\lipsum
+
+\textbf{单图布局如图\ref{F.csu_single}所示。}
+
+\begin{figure}[hbt]
+\centering
+\includegraphics[width=0.5\textwidth]{csu.png}
+\caption{单图布局示例}
+\label{F.csu_single}
+\end{figure}
+
+\subsection{横排布局}
+
+\textbf{横排布局如图\ref{F.csu_row}所示。}子图引用如图\ref{f:subfig}。
+
+\begin{figure}[!htb]
+    \centering
+    \begin{subfigure}[t]{0.24\linewidth}
+        \begin{minipage}[b]{1\linewidth}
+        \includegraphics[width=1\linewidth]{csu.png}
+        \end{minipage}
+        \caption{}
+        \label{f:subfig}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.24\linewidth}
+        \begin{minipage}[b]{1\linewidth}
+        \includegraphics[width=1\linewidth]{csu.png}
+        \end{minipage}
+        \caption{}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.24\linewidth}
+        \begin{minipage}[b]{1\linewidth}
+        \includegraphics[width=1\linewidth]{csu.png}
+        \end{minipage}
+        \caption{}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.24\linewidth}
+        \begin{minipage}[b]{1\linewidth}
+        \includegraphics[width=1\linewidth]{csu.png}
+        \end{minipage}
+        \caption{}
+    \end{subfigure}
+    \caption{横排布局示例}
+    \label{F.csu_row}
+\end{figure}
+
+\lipsum
+
+\subsection{竖排布局}
+\textbf{竖排布局如图\ref{F.csu_col}所示。}
+
+\begin{figure}[!htb]
+    \centering
+    \begin{subfigure}[t]{0.15\linewidth}
+        \begin{minipage}[b]{1\linewidth}
+        \includegraphics[width=1\linewidth]{csu.png}
+        \end{minipage}
+        \caption{}
+    \end{subfigure}\\
+    \begin{subfigure}[t]{0.15\linewidth}
+        \begin{minipage}[b]{1\linewidth}
+        \includegraphics[width=1\linewidth]{csu.png}
+        \end{minipage}
+        \caption{}
+    \end{subfigure}
+    \caption{竖排布局示例}
+    \label{F.csu_col}
+\end{figure}
+
+\lipsum
+
+\subsection{竖排多图横排布局}
+
+\begin{figure}[!htb]
+    \centering
+    \begin{subfigure}[t]{0.13\linewidth}
+        \begin{minipage}[b]{1\linewidth}
+        \includegraphics[width=1\linewidth]{csu.png} \vspace{-1ex} \vfill
+        \includegraphics[width=1\linewidth]{csu.png}
+        \end{minipage}
+        \caption{}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.13\linewidth}
+        \begin{minipage}[b]{1\linewidth}
+        \includegraphics[width=1\linewidth]{csu.png} \vspace{-1ex} \vfill
+        \includegraphics[width=1\linewidth]{csu.png}
+        \end{minipage}
+        \caption{}
+    \end{subfigure}
+    \caption{竖排多图横排布局}
+    \label{F.csu_col_row}
+\end{figure}
+
+\textbf{竖排多图横排布局如图\ref{F.csu_col_row}所示。注意看(a)、(b)编号与图关系。}
+
+
+\subsection{横排多图竖排布局}
+
+\lipsum
+
+\begin{figure}[!htb]
+    \centering
+    \begin{subfigure}[t]{0.3\linewidth}
+        \begin{minipage}[b]{1\linewidth}
+        \includegraphics[width=0.45\linewidth]{csu.png}
+        \includegraphics[width=0.45\linewidth]{csu.png}
+        \end{minipage}
+        \caption{}
+    \end{subfigure}\\
+    \begin{subfigure}[t]{0.3\linewidth}
+        \begin{minipage}[b]{1\linewidth}
+        \includegraphics[width=0.45\linewidth]{csu.png}
+        \includegraphics[width=0.45\linewidth]{csu.png}
+        \end{minipage}
+        \caption{}
+    \end{subfigure}
+    \caption{横排多图竖排布局}
+    \label{F.csu_row_col}
+\end{figure}
+
+\textbf{横排多图竖排布局如图\ref{F.csu_row_col}所示。注意看(a)、(b)编号与图关系。}
+
+\subsection{本章小结}
+本章示例图片布局。
+\subsubsection{三级标题}
+
+\newpage
+
+
+\section{表格插入示例}
+
+\begin{table}[htb]
+  \centering
+  \caption{学校文件里对表格的要求不是很高，不过按照学术论文的一般规范，表格为三线表。}
+  \label{T.example}
+  \begin{tabular}{llllll}
+  \hline
+   & A  & B  & C  & D  & E \\
+  \hline
+1 	& 212 & 414 & 4 		& 23 & fgw	\\
+2 	& 212 & 414 & v 		& 23 & fgw	\\
+3 	& 212 & 414 & vfwe		& 23 & 嗯	\\
+4 	& 212 & 414 & 4fwe		& 23 & 嗯	\\
+5 	& af2 & 4vx & 4 		& 23 & fgw	\\
+6 	& af2 & 4vx & 4 		& 23 & fgw	\\
+7 	& 212 & 414 & 4 		& 23 & fgw	\\
+
+\hline{}
+\end{tabular}
+\end{table}
+
+\textbf{表格如表\ref{T.example}所示，latex表格技巧很多，这里不再详细介绍。}
+
+OK，再举个例子，表格并列。若太宽，还可以用`adjustbox`加以旋转，如表\ref{table:1b}。
+
+\begin{table}[htp]
+	\centering
+	\caption{主表标题}\label{table:1}
+	\begin{subtable}[t]{2in}
+		\centering
+		\caption{标题1}\label{table:1a}
+		\begin{tabular}{|l|l|l|}
+		\hline
+		100 & 200 & 300\\
+		\hline
+		400 & 500 & 600\\
+		\hline
+		\end{tabular}
+	\end{subtable}
+	\quad
+	\begin{subtable}[t]{2in}
+		\centering
+		\caption{标题2}\label{table:1b}
+		\begin{adjustbox}{angle=90}
+		\begin{tabular}{|l|l|l|}
+		\hline
+		100 & 200 & 300\\
+		\hline
+		400 & 500 & 600\\
+		\hline
+		\end{tabular}
+		\end{adjustbox}
+	\end{subtable}
+\end{table}
+
+\lipsum
+
+\newpage
+
+\section{公式插入示例}
+
+\lipsum
+
+\textbf{公式插入示例如公式(\ref{E.example})所示。}
+
+\begin{equation}
+\gamma_{x}=
+\left\{
+  \begin{array}{lr}
+  0, & {\rm if}~~\;|x| \leq \delta \\
+  x, & {\rm otherwise}
+  \end{array}
+\right.
+\label{E.example}
+\end{equation}
+
+
+\newpage
+
+\section{算法插入示例}
+
+如算法\ref{alg:myalgorithm}第\ref{code:someline}行所示，……
+\begin{algorithm}
+\caption{algorithm caption} %算法的名字
+\hspace*{0.02in} \textbf{Input:} Input parameters A, B, C.\\
+\hspace*{0.02in} \textbf{Initialization:} Initialization parameters.\\
+\hspace*{0.02in} \textbf{Output:} Output result.
+\begin{algorithmic}[1]
+	\State some description % \State 后写一般语句
+	\State \textbf{If} {condition} \textbf{then}
+	\label{code:someline}  
+	 	\State \quad {coding;}
+	\State \textbf{Else}
+	 	\State \quad {coding;}
+	 	\State \quad {coding;}
+	\State \textbf{EndIf}
+	\State \textbf{Return} {result}
+\end{algorithmic}
+\label{alg:myalgorithm}
+\end{algorithm}
+
+\newpage
+
+\section{参考文献插入示例}
+
+LaTeX\cite{lamport1994latex}插入参考文献最方便的方式是使用bibliography\cite{pritchard1969statistical}，大多数出版商的论文页面都会有导出bib格式参考文献的链接，把每个文献的bib放入``thesis-references''，然后用bibkey即可插入参考文献。
+
+\lipsum
+
+\newpage
+
+
+\section{总结与展望}
+
+\noindent{纯数字编号}
+\begin{enumerate}[itemindent=2em]
+ \item XXXXXXXXXX
+ \label{item1}
+ \item XXXXXXXXXX
+ \item XXXXXXXXXX
+\end{enumerate}
+罗马编号
+\begin{enumerate}[label=(\roman*),itemindent=2em]
+ \item XXXXXXXXXX
+ \label{item2}
+ \item XXXXXXXXXX
+ \item XXXXXXXXXX
+\end{enumerate}
+括号编号
+\begin{enumerate}[label=(\arabic*),itemindent=2em]
+ \item XXXXXXXXXX
+ \label{item3}
+ \item XXXXXXXXXX
+ \item XXXXXXXXXX
+\end{enumerate}
+半括号编号
+\begin{enumerate}[label=\arabic*),itemindent=2em]
+ \item XXXXXXXXXX
+ \label{item4}
+ \item XXXXXXXXXX
+ \item XXXXXXXXXX
+\end{enumerate}
+小字母编号
+\begin{enumerate}[label=\alph*),itemindent=2em]
+ \item XXXXXXXXXX
+ \label{item5}
+ \item XXXXXXXXXX
+ \item XXXXXXXXXX
+\end{enumerate}
+
+引用测试,正如\ref{item1}、\ref{item2}、\ref{item3}、\ref{item4}、\ref{item5}所示
+
+\subsection{工作展望}
+手动编号 %（不推荐,无法被交叉引用）
+\par
+本课题针对XX，鉴于XXX，对XX进行了提高，但是XXX，所以有如下XX：
+
+（1）目前XX虽然XX，但是XX仍然XX，所以XX仍然是一个值得XX的问题。
+
+（2）随着XX，XX具有XX的问题，仍值得进一步XX。
+
+（3）本课题在XX有了XX，但是XX的XX还存在XX，所以XX。
+
+
+\newpage

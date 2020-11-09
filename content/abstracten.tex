@@ -2,7 +2,7 @@
 \categoryen{TP391}
 \begin{abstracten}
 
-Gene regulatory networks~(GRNs)~ are formed by the interactions between genes, 
+Gene regulatory networks (GRNs) are formed by the interactions between genes, 
 which reveal their complex regulatory relationships. 
 The construction of GRNs helps us to understand the mechanism of gene regulation and the structure and function of biological network systems, 
 and also helps us to understand the mechanism of tumor and other complex diseases at the molecular level and guide the screening and development of cancer drugs. 
@@ -11,22 +11,22 @@ In this paper, effective methods are proposed for the construction of GRNs on mi
 to address the difficulties including low accuracy and sparse networks in the study of GRN inference.
 The main work in this paper includes:
 
-(1)~A novel mutual information-based network structure inference method Loc-PCA-CMI is proposed.
-Local overlapping gene clusters are first identified, and then the local network structure of each cluster is inferred based on the path consistency algorithm of conditional mutual information ~(PCA-CMI)~,
+(1) A novel mutual information-based network structure inference method Loc-PCA-CMI is proposed.
+Local overlapping gene clusters are first identified, and then the local network structure of each cluster is inferred based on the path consistency algorithm of conditional mutual information (PCA-CMI),
 The final GRN is constructed by aggregating the local network structure, i.e., the network of dependencies between genes.
 Loc-PCA-CMI reduces the redundant dependencies in the inference of network structure.
 We evaluate LOC-PCA-CMI on the DREAM3 knockout dataset,
-The performance of Loc-PCA-CMI is compared with other information theory-based network structure inference methods, including ARACNE, MRNET, PCA-CMI~ and ~PCA-PMI~.
-The experimental results show that Loc-PCA-CMI outperforms the other four benchmark methods on the ~DREAM3~ dataset, especially on networks with gene numbers of ~50~ and ~100~.
+The performance of Loc-PCA-CMI is compared with other information theory-based network structure inference methods, including ARACNE, MRNET, PCA-CMI and PCA-PMI.
+The experimental results show that Loc-PCA-CMI outperforms the other four benchmark methods on the ~DREAM3~ dataset, especially on networks with gene numbers of 50 and 100.
 
-(2)~A novel data-driven gene regulatory network construction method ~D3GRN is proposed, in which the regulatory relationship of each target gene is translated into a functional decomposition problem, 
+(2) A novel data-driven gene regulatory network construction method D3GRN is proposed, in which the regulatory relationship of each target gene is translated into a functional decomposition problem, 
 and the sub-problems are solved by using the algorithm ARNI that reveals the network interactions. 
 To compensate for the limitations of ARNI in constructing networks only at the unit level, 
 we adopt sampling (bootstrapping) and area-based scoring methods to infer the final networks. 
 Studies on data-driven dynamic network construction provide us with new perspectives on solving regression problems. 
 The experimental results show that D3GRN is competitive with state-of-the-art algorithms on the ~DREAM4~ and ~DREAM5~ benchmark~ datasets in terms of AUPR.
 
-(3)~A novel rare cell identification method DoRC based on single-cell RNA-seq data is proposed.
+(3) A novel rare cell identification method DoRC based on single-cell RNA-seq data is proposed.
 A challenging problem is how to identify rare cells and their types from the ultra-large scale scRNA-seq data. 
 In addition, single-cell data population, clustering, and rare cell identification are core tasks in upstream analysis of single-cell data and are necessary steps in constructing gene regulatory networks associated with cell types. 
 Existing algorithms for finding rare cells are time-consuming or memory-intensive.
@@ -35,14 +35,14 @@ analyzing only partially expressed cell scRNA-seq data on a supermassive scale.
 In order to distinguish cell types in subsequent downstream analysis, we propose a novel and effective cell clustering method RafClust, 
 which also demonstrates the efficacy of DoRC in delineating human blood dendritic cell subtypes using a single cell expression profile of 68k human blood cells. 
 
-(4)~A novel gene expression regulatory network approach based on single-cell RNA-seq data is proposed. 
+(4) A novel gene expression regulatory network approach scGRNHunter based on single-cell RNA-seq data is proposed. 
 Identifying cell type characteristics and cellular gene expression activity programs (e.g., life cycle processes, responses to environmental factors) is essential for understanding the composition of cells and tissues,
 and also helpful for understanding the mechanism of gene regulation. 
 While single cells RNA-Seq can be quantified as transcripts in individual cells, 
 the expression profile of each cell may be a mixture of these two types of programs, 
 making them difficult to separate. 
-Here, we propose an algorithm ~WSSMFA~ using matrix decomposition to solve this problem. 
-Experiments on publicly available human brain organoids scRNA-Seq datasets show that our proposed ~scGRNHunter~ method can accurately infer the identity and activity of subprograms, 
+Here, we propose an algorithm WSSMFA using matrix decomposition to solve this problem. 
+Experiments on publicly available human brain organoids scRNA-Seq datasets show that our proposed scGRNHunter method can accurately infer the identity and activity of subprograms, 
 and build a gene regulatory network based on cell class identity and a gene regulatory network based on cell activity.
 
 \end{abstracten}
