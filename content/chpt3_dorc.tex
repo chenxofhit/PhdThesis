@@ -176,9 +176,9 @@ $x_{i}=\left(x_{i1}, x_{i2},\ldots, x_{ip} \right)$。
 因此,在基于基因过滤后的表达矩阵~$X^{\prime}$~上,
 我们利用欧几里德~(Euclidean)、皮尔逊~(Pearson)~和斯皮尔曼~(Spearman)~指标分别计算出三种不同的细胞-细胞距离矩阵~$\{C_1, C_2, C_3\}$。
 然后将~主成分分析~PCA~应用于每个距离矩阵,也用~$X^{\prime}$,来减少数据维度的同时也去除其本能噪声。
-每个矩阵中信息量最大的成分由``elbow法''~\cite{thorndike1953belongs}~保留。
-这就产生了四个~$\left\{ {F}_{i} \in \mathbb {R} ^ {n \times m_{i}} \right\}_{i = 0}^{3}$~矩阵。
-最终的特征矩阵~$F$~由这些矩阵按行拼接组成, 行代表细胞, 列代表手工特征~(handcrafted features)\footnote{区分于现在比较流行的利用深度学习学习到的~auto-learned features}。
+每个矩阵中信息量最大的成分由``elbow法"~\cite{thorndike1953belongs}~保留。
+这样下来就产生了~$\left\{ {F}_{i} \in \mathbb {R} ^ {n \times m_{i}} \right\}_{i = 0}^{3}$~共计四个矩阵。
+最终的特征矩阵~$F$~由这些矩阵按行拼接组成, 行代表细胞, 列代表手工特征~(handcrafted features)\footnote{区分于现在比较流行的深度学习里的~auto-learned features}。
 \begin{equation}
 \label{lab:f}
 {F} = ({F}_{0}, {F}_{1}, {F}_{2}, {F}_{3})
@@ -227,7 +227,7 @@ $S_{j_{pq}} = nt(f_p,f_q) / N, 1 \le p,q \le n$。
 并为每个细胞分配正确的类标签。
 另外,我们还提供了使用~R~包~dynamicTreeCut~中的~\textit{cutree}~函数来支持用户自定义细胞的类别数。
 
-在本研究中,~RafClust~是作为~DoRC~的一个步骤来解决稀有细胞的异质性,
+在本研究中,~RafClust~是作为~DoRC~的一个子步骤来解决稀有细胞的异质性,
 但实际上,它可以用来解决小规模到中等规模的单细胞数据的细胞聚类问题。
 它是一种纯粹的无模型~(model free)~和数据驱动~(data driven)~的方法,不需要其它的先验信息,如细胞或基因的群体结构、通路信息等。
 实验表明,~RafClust~与其它知名的单细胞聚类方法相比具有一定的优越性。
@@ -334,7 +334,7 @@ Zeisel~\cite{zeisel2015cell}。
       }
   \label{supp-tbl:clusteringdatasets}
   \resizebox{\columnwidth}{!}{%
-  \begin{tabular}{llllrrrc}
+  \begin{tabular}{llllrrrr}
   \toprule
   Dataset   &Accession 	&Sequencing protocol &Units &\#Cells &\#Genes	&\#Populations  & References \\
   \midrule
@@ -370,7 +370,7 @@ Zeisel~\cite{zeisel2015cell}。
   %     最后一个是来自~SRA~(Sequence Archive,\\~https://www.ncbi.nlm.nih.gov/sra):~SRP041736。
   %     每个数据集都以第一作者的姓氏命名。
   %     如果两个或两个以上的文件在不同指标~(比如~TPM,CPM~等),
-  %     我们只下载``Units”~栏中显示的相应~Unit~的文件。 
+  %     我们只下载``Units"~栏中显示的相应~Unit~的文件。 
   %     每个数据集中包含的细胞、基因和种群的数量也在此表中汇总。
   %     这十个数据集也可以在~\url{https://hemberg-lab.github.io/scRNA.seq.datasets}~中获得,
   %     这个网站包含了在这个领域大量公开的数据集。
@@ -393,7 +393,7 @@ RaceID~中的~\textit{k}-means~聚类是基于距离的,
 
 为了解决上述问题,我们提出了一种从超大规模~scRNA-seq~数据中检测稀有细胞的非常快速的方法,
 命名为~DoRC。
-DoRC~的灵感来自于稀有细胞往往是``少而不同”的观察, 容易受到一种叫做孤立的机制影响。
+DoRC~的灵感来自于稀有细胞往往是``少而不同"的观察, 容易受到一种叫做孤立的机制影响。
 孤立森林可以充分捕捉稀有细胞的特征,
 其中,每个细胞的稀有性是以树枝的聚合长度为特征的。
 一个细胞的长度越长,该细胞与其它细胞区分的因素就越多,它成为稀有细胞的可能性就越大。
@@ -823,7 +823,7 @@ LOF~(local outlier factor)~是数据挖掘领域应用广泛的算法。
     \label{fig:timecomplexity}
 \end{figure}
 
-如图~\ref{fig:timecomplexity}所示,为了从~${\sim}68$k scRNA-seq数据中发现稀有细胞。 
+如图~\ref{fig:timecomplexity}所示,为了从~${\sim}68$k scRNA-seq~数据中发现稀有细胞。 
 GiniClust~和~RaceID~要么耗时,要么耗内存;
 LOF~对输入数据规模非常敏感;
 然而,~DoRC~和~FiRE~都是非常快的,因为它们只需要不到~2~分钟就可以完成任务。
@@ -838,8 +838,8 @@ LOF~对输入数据规模非常敏感;
 一个真正稀有的细胞类型只有通过分析成千上万的细胞才能被发现。
 虽然过去几年的技术进步使我们能够进行超高通量的单细胞测序,
 可扩展性的稀有细胞检测方法几乎不存在。
-DoRC~避免了使用聚类作为中间步骤。
-因为典型的聚类技术不仅耗时,但也不可能一次性完全绘制复杂组织中的细胞类型。
+DoRC~避免了使用聚类作为中间步骤,
+因为聚类方法不仅耗时,但也不可能一次性完全绘制复杂组织中的细胞类型。
 
 DoRC~给每一个单独的表达图谱都给出了一个稀有度分数。
 通过~IQR~阈值,~DoRC~也可以像~RaceID~和~GiniClust~一样提供二元预测。
