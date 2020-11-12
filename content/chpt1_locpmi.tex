@@ -1,5 +1,7 @@
-\section{基于互信息的基因调控网络结构推断方法}
+\section{基于互信息和的基因调控网络结构推断方法}
 \label{sec:locpcacmi}
+
+\subsection{引言}
 
 从基因表达数据中推断基因调控网络~(GRNs)~的结构一直是系统生物学中的十分具有挑战的问题。
 鉴定基因之间复杂的调控关系对于理解细胞的调控机制至关重要。
@@ -18,7 +20,7 @@
 将其性能与其它基于信息理论的网络结构推断方法,包括~ARACNE、MRNET、PCA-CMI~和~PCA-PMI,进行了比较。
 实验结果证明,~Loc-PCA-CMI~在~DREAM3~数据集上特别是在基因数目为~50~和~100~的网络上表现优于其它四种基准方法。
 
-\subsection{介绍}
+\subsection{相关工作}
 
 推断和理解基因调控网络~(GRNs)~是系统生物学中的一个关键问题, 
 可以帮助生物医学科学家明确识别基因与基因之间复杂的调控关系、理解细胞中的调控机制~\cite{altay2010inferring, basso2005reverse}。
@@ -82,7 +84,7 @@ PCA~这种~top-down~的算法的复杂度很高, 而且受到经验参数的影�
 可以看出,~Loc-PCA-CMI~方法可以处理相对较大的数据集,
 并且将从~PCA-CMI~在小规模基因子网的相对准确的结构推断上受益。
 
-\subsection{方法}
+\subsection{基于互信息和的基因调控网络结构推断方法~Loc-PCA-CMI}
 在本节中,我们将介绍信息理论中的互信息~(MI)~和条件互信息~(CMI)~并简单回顾~PCA-CMI~方法,
 然后我们重点介绍提出的~GRN~结构推断方法~Loc-PCA-CMI。
 
@@ -141,6 +143,7 @@ PCA-CMI~算法利用~MI~和~CMI,从低阶到高阶递归地移除调控网络中
 
 
 \subsubsection{Loc-PCA-CMI}
+
 众所周知,生物系统中节点之间是很少完全连通的,
 大多数节点只直接连接到少量其它节点~\cite{jeong2000large},因此~GRN~也是一种稀疏网络。
 识别网络的稀疏结构的关键步骤是识别可能具有相对高的共表达值的有意义的边。
@@ -150,7 +153,7 @@ PCA-CMI~算法利用~MI~和~CMI,从低阶到高阶递归地移除调控网络中
 它可以通过从低到高依赖关联重复去除最可能不相关的边来构建高置信度无向网络~\cite{spirtes2000causation},
 直到没有边可以删除,获取每个局部的网络结构~(这个步骤的算法详情见~\ref{relatedwork})。
 最后, 我们通过对每个推断的局部子网络结构边权重取平均来获得完整调控网络的最终边的权重。
-整个方法思想如图~\ref{pca-cmi-fr}~所示,实现细节如算法~\ref{alg}~所示。
+整个方法流程如图~\ref{pca-cmi-fr}~所示,实现细节如算法~\ref{alg}~所示。
 需要注意的是,
 在算法~\ref{alg}~里面,
 由于~PCA-CMI~本身就非常适合相对较小的~GRN~结构推断,
@@ -168,6 +171,20 @@ PCA-CMI~算法利用~MI~和~CMI,从低阶到高阶递归地移除调控网络中
     }
     \label{pca-cmi-fr}
 \end{figure}
+
+
+
+在算法~\ref{alg}~中,在获得每个局部基因簇之后,
+~PCA-CMI~和~PCA-PMI~都是后续结构精炼化的候选方法。
+除了~Loc-PCA-CMI~外,如果用~PCA-PMI~替换~PCA-CMI,则会生成一种新方法,我们将其命名为~Loc-PCA-PMI。
+然后得到四种基于~PCA~(路径一致性)~的方法,即是~PCA-PMI、PCA-CMI、Loc-PCA-PMI~和~Loc-PCA-CMI,
+显然所有这些方法都属于无模型~(model-free)~方法。
+
+另外, 如表~\ref{tbl}~所示,在六个基准数据集~DREAM3-10~中,因为~Ecoli~和~Yeast~数据集仅包含~10~个基因,
+满足算法~\ref{alg}~的过滤处理条件,
+因此~Loc-PCA-CMI~和~PCA-CMI~在这两个数据集上的的表现相同,同理此时~Loc-PCA-PMI~和~PCA-PMI~的表现也会一致。
+为了对这些基于~PCA~(路径一致性)~的方法进行有意义的比较,
+进一步地,我们选择了其它四个基因数目大于~10~的数据集。
 
 \begin{algorithm}[!htbp]
     \caption{Loc-PCA-CMI~伪代码} %?????
@@ -206,7 +223,9 @@ PCA-CMI~算法利用~MI~和~CMI,从低阶到高阶递归地移除调控网络中
 然而, 这种最糟糕的情况在实验中很少发生, 因为~$|C|$~通常低于~$m$。
 另外, 在实际实验过程中, 所有~PCA-CMI~子程序可以并行执行,~Loc-PCA-CMI~能以很快的速度执行完毕。
 
-\subsection{数据集}
+\subsection{实验结果}
+
+\subsubsection{数据集}
 
 我们使用来自著名的~DREAM3~竞赛的六个模拟数据~\cite{schaffter2011genenetweaver}~对~Loc-PCA-CMI~的性能进行了基准测试。
 ~DREAM3~使用~GeneNetWeaver~软件来模拟生成基因网络表达数据,
@@ -243,19 +262,19 @@ DREAM3-100 Yeast & 101 & 3.32(10) & 166 & 0.034\\
 第~$l$~($l>1$)~行则表示在对应的样本中第~$l-1$~个基因敲除后其它基因的表达量。
 我们在仓库~\url{https://github.com/chenxofhit/Loc-PCA-CMI.git}~上上传了所有实验所用到的数据集。
 
-\subsection{实验结果}
+\subsubsection{评价指标}
 
-在算法~\ref{alg}~中,在获得每个局部基因簇之后,
-~PCA-CMI~和~PCA-PMI~都是后续结构精炼化的候选方法。
-除了~Loc-PCA-CMI~外,如果用~PCA-PMI~替换~PCA-CMI,则会生成一种新方法,我们将其命名为~Loc-PCA-PMI。
-然后得到四种基于~PCA~(路径一致性)~的方法,即是~PCA-PMI、PCA-CMI、Loc-PCA-PMI~和~Loc-PCA-CMI,
-显然所有这些方法都属于无模型~(model-free)~方法。
+我们通过评估接收者操作特征曲线下面积~(AUROC)~和准确率召回率曲线下面积~(AUPR)~来评估~Loc-PCA-CMI~的性能。
+与稀疏生物网络一样,不存在的边~(负样本)~的数量明显超过现有边~(正样本)~的数量; 
+事实上,~AUPR~对~AUROC~\cite{saito2015precision}~提供了更多信息。
+我们倾向于使用~AUPR~进行评估,但为了与采用~AUROC~作为评估指标的其它方法进行完整地比较,
+我们也计算了~AUROC~作为补充。
+总体上来讲,较高的~AUROC~和~AUPR~值表明更准确的~GRN~预测。
+为此,我们通过比较金标准网络~(golden network)~中的真实边与
+方法~Loc-PCA-CMI~输出的有序边列表里最高~$q$~条边来计算真阳性~(TP)、真阴性~(TN)、假阳性~(FP)~和假阴性~(FN)~边的数量。
+通过绘制真实阳性率~TPR = TP/(TP + FN)~与假阳性率~FPR = FP/(FP + TN)~来增加~$q$~($q = 1, 2, \ldots, m^2$)~来构建~ROC~曲线。
+类似地,通过增加~$q$~来绘制精度~(TP/(TP+FP))~和召回~(TP/TP+FN)~曲线。
 
-另外, 如表~\ref{tbl}~所示,在六个基准数据集~DREAM3-10~中,因为~Ecoli~和~Yeast~数据集仅包含~10~个基因,
-满足算法~\ref{alg}~的过滤处理条件,
-因此~Loc-PCA-CMI~和~PCA-CMI~在这两个数据集上的的表现相同,同理此时~Loc-PCA-PMI~和~PCA-PMI~的表现也会一致。
-为了对这些基于~PCA~(路径一致性)~的方法进行有意义的比较,
-进一步地,我们选择了其它四个基因数目大于~10~的数据集。
 
 \subsubsection{模型选择}
 如算法~\ref{alg}~中所述,总计有三个参数会影响方法~Loc-PCA-CMI~的性能。
@@ -270,16 +289,6 @@ $n$~的最佳值可以通过交叉验证获得,通常较大的~$n$~可以促成�
 即如果基因数小于或等于~10,则~Loc-PCA-CMI~直接调用~PCA-CMI,
 显然在这种情况下,~Loc-PCA-CMI~和~PCA-CMI~的性能是相同的。
 
-我们通过评估接收者操作特征曲线下面积~(AUROC)~和准确率召回率曲线下面积~(AUPR)~来评估~Loc-PCA-CMI~的性能。
-与稀疏生物网络一样,不存在的边~(负样本)~的数量明显超过现有边~(正样本)~的数量; 
-事实上,~AUPR~对~AUROC~\cite{saito2015precision}~提供了更多信息。
-我们倾向于使用~AUPR~进行评估,但为了与采用~AUROC~作为评估指标的其它方法进行完整地比较,
-我们也计算了~AUROC~作为补充。
-总体上来讲,较高的~AUROC~和~AUPR~值表明更准确的~GRN~预测。
-为此,我们通过比较金标准网络~(golden network)~中的真实边与
-方法~Loc-PCA-CMI~输出的有序边列表里最高~$q$~条边来计算真阳性~(TP)、真阴性~(TN)、假阳性~(FP)~和假阴性~(FN)~边的数量。
-通过绘制真实阳性率~TPR = TP/(TP + FN)~与假阳性率~FPR = FP/(FP + TN)~来增加~$q$~($q = 1, 2, \ldots, m^2$)~来构建~ROC~曲线。
-类似地,通过增加~$q$~来绘制精度~(TP/(TP+FP))~和召回~(TP/TP+FN)~曲线。
 
 为了探讨阶数~$k$~的大小是如何影响这些方法的性能,
 按照~\cite{zhang2011inferring,zhao2016part}~中建议的参数设置,
@@ -406,7 +415,7 @@ AUPR~总体上随着~$\beta$~的增加逐渐增大, 然后又逐渐降低。
 \subsubsection{Loc-PCA-CMI~比其它竞争方法表现更好}
 
 我们在六个基准数据集上使用~Loc-PCA-CMI~和四种基准方法~ARACNE、MRNET、PCA-PMI、PCA-CMI~进行了比较实验。
-我们使用~R~包~``minet"~和其默认参数来评估~ARACNE~和~MRNET~\cite{meyer2008minet}。
+我们使用~R~包~``minet"和其默认参数来评估~ARACNE~和~MRNET~\cite{meyer2008minet}。
 使用~Pearson~相关系数直接从连续基因敲除表达数据~\cite{olsen2008impact,meyer2010information}~中近似估计方法的~MI~矩阵。
 为了实现~PCA-PMI~和~PCA-CMI, 我们根据~\cite{zhang2011inferring,zhao2016part}~中提供的~URL~下载了~MATLAB~代码。
 另外,~PCA-PMI~和~PCA-CMI~方法中的参数使用它们推荐的默认值,也就是~$\beta = 0.03$~和~$k = 2$。
@@ -424,14 +433,15 @@ Loc-PCA-CMI~和~Loc-PCA-PMI~在~AUROC~上几乎相同。
 在~\url{https://github.com/chenxofhit/Loc-PCA-CMI.git}~上获取。
 
 \begin{table}[!htbp]
+
+  %\caption{AUROC and AUPR for the six datasets using different methods}  
+  \caption{使用不同方法在六个数据集上的~AUROC~和~AUPR~结果}  
+  \label{tab:performance_comparison} 
     % \scalebox{0.9}{
     % \begin{minipage}{1.1\linewidth}
     \resizebox{\columnwidth}{!}{%
       \centering  
       \begin{threeparttable}  
-      %\caption{AUROC and AUPR for the six datasets using different methods}  
-      \caption{使用不同方法在六个数据集上的~AUROC~和~AUPR~结果}  
-      \label{tab:performance_comparison} 
         \begin{tabular}{ccccccccccccc}  
         \toprule  
         \multirow{2}{*}{Dataset}&  

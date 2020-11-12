@@ -19,10 +19,6 @@
 *.bcf
 *.nav
 *.rar
-~$*.docx
-~$*.xlsx
-~$*.pptx
-*.ppt
 *.swn
 *.swo
 *.swp

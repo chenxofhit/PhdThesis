@@ -1,6 +1,8 @@
 \section{基于数据驱动的基因调控网络构建方法}
 \label{sec:d3grn}
 
+\subsection{引言}
+
 从基因表达数据推断基因调控网络~(GRNs)~是系统生物学中一个具有挑战性的基础问题。
 上一章介绍了我们提出的基因调控网的络结构推断方法,
 Loc-PCA-CMI~输出的是无向网络, 很多时候我们会关注基因之间的相互作用方向。
@@ -12,55 +14,7 @@ Loc-PCA-CMI~输出的是无向网络, 很多时候我们会关注基因之间的
 为了弥补~ARNI~仅从单元级构建网络的局限性,我们采用抽样~(bootstrapping)~和基于面积的评分方法~(area-based scoring)~来推断最终的网络。
 实验结果表明, 在~DREAM4~和~DREAM5~基准数据集上, D3GRN~在~AUPR~这个评价指标上与最先进的算法相比具有竞争力。
 
-\subsection{介绍}
-% 基因调控在基因转录中发挥重要作用~\cite{lee2002transcriptional,harbison2004transcriptional},
-% 基因分化~\cite{matsumoto2017scode},
-% 细胞命运走向~\cite{chen2014single,trapnell2014dynamics},
-% 复杂疾病~\cite{boyle2017expanded}。
-% 揭示基因调控网络~(GRNs)~的结构一直是系统生物学跨学科领域的核心工作。
-% 随着微阵列和~RNA~测序等高通量技术的出现,
-% 大量的数据被产生,
-% 这使得仅从基因表达数据或多类别数据推断~GRN~从基于计算方法~\cite{maetschke2013supervised}的角度变得可行。
-% 然而,由于可用测量数量少且数据量大,数据噪声大,仅从基因表达数据推断~GRN~仍然存在巨大的挑战,
-
-% 人们已经提出了各种用于~GRN推断的方法~\cite{karlebach2008modelling,le2015quantitative,huynh2018gene},
-% 如基于相关和信息理论的方法,布尔网络~(BNs)、贝叶斯网络、常微分方程~(ODEs)和基于回归的方法。
-% 这些方法从粒度级别上可以分为两类。
-% 第一类预测基因相互作用的存在与否,仅仅给出静态网络,也就是它们仅描述拓扑信息,
-% 基于相关性和信息理论的方法属于这一类。
-% 其它方法属于第二类,它预测了描述拓扑和动态信息的基因相互作用的强度。
-% 在~GRN~推断方法的所有类别方法中,基于~ODE~和回归的方法是两种应用最广泛的技术。
-
-% 在基于相关和信息理论的方法中,
-% 除了简单的Pearson相关性~\cite{stuart2003gene},互信息~(MI)~\cite{steuer2002mutual}是最受亲睐的度量指标之一,
-% 它能够捕获成对或基因组之间的复杂的非线性和非单调动力学关系~\cite{uda2013robustness,mc2015information}。
-% ARACNE~\cite{basso2005reverse}使用数据处理不等式~(DPI)来过滤掉来自三重基因的间接相互作用。
-% 随后基于相同的目的,条件互信息~(CMI)~\cite{zhang2011inferring},
-% 局部重叠基因簇基于条件互信息~(Loc-PCA-CMI)~\cite{8660530},
-% 部分互信息~(PMI)~\cite{zhao2016part}和部分信息分解~(PID)~\cite{chan2017gene}被提出来,
-% 这些方法都考虑尽可能消除假阳性或者间接调控关系。
-
-% 在~BNs~中,基因的替代状态用离散值~0~(无效)和~1~(有效)表示,
-% 调节相互作用由布尔逻辑~\cite{kauffman1969homeostasis}描述。
-% 概率布尔网络~(PBNs)~\cite{shmulevich2002probabilistic}将概率引入标准~BN~以表达调控逻辑中的不确定性。
-% 典型的演变方法,例如随机布尔网络~(SBNs)~\cite{liang2012stochastic},
-% 旨在提高~PBN~的计算性能。
-% BNs的弱点是模型只考虑离散状态的基因。
-% 因此,无法有效捕获真实基因表达中蕴含的详细信息。
-
-% 贝叶斯网络,包括传统的贝叶斯网络~\cite{friedman2000using,friedman2003being}
-% 和动态贝叶斯网络~(DBN)~\cite{grzegorczyk2010improvements},
-% 基于概率和图论对基因调控过程进行建模。
-% 贝叶斯网络将基因的规则视为随机变量之间的依赖概率,并从基因谱中学习最佳结构。
-% 尽管最近取得了一些进展~\cite{hill2012bayesian},贝叶斯网络仍然具有相当大的计算开销,
-% 不适用于大型全基因组数据集。
-
-% ODE~提供了对调节动力学的无穷小描述~\cite{chen1999modeling},
-% 通过将基因的变化率(时间导数)与其表达值联系起来。
-% Inferelator~\cite{bonneau2006inferelator},
-% S~系统模型~\cite{kikuchi2003dynamic,wang2010inference,liu2012inference}是~ODE~中的典型方法。
-% 通常,基于~ODE~的方法通过利用大参数空间估计而是灵活的。
-% 结果,类似于贝叶斯网络,需要巨大的计算来完成任务。
+\subsection{相关工作}
 
 由于~DREAM~系列竞赛的推动,利用机器学习回归模型进行基因调控网络的构建方法大量涌现。
 这类方法本质上可以看作是关联网络模型的延伸,
@@ -121,7 +75,7 @@ ARNI~\cite{casadiego2017model}~是一个独立于模型的框架,用于推断网
   %  \end{adjustbox}
 \end{table}
 
-\subsection{方法}
+\subsection{基于数据驱动的基因调控网络构建方法~D3GRN}
 \subsubsection{问题定义}
 
 如果不考虑基因之间的上游或下游调节关系并且忽略自我调节机制,则可以将~GRN~视为有向无环图~(DAG)。
@@ -355,7 +309,10 @@ $O((tp)^3)$~是由于~BOLS~算法的~Moore-Penrose~伪逆复杂性。
 由于~$t$~通常比~$n$~小得多, 所以时间复杂度的上界是~$O(n^6p^3b)$。
 算法~\ref{alg:D3GRN}~中的``for"循环是完全可以并行的,可以在多核甚至分布式集群机器上同时进行。
 
-\subsection{数据集}
+
+\subsection{实验结果}
+
+\subsubsection{数据集}
 
 在过去十年中,~GRN~推理一直是一个相当活跃的研究领域。
 因此,一个名为``逆向工程对话"的社区联合体~(DREAM)\cite{stolovitzky2007dialogue}成立,
@@ -416,9 +373,7 @@ DREAM5 Network 1   & 1643    & 195                & 805       & 4012            
 }
 \end{table}
 
-\subsection{实验结果}
-
-\subsubsection{效果评价指标}
+\subsubsection{评价指标}
 
 为了评估~GRN~推理算法的效果,我们使用准确率-召回率曲线下的面积~(AUPR)~作为评价指标。
 除了~AUPR~之外,接收者操作特征曲线下的面积~(AUROC)~也被广泛用于评估效果。
