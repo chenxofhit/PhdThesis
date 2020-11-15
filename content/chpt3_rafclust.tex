@@ -1,4 +1,4 @@
-\section{基于随机森林相似性学习的细胞聚类方法}
+\section{基于随机森林相似性学习的单细胞聚类方法}
 \label{sec:rafclust}
 
 \subsection{引言}
@@ -11,7 +11,10 @@
 因此构建基因调控网络的一个不可或缺的前置任务是在单细胞数据集上对细胞的异质性进行聚类分析。
 
 本章中,我们提出了一种高效准确的单细胞细胞聚类方法~RafClust。
-我们使用随机森林回归模型来学习细胞与细胞之间的相似性矩阵，基于相似性矩阵后采用层次聚类来决定细胞的最终类别。
+针对当前单细胞~RNA-seq~数据集上细胞聚类不够准确鲁棒的问题,
+我们使用多种相关性度量方法来刻画细胞的特征, 
+然后使用随机森林回归模型进一步学习细胞与细胞之间的相似性矩阵,
+基于相似性矩阵后采用层次聚类来决定细胞的最终类别。
 实验结果表明, 在十个单细胞数据集上,~RafClust~在~ARI~上表现优于其它六种基准方法。
 
 \subsection{相关工作}
@@ -19,12 +22,44 @@
 单细胞~RNA-seq~(scRNA-seq)~技术提供了单细胞水平的转录组测量。
 使不同组织中细胞类型的鉴定和表示成为可能。
 相比之下,传统的批量~RNA~测序的表达值是数千或数百万细胞的平均值,因此存在局限性。
-scRNA-seq~技术的出现提供了一个从细胞水平研究生物机制的前所未有的视角,
+单细胞~RNA-seq~技术的出现提供了一个从细胞水平研究生物机制的前所未有的视角,
+能够从基因、调控、表达等多方面解释细胞变化的原因,
 使得研究人员更严格地处理一些生物问题,比如组织的细胞组成、转录组的异质性,
 以及细胞在发育过程中或在疾病和癌症中类型是如何的变化~\cite{kumar2017understanding,patel2014single}。
 
+基于单细胞~RNA-seq~的细胞异质性研究主要是根据每个细胞的基因表达量来计算细胞之间的相似性,
+结合聚类方法来确定细胞的类别。
+由于单细胞~RNA-seq~对于每个细胞测得读数有限,细胞在测序过程中也会发生粘连,导致每个细胞很多的基因表达量为~0,
+这种现象被称之为单细胞的~dropout~\cite{vallejos2017normalizing}。
+同时,单细胞~RNA-seq~测序中将基因作为特征,常见的人和老鼠两种物种都有~20000~多个基因,
+这种高维特征也给单细胞~RNA-seq~数据上的聚类带来挑战~\cite{stegle2015computational}。
+国内外研究者针对单细胞~RNA-seq~数据上的异质性研究已取得不少成果。
+一类方法是最传统的聚类方法,比如使用~t-SNE~对数据进行降维然后使用~K-means~对数据进行聚类。
+显然这种方法对噪声十分敏感。
+Gr{\"u}n~等人~\cite{grun2016novo}~提出的~RaceID2~
+使用~K-medoids~方法聚类,依据类内散布饱和临界值为依据确定分类个数。
+另一类方法的研究思路是通过对原始数据进行插值处理~(imputation),减轻~scRNA-seq~数据中的~dropout~的影响。
+典型的方法比如~Lin~等人提出的~CIDR~方法~\cite{lin2017cidr}。
+CIDR~对~dropout~与基因表达值的关系进行了建模, 通过隐式插值处理后获取细胞与细胞之间的非相似性矩阵,
+然后使用层次聚类获得最终的结果。
+还有一类最流行的方法的研究思路是通过提高细胞与细胞之间的相似性计算的准确度和鲁棒性。
+Kiselev~等人~\cite{kiselev2017sc3}~提出了一种共识聚类方法~SC3。
+SC3~基于计算细胞与细胞间的~Pearson、Spearman~和欧氏距离三种不同相似性和主成分分析、拉普拉斯转换分别获得多个聚类结果,
+然后通过计算这些聚类结果中两个细胞被聚为一类的数目构建共识矩阵,
+并再次利用层次聚类获得最终结果。
+Wang~等人~\cite{wang2018simlr}~提出了无监督的~SIMLR~聚类方法。
+SIMLR~构建不同粒度的高斯核矩阵来学习细胞与细胞之间的距离~(相似性)~矩阵,
+并使用已有的比如~K-means~来获得每个细胞的类型。
+Yang~等人~\cite{yang2018safe}~提出了聚合聚类方法~SAFE。
+SAFE~选用了~SC3、CIDR、Seurat~和~t-SNE + K-means~四种聚类方法,
+基于超图划分算法聚合四种聚类方法的结果。
+Pouyan~等人~\cite{pouyan2018random}~提出了一种基于随机森林的计算细胞相似性的方法~RAFSIL。
+RAFSIL~首先对基因过滤和聚类,接着对每个基因模块使用主成分降维,合并后作为随机森林的输入,
+根据两个细胞落入同一颗决策树叶子上的数目计算细胞的相似性,然后使用层次聚类或者~K-means~获取每个细胞的类型。
+相比于~SIMLR,~RAFSIL~在聚类效果上有一定的提高,
+但由于对基因聚类以及使用多颗决策树回归时,细胞数目一旦增加,计算效率显著降低。
 
-\subsection{基于随机森林相似性学习的细胞聚类方法~RafClust}
+\subsection{基于随机森林相似性学习的单细胞聚类方法~RafClust}
 \label{sec:method}
 
 RafClust~方法对~scRNA-seq~数据进行细胞聚类,包括几个子步骤,如图~\ref{fig:rafclust}~所示, 这些步骤的细节将在下文中详述。
@@ -32,7 +67,7 @@ RafClust~方法对~scRNA-seq~数据进行细胞聚类,包括几个子步骤,如�
     \centering
     \includegraphics[width=0.95\textwidth]{flowchart-rafclust.pdf}
     \caption{RafClust~流程图。
-    本图中的每个注释图代表了相应过程的输入或输出可视化。输入的是~scRNA-seq~表达数据二维矩阵,其行分别代表细胞,列代表基因。
+    本图中的每个注释图代表了相应过程的输入或输出可视化。输入的是~scRNA-seq~表达数据二维矩阵,其中行代表细胞,列代表基因。
     (A)~用输入的表达数据进行数据预处理,输出的是一个归一化和列的维度缩减的矩阵。
     (B-D)~RafClust~的核心程序。
     (B)~利用表达数据构造特征矩阵。
@@ -102,7 +137,7 @@ RF~(随机森林,~Random Forest)~是一种应用非常广泛的基于决策树�
 我们按照以下步骤来学习细胞-细胞的相似性。
 在选择一个单一的特征~$j$~(特征矩阵~$F$~中的第~$j$~列)~后, 
 我们使用围绕质心点进行划分的算法~PAM~(partitioning around medoids),并估计类别的数量并得到对应于类别的伪标签。
-与~\textit{k}-means~聚类算法相比,~PAM~对孤立点不敏感。
+与~K-means~聚类算法相比,~PAM~对孤立点不敏感。
 %我们直接使用~R~包~fpc~\cite{package-fpc}中的~\textit{pamk}~函数来获取该特征~$j$~的向量中的类标签。
 然后,我们从~$F$~中去掉第~$j$~列,并且使用~RF~对缩减后的数据集~$F_{-j}$~进行对伪标签的回归学习。
 让~$f_p$~表示~$F_{-j}$~的第~$p$~行,
@@ -119,13 +154,10 @@ $S_{j_{pq}} = nt(f_p,f_q) / N, 1 \le p,q \le n$。
 并为每个细胞分配正确的类标签。
 另外,我们还提供了使用~R~包~dynamicTreeCut~中的~\textit{cutree}~函数来支持用户自定义细胞的类别数。
 
-可以看出,RafClust~是一种纯粹的无模型~(model free)~和数据驱动~(data driven)~的方法,
-不需要其它的先验信息,如细胞或基因的群体结构、通路信息等。
-
 \subsubsection{差异基因分析}
 \label{subsec:de}
 
-使用~RafClust~得到了细胞的类别标签后，
+使用~RafClust~得到了细胞的类别标签后,
 我们采用~NODES~\cite{Sengupta049734}~这一快速的非参数化、差异化表达~(DE)~分析工具进行差异基因分析。
 NODES~被证明比传统的基于批量细胞测序的差异分析方法~DESeq2~\cite{love2014moderated}、edgeR~\cite{robinson2010edger},
 以及针对单细胞的差异表达分析方法~scde~\cite{kharchenko2014bayesian}~和~Wilcoxon~秩和检验~(Wilcoxon rank sum test)~都有效~\cite{Sengupta049734}。
@@ -152,7 +184,7 @@ Li~\cite{li2017reference},
 Tasic~\cite{tasic2016adult}, 
 Zeisel~\cite{zeisel2015cell}。
 这十个数据集可以在~\url{https://hemberg-lab.github.io/scRNA.seq.datasets}~上获取, 
-每个数据集的详情介绍如表~\ref{supp-tbl:clusteringdatasets}~所示。
+每个数据集的详情介绍如表~\ref{tbl:clusteringdatasets}~所示。
 
 \begin{table}[!htbp]
   \centering
@@ -160,7 +192,7 @@ Zeisel~\cite{zeisel2015cell}。
       %Overview of the  benchmark  datasets for the clustering performance comparison of RafClust with the other competing methods
       RafClust~与其它竞争方法的聚类性能比较所使用的基准数据集概述
       }
-  \label{supp-tbl:clusteringdatasets}
+  \label{tbl:clusteringdatasets}
   \resizebox{\columnwidth}{!}{%
   \begin{tabular}{llllrrrr}
   \toprule
@@ -180,7 +212,7 @@ Zeisel~\cite{zeisel2015cell}。
   \bottomrule                   
   \end{tabular}
   }
-  \end{table}
+\end{table}
 
 
 \subsubsection{评价指标}
@@ -199,25 +231,48 @@ $}
 \end{equation}
 其中~$n$~是单细胞的总个数, 
 $n_e$~和~$n_t$~分别是估计的类别~$e$~和真实的类别~$t$~中的单细胞数目; 
-并且~$n_{et}$~是估计的类别~$e$~和真实的类别~$t$~共享的单细胞的数目。
+并且~$n_{et}$~是估计的类别~$e$~和真实的类别~$t$~共有的单细胞的数目。
 
 ARI~的范围是~-1~到~1~,其中~1~表示估计的聚类与真实的聚类完全相同。
-ARI~值越高,聚类算法的预测能力越强。
+ARI~值越高,算法的聚类效果越好。
 
 \subsubsection{实验结果分析}
 
 为了测试~RafClust~的性能,
-我们将其应用在十个知名的~scRNA-seq~数据集上~(详情见~\ref{subsec:datasets}),
+我们将其应用在十个知名的~scRNA-seq~数据集上~(数据详情见表~\ref{tbl:clusteringdatasets}),
 将其结果~ARI~与其它六种基准方法进行比较,
 包括~RaceID2~\cite{grun2016novo}, CIDR~\cite{lin2017cidr}, SIMLR~\cite{wang2018simlr}, SAFE~\cite{yang2018safe}, RtsneKmeans~\cite{hartigan1979algorithm,maaten2008visualizing,van2014accelerating}, RAFSIL~\cite{pouyan2018random}。
 这六种聚类方法均以~R~包的形式实现并公开了代码,方法概述如表~\ref{supp-tbl:clustereringmethods}~所示。
 通过将每种方法的聚类结果与每个基准数据集的细胞类型注释进行比较,计算出对应的~ARI~值。 
-由于有几个方法运行结果有随机性,因此我们在每个数据集上对每个方法都重复运行~5~次,结果中位数的~ARI~值如图~\ref{fig:rafari}~所示,
+由于个别方法运行结果有随机性,因此我们在每个数据集上对每个方法都重复运行~5~次,结果中位数的~ARI~值如图~\ref{fig:rafari}~所示,
 由图~\ref{fig:rafari}~可知,~RafClust~在~ARI~上优于其它六种方法。
 我们还记录了这个对比实验每个方法在每个数据集上的执行时间如图~\ref{fig:running-detail}~所示,并将平均执行时间与其它基准方法进行比较,结果如图~\ref{fig:running-summary}~所示。
 时间测量是在运行~GNU Linux/Ubuntu 16.04~操作系统与~4.15.0-46-generic~内核的工作站上进行的,
 硬件配置如下:~Intel(R) Xeon(R) CPU E5-2630 v4 @ 2.20GHz,~40~个核心,~256GB~内存。
 由图~\ref{fig:running-summary}~可知,~RafClust~针对细胞规模从小型到中型的~scRNA-seq~数据集在计算效率上是可以接受的。
+
+\begin{table}[!htbp]
+  \centering
+  \caption{
+  %Overview of the benchmark clustering methods
+  使用的基准聚类方法概览
+  }
+  \label{supp-tbl:clustereringmethods}
+  \resizebox{\columnwidth}{!}{%
+      \begin{tabular}{lll}
+      \toprule
+      Method                                                                     & Description                                                                                                                                                        & Reference \\
+      \midrule
+      CIDR (v0.1.5)                                                              & PCA dimension reduction based on zero-imputed similarities, followed by hierarchical clustering                                                                    & \cite{lin2017cidr}         \\
+      \begin{tabular}[c]{@{}l@{}}RaceID2 (March 3, \\ 2017 version)\end{tabular} & K-medoids clustering based on Pearson correlation dissimilarities                                                                                                  & \cite{grun2016novo}        \\
+      RtsneKmeans                                                                & \begin{tabular}[c]{@{}l@{}}t-SNE dimension reduction (initial PCA dim=50, t-SNE dim=3, perplexity=30) and K-means \\ clustering with 25 random starts\end{tabular} & \cite{hartigan1979algorithm, maaten2008visualizing,van2014accelerating}        \\
+      SAFE (v2.1.0)                                                              & Ensemble clustering using SC3, CIDR, Seurat and t-SNE + K-means                                                                                                     & \cite{yang2018safe}         \\
+      SIMLR                                                                      & An appropriate cell to cell distance metric by multi-kernel learning, followed by spectral clustering                                                                                                                                                          & \cite{wang2018simlr}         \\
+      RAFSIL                                                                     & Random forest based cell to cell similary learning, followed by K-means or hierarchical clustering                                                                                                                                                              & \cite{pouyan2018random}        \\
+      \bottomrule
+  \end{tabular}
+  }
+\end{table}
 
 \begin{figure*}[!htbp]
     \centering
@@ -287,8 +342,7 @@ ARI~值越高,聚类算法的预测能力越强。
     \label{fig:running-detail}
     \vspace{-0.5em}
   \end{figure*}
-
-    
+ 
   \begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.9\textwidth]{Average.pdf}
@@ -308,44 +362,59 @@ ARI~值越高,聚类算法的预测能力越强。
     \label{fig:rafari}
 \end{figure}
 
+在这十个数据集上,我们选择了~Goolam~和~Usoskin~两个数据集进行了数据集和聚类结果可视化。
+从~\ref{fig:rafari}~可知~SIMLR、RAFSIL~这两种方法的~ARI~仅次于方法~RafClust,
+因此我们选用它们跟~RafClust~对在这两个数据集上对聚类结果进行了可视化, 
+如图~\ref{fig:usoskin-tsne}~和~\ref{fig:goolam-tsne}~所示。
+总体上来看,~SIMLR~和~RAFSIL~均比原始数据上直接进行~t-SNE~结果要好,
+RafClust~表现比~SIMLR、RAFSIL~这两种方法结果要好。
 
-\begin{table}[!htbp]
-        \centering
-        \caption{
-        %Overview of the benchmark clustering methods
-        使用的基准聚类方法概览
-        }
-        \label{supp-tbl:clustereringmethods}
-        \resizebox{\columnwidth}{!}{%
-            \begin{tabular}{lll}
-            \toprule
-            Method                                                                     & Description                                                                                                                                                        & Reference \\
-            \midrule
-            CIDR (v0.1.5)                                                              & PCA dimension reduction based on zero-imputed similarities, followed by hierarchical clustering                                                                    & \cite{lin2017cidr}         \\
-            \begin{tabular}[c]{@{}l@{}}RaceID2 (March 3, \\ 2017 version)\end{tabular} & K-medoids clustering based on Pearson correlation dissimilarities                                                                                                  & \cite{grun2016novo}        \\
-            RtsneKmeans                                                                & \begin{tabular}[c]{@{}l@{}}t-SNE dimension reduction (initial PCA dim=50, t-SNE dim=3, perplexity=30) and K-means \\ clustering with 25 random starts\end{tabular} & \cite{hartigan1979algorithm, maaten2008visualizing,van2014accelerating}        \\
-            SAFE (v2.1.0)                                                              & Ensemble clustering using SC3, CIDR, Seurat and t-SNE + Kmeans                                                                                                     & \cite{yang2018safe}         \\
-            SIMLR                                                                      & An appropriate cell to cell distance metric by multi-kernel learning, followed by spectral clustering                                                                                                                                                          & \cite{wang2018simlr}         \\
-            RAFSIL                                                                     & Random forest based cell to cell similary learning, followed by Kmeans or hierarchical clustering                                                                                                                                                              & \cite{pouyan2018random}        \\
-            \bottomrule
-        \end{tabular}
-        }
-    \end{table}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{goolam-tsne.pdf}
+  \caption{
+  Goolam~数据集上的可视化。
+  (a) 原始数据集使用~t-SNE~可视化,使用了真实的细胞类别标签进行着色,参数~perplexity~设置为~20。
+  (b) ~SIMLR~方法聚类结果可视化。
+  (c) ~RAFSIL~方法聚类结果可视化,参数~perplexity~设置为~20。
+  (d) ~RafClust~方法聚类结果可视化,对距离矩阵使用~t-SNE~进行可视化,参数~perplexity~设置为~20。
+  }
+  \label{fig:goolam-tsne}
+\end{figure}
+
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{usoskin-tsne.pdf}
+  \caption{
+  Usoskin~数据集上的可视化。
+  (a) 原始数据集使用~t-SNE~可视化,使用了真实的细胞类别标签进行着色,参数~perplexity~设置为~20。
+  (b) ~SIMLR~方法聚类结果可视化。
+  (c) ~RAFSIL~方法聚类结果可视化,参数~perplexity~设置为~20。
+  (d) ~RafClust~方法聚类结果可视化,对距离矩阵使用~t-SNE~进行可视化,参数~perplexity~设置为~20。
+  }
+  \label{fig:usoskin-tsne}
+\end{figure}
 
 \subsection{讨论和结论}
-近来,单细胞转录组学大大改善了我们对细胞表型性质的理解,
-并且,还加速了新细胞类型的发现。
-这些新的细胞类型大多是罕见的,因为显然一种丰富的细胞类型如果在很长一段时间内不被我们观察到是很不可能的。
-一个真正稀有的细胞类型只有通过分析成千上万的细胞才能被发现。
-虽然过去几年的技术进步使我们能够进行超高通量的单细胞测序,
-可扩展性的稀有细胞检测方法几乎不存在。
-DoRC~避免了使用聚类作为中间步骤,
-因为聚类方法不仅耗时,但也不可能一次性完全绘制复杂组织中的细胞类型。
 
-这是通过我们提出的新颖有效的细胞聚类方法~RafClust~实现的,可以解决稀有细胞异质性的问题。
-RafClust~方法可以应用于一般的单细胞转录组聚类。
-此外,在其它两个模拟数据集上的实验显示~DoRC~可识别人工伪造的稀有细胞并且对细胞类型特征也很敏感。
-我们还表明,~DoRC~是可扩展的,而且速度很快。
-
+RafClust~是一种纯粹的无模型~(model free)~和数据驱动~(data driven)~的方法,
+不需要其它的先验信息,如细胞或基因的群体结构、通路信息等。
+该方法聚类的时候既可以支持外部指定细胞的类别数, 也可以让方法自己决定细胞的类别数,
+支持聚类结果的可视化和差异基因分析。
 RafClust~的~R~包可在~\url{https://github.com/chenxofhit/RafClust}~免费下载和使用,
 本章节相关的实验代码和相关数据集可以根据用户的要求提供。
+
+单细胞测序从最初在转录组、基因组中的成功应用, 逐渐席卷到包括基因组、转录组、蛋白质组、表观组等各个组学。
+单细胞~RNA-seq~(scRNA-seq)、单细胞~ATAC-seq~(scATAC-seq)、单细胞~Hi-C~(scHi-c)~等已成为最重要的数据类型。
+这些数据主要从~mRNA~表达量、染色质的三维结构、染色质可达性等不同方面反映了细胞的信息。
+细胞异质性研究中可以结合这三种异构数据进行融合,~RafClust~中构造细胞表达的特征矩阵是后续利用随机森林算法的基础,
+这个步骤十分适合结合这三种异构数据直接构造细胞的特征矩阵。
+后续我们将关注融合单细胞多元组学的数据进行细胞的异质性研究。
+
+本章中,我们提出了一种高效准确的单细胞细胞聚类方法~RafClust。
+我们使用多种相似性度量方法刻画细胞的特征,
+使用随机森林回归模型来学习细胞与细胞之间的相似性矩阵,基于相似性矩阵后采用层次聚类来决定细胞的最终类别。
+实验结果表明, 在十个单细胞数据集上,~RafClust~在~ARI~上表现优于其它六种基准方法。
+
+
