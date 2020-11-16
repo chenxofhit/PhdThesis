@@ -50,4 +50,4 @@ make wordcount：论文字数统计；
 
 ## 其它问题
 
-模板问题请详细查看 README_local.md, 主体文件 copy 自 https://github.com/lsyer/CSU-Thesis-LaTeX-Template (last commit:2758256)，针对我自己的情况有改动。
+模板问题请详细查看 README_local.md, 主体文件 copy from https://github.com/lsyer/CSU-Thesis-LaTeX-Template (last commit:2758256)，针对我自己的情况有改动。如果有问题或者需要交流的，欢迎提 issues 或者给我发送邮件: chenxofhit[at]gmail[dot]com.
