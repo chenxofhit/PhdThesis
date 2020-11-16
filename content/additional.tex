@@ -12,42 +12,55 @@
 
 \ifblindreview
 
+% 学位办老师要求用如下这种几乎算是单盲的格式，我也木有办法……
+\subsubsection*{已录用/检索论文}
+%\noindent
+第一作者：
+\begin{enumerate}[label={[\arabic*]},itemindent=2em,wide]
 
-\noindent
-第一作者:JCR 1 区 x 篇,会议 x 篇 \\{}
-第二作者:JCR 1 区 x 篇,3 区 x 篇,4 区 x 篇,EI x 篇 
+\item DoRC: Discovery of rare cells from ultra-large scRNA-seq data[C]. In 2019 IEEE International Conference on Bioinformatics and Biomedicine (BIBM), pp. 111-116. IEEE, 2019.{\bfseries \heiti（EI 检索）}
+\item D3GRN: a data driven dynamic network construction method to infer gene regulatory networks[J]. BMC genomics 20, no. 13 (2019): 1-8.{\bfseries \heiti（SCI 检索，JCR 2 区）} 
+\item A novel method of gene regulatory network structure inference from gene knock-out expression data[J]. Tsinghua Science and Technology 24, no. 4 (2019): 446-455.{\bfseries \heiti（SCI 检索，JCR 3 区）} 
 
-\noindent
-投稿状态: 
-IEEE Transactions on Image Processing 1篇（under review）\\{}
-IEEE Transactions on Circuits and Systems for Video Technology 1 篇（Accept with Minor Revision）
+\end{enumerate}
+%第二作者：
+%\begin{enumerate}[label={[\arabic*]},itemindent=2em,wide]
+%\item CSU Latex Template[J]. CSU player: 1(1):1-10. {\bfseries \heiti（SCI 检索，JCR 1 区）}
+%\item CSU Latex Template[J]. CSU player: 1(1):1-10. {\bfseries \heiti（SCI 检索，JCR 2 区）}
+%\end{enumerate}
+%\noindent
+\subsubsection*{投稿状态论文}
+%\noindent
+第一作者：
+\begin{enumerate}[label={[\arabic*]},itemindent=2em,wide]
+\item scGRNHunter: a gene regulatory network reconstruction method from single cell RNA-seq data[J]. Bioinformatics. {\bfseries \heiti（SCI JCR 1 区）}
+\end{enumerate}
+%第二作者：
+%\begin{enumerate}[label={[\arabic*]},itemindent=2em,wide]
+%\item CSU Latex Template. XXX Transactions on CSU player. {\bfseries \heiti（SCI Under Review，JCR 1 区）}
+%\item CSU Latex Template. XXX Transactions on CSU player. {\bfseries \heiti（SCI Under Review，JCR 2 区）}
+%\end{enumerate}
+
+
 \else
 % 标准版本
 \begin{enumerate}[label={[\arabic*]},itemindent=2em,wide]
 
-    % \item \textbf{Daxia Guo}, Director, Someone. CSU Latex Template[J]. CSU player: 1(1):1-10. （SCI 检索,JCR 1 区）
+% \item \textbf{Daxia Guo}, Director, Someone. CSU Latex Template[J]. CSU player: 1(1):1-10. （SCI 检索,JCR 1 区）
 % \item Director, \textbf{Daxia Guo}, Someone, Someother. XXXXXX[J]. Transactions on Image Processing.（SCI Under Review,JCR 1 区）
 % \item Director, \textbf{Daxia Guo}, Someone, Someother. XXXXXX[J]. Transactions on Circuits and Systems for Video Technology.（SCI Under Review,JCR 1 区）
 
-\item \textbf{Chen, Xiang}, Fang-Xiang Wu, Jin Chen, and Min Li. "DoRC: Discovery of rare cells from ultra-large scRNA-seq data." In 2019 IEEE International Conference on Bioinformatics and Biomedicine (BIBM), pp. 111-116. IEEE, 2019.
-\item \textbf{Chen, Xiang}, Min Li, Ruiqing Zheng, Fang-Xiang Wu, and Jianxin Wang. "D3GRN: a data driven dynamic network construction method to infer gene regulatory networks." BMC genomics 20, no. 13 (2019): 1-8.
-\item \textbf{Chen, Xiang}, Min Li, Ruiqing Zheng, Siyu Zhao, Fang-Xiang Wu, Yaohang Li, and Jianxin Wang. "A novel method of gene regulatory network structure inference from gene knock-out expression data." Tsinghua Science and Technology 24, no. 4 (2019): 446-455.
-\item Zheng, Ruiqing, Min Li, \textbf{Xiang Chen}, Fang-Xiang Wu, Yi Pan, and Jianxin Wang. "BiXGBoost: a scalable, flexible boosting-based method for reconstructing gene regulatory networks." Bioinformatics 35, no. 11 (2019): 1893-1900.
-\item Ruiqing Zheng, Min Li, \textbf{Xiang Chen}, Siyu Zhao, Fangxiang Wu, Yi Pan, Jianxin Wang. An ensemble method to reconstruct gene regulatory networks based on multivariate adaptive regression splines. IEEE/ACM Transactions on Computational Biology and Bioinformatics. DOI: 10.1109/TCBB.2019.2900614
-\item Zheng R, Liang Z, \textbf{Chen X}, Tian Y, Cao C, Li M. An Adaptive Sparse Subspace Clustering for Cell Type Identification. Front Genet. 2020 Apr 28;11:407. doi: 10.3389/fgene.2020.00407.
-\item Hui Jiang, Mengyun Yang, \textbf{Xiang Chen}, Min Li, Yaohang Li, and Jianxin Wang. miRTMC: A miRNA Target Prediction Method Based on Matrix Completion Algorithm[J]. IEEE JOURNAL OF BIOMEDICAL AND HEALTH INFORMATICS. 2020, DOI:10.1109/JBHI.2020.2987034. 
+\item \textbf{Chen, Xiang}, Fang-Xiang Wu, Jin Chen, and Min Li. "DoRC: Discovery of rare cells from ultra-large scRNA-seq data." In 2019 IEEE International Conference on Bioinformatics and Biomedicine (BIBM), pp. 111-116. IEEE, 2019.{\bfseries \heiti（EI 检索）}
+\item \textbf{Chen, Xiang}, Min Li, Ruiqing Zheng, Fang-Xiang Wu, and Jianxin Wang. "D3GRN: a data driven dynamic network construction method to infer gene regulatory networks." BMC genomics 20, no. 13 (2019): 1-8.{\bfseries \heiti（SCI 检索，JCR 2 区）} 
+\item \textbf{Chen, Xiang}, Min Li, Ruiqing Zheng, Siyu Zhao, Fang-Xiang Wu, Yaohang Li, and Jianxin Wang. "A novel method of gene regulatory network structure inference from gene knock-out expression data." Tsinghua Science and Technology 24, no. 4 (2019): 446-455.{\bfseries \heiti（SCI 检索，JCR 3 区）} 
+\item \textbf{Chen, Xiang}, Min Li, Ruiqing Zheng, Fang-Xiang Wu, and Jianxin Wang. "scGRNHunter: a gene regulatory network reconstruction method from single cell RNA-seq data." Bioinformatics. {\bfseries \heiti（拟投稿）}
+\item Zheng, Ruiqing, Min Li, \textbf{Xiang Chen}, Fang-Xiang Wu, Yi Pan, and Jianxin Wang. "BiXGBoost: a scalable, flexible boosting-based method for reconstructing gene regulatory networks." Bioinformatics 35, no. 11 (2019): 1893-1900. {\bfseries \heiti（SCI 检索，JCR 1 区）}
+\item Ruiqing Zheng, Min Li, \textbf{Xiang Chen}, Siyu Zhao, Fangxiang Wu, Yi Pan, Jianxin Wang. An ensemble method to reconstruct gene regulatory networks based on multivariate adaptive regression splines. IEEE/ACM Transactions on Computational Biology and Bioinformatics. DOI: 10.1109/TCBB.2019.2900614  {\bfseries \heiti（SCI 检索，JCR 1 区）}
+\item Zheng R, Liang Z, \textbf{Chen X}, Tian Y, Cao C, Li M. An Adaptive Sparse Subspace Clustering for Cell Type Identification. Front Genet. 2020 Apr 28;11:407. doi: 10.3389/fgene.2020.00407.{\bfseries \heiti（SCI 检索，JCR 2 区）}
+\item Hui Jiang, Mengyun Yang, \textbf{Xiang Chen}, Min Li, Yaohang Li, and Jianxin Wang. miRTMC: A miRNA Target Prediction Method Based on Matrix Completion Algorithm[J]. IEEE JOURNAL OF BIOMEDICAL AND HEALTH INFORMATICS. 2020, DOI:10.1109/JBHI.2020.2987034. {\bfseries \heiti（SCI 检索，JCR 1 区）}
 
 \end{enumerate}
 \fi
-% \subsection*{发明专利}
-% \ifblindreview
-% \noindent
-% 发明专利 2 项,已公开
-% \else
-% \begin{enumerate}[label={[\arabic*]}]
-% \item 郭大侠,XXX,XXX. 一种用Latex写中南大学学位论文的方法. 申请号:CN20190415xxxx,公开号:CNXXXXXXXXXA
-% \end{enumerate}
-% \fi
 
 \vspace{22pt}
 \subsection*{二、主持和参与的科研项目}
@@ -59,19 +72,13 @@ IEEE Transactions on Circuits and Systems for Video Technology 1 篇（Accept wi
 
 \end{enumerate}
 
-% \subsection*{个人获奖情况}
-% \noindent
-% \begin{enumerate}[label={[\arabic*]}]
-% \item XX金奖
-% \item XX奖学金
-% \end{enumerate}
 \fi
 
 \newpage
 
 \ifblindreview
 \else
-% 由于 acknowledgement 比较长，单独使用一个文件来承载。FIXME:chenxofhit@gmail.com
+% 由于 acknowledgement 比较长，单独使用一个文件来汇总。FIXME:chenxofhit@gmail.com
 \input{content/acknowledgement}
 \newpage
 \fi

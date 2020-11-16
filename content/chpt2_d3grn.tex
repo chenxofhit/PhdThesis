@@ -76,7 +76,7 @@ ARNI~\cite{casadiego2017model}~是一个独立于模型的框架,用于推断网
 \end{table}
 
 \subsection{基于数据驱动的基因调控网络构建方法~D3GRN}
-\subsubsection{问题定义}
+% \subsubsection{问题定义}
 
 如果不考虑基因之间的上游或下游调节关系并且忽略自我调节机制,则可以将~GRN~视为有向无环图~(DAG)。
 在~DAG~中,每个节点对应于基因,并且每个边缘代表基因之间的调节关系。
@@ -105,8 +105,9 @@ GRN~推断方法预测基因表达数据基因之间的调节关系~$A$。
 用于从基因~$i$~到基因~$j$~的潜在边,
 边表示基因~$i$~在表达水平上调节基因~$j$~并且权重分数~$S_{ij}$~代表基因~$i$~调控的强度~(包括上调和下调)基因~$j$。
 
-\subsubsection{基于集成回归方法的网络推理}
-受基于特征选择的集成方法~(例如~GENIE3~\cite{huynh2010inferring}和~TIGRESS~\cite{Haury2012})~成功应用的启发,
+% \subsubsection{基于集成回归方法的网络推理}
+
+受基于特征选择的集成方法,例如~GENIE3~\cite{huynh2010inferring}~和~TIGRESS~\cite{Haury2012}~成功被应用的启发,
 $n$~个基因的~GRN~推断问题可以分解为~$n$~个子问题,
 其中每个子问题都可以看作是机器学习中的特征选择问题~\cite{nasrabadi2007pattern}。
 更具体地说,对于每个目标基因,我们希望从表达水平上确定直接影响它的基因子集。
@@ -132,7 +133,7 @@ x_i =  F(x^{-i}) + \epsilon , \forall i \in \{1,2,\ldots,N\}
 % The rankings of the regulatory links of gene $i$ is obtained by computing the $w_{ji}$.
 把~$N$~个独立的基因排序聚合起来,我们能得到一个全局的~GRN~的调控关系的排序。
 
-\subsubsection{使用~D3GRN~进行~GRN~推断}
+% \subsubsection{使用~D3GRN~进行~GRN~推断}
 
 D3GRN~算法的伪代码如算法~\ref{alg:D3GRN}~所示。
 其中,~$A_j$~指的是矩阵~$A$的第~$j$~列,~$A_I$~是~$A$~中包含索引列集合~$I$~的子矩阵。
@@ -390,7 +391,10 @@ DREAM5 Network 1   & 1643    & 195                & 805       & 4012            
 通过计算曲线下的面积得到~AUPR。
 %Similarly, the precision~(TP/(TP + FP)) and recall~(TP/(TP + FN)) curve is plotted for increasing $q$.
 
-\subsubsection{D3GRN~的实验结果}
+
+\subsubsection{实验结果分析}
+%\subsubsection{D3GRN~的实验结果}
+
 等式~(\ref{eq:xi_with_h})~中基函数的类型、阶数~$K$~和基函数的数量~$P_k$~在~ARNI~中的模型分解中起着至关重要的作用。
 对于一大类动态系统,使用多项式非线性是充分的~\cite{mangan2016inferring}。
 作为参考,在我们基因调控网络的构建中,也采用了多项式基函数,
@@ -541,4 +545,4 @@ D3GRN~中采用的抽样策略使其在处理大规模~GRNs~推理时更加糟�
 该方法将每个目标基因的调控关系转化为函数分解问题,并利用揭示网络相互作用的算法~ARNI~来解决。
 然而,传统的数据驱动的动态网络恢复方法,如~SINDy~和~ARNI~不具备构建网络的能力。
 为了解决这一局限性,我们采用抽样和基于面积的评分策略来获得最终的~GRN。
-在~DREAM4~和~DREAM5~基准数据集上,~D3GRN~在~AUPR~方面的表现具有竞争力。
+在~DREAM4~和~DREAM5~基准数据集上的实验结果表明,~D3GRN~在~AUPR~方面的表现具有竞争力。

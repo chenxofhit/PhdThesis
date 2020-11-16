@@ -214,7 +214,9 @@ de.facLoc = 0.4, de.facScale = 0.8, nGenes = 5000)}
 在模拟实验中,对于其~DoRC~分数满足~IQR~阈值的标准的被认定为是稀有细胞。
 对于实验中采用的~\textit{Jurkat\_293T}~数据集,计算出~Jurkat~细胞的~F1~分数。
 
-\subsubsection{DoRC~概览}
+\subsubsection{实验结果分析}
+
+%\subsubsection{DoRC~概览}
 \label{subsec:dorc}
 RaceID~和~GiniClust~都依靠无监督聚类来检测稀有细胞。
 RaceID~中的~\textit{k}-means~聚类是基于距离的,
@@ -288,7 +290,8 @@ DoRC~的灵感来自于稀有细胞往往是``少而不同"的观察, 容易受�
 即如图~\ref{supp-fig:dorcsummary} A~上所示分别对应于~CD34+、树枝状和~CD14+~单核细胞。
 
 
-\subsubsection{DoRC~揭示了树突状细胞之间的异质性}
+%\subsubsection{DoRC~揭示了树突状细胞之间的异质性}
+
 树突状细胞~(DC)~在感知、吞噬和和抗原监视~\cite{villani2017single}~方面起着至关重要的作用。
 DCs~是最罕见的免疫细胞类型之一,在~PBMCs~\cite{zheng2017massively}~数据集上占比约~0.5\%。
 Villani~\cite{villani2017single}~的研究划分了六种不同的树突状细胞的亚型。
@@ -370,7 +373,7 @@ C4、C5、C9~和~C11~完全由树枝状细胞组成,根据~Zheng~等人提供~\c
 
 \end{table}
 
-\subsubsection{DoRC~能够识别人工伪造的稀有细胞}
+% \subsubsection{DoRC~能够识别人工伪造的稀有细胞}
 \label{subsec:recplanted} 
 我们设计了一个模拟实验来评估~DoRC~关于细胞类型识别相关的表现。
 我们使用了一个~scRNA-seq~数据集~Jurkat\_293T,由~293T~和~Jurkat~细胞在体外以不同比例混合组成~(见节~\ref{subsec:datasets})。
@@ -396,7 +399,7 @@ F1-score~反应了精度和灵敏度之间的平衡。
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=0.9\textwidth]{plot_venn_dorcfire_39summary.pdf}
+    \includegraphics[width=0.9\textwidth]{plot_venn_dorcfire_39summary_compressed.pdf}
     \caption{
     % Detectability of minor cell types in a simulated dataset consisting of Jurkat and 293T cells. 
     % (A) The F1-scores are calculated w.r.t. the rare (Jurkat) population for DoRC and FiRE, 
@@ -417,7 +420,8 @@ F1-score~反应了精度和灵敏度之间的平衡。
     \label{fig:jurkat}
 \end{figure}
 
-\subsubsection{DoRC~对细胞类型敏感}
+%\subsubsection{DoRC~对细胞类型敏感}
+
 我们设计了一项模拟研究来分析~DoRC~评分的鲁棒性和敏感性与差异表达基因数量的关系。
 我们首先生成一个由~500~个两种细胞类型组成的人工仿真的~scRNA-seq~数据。
 数量小的细胞类型约占细胞的~5\％~(见节~\ref{subsec:datasets})~。
@@ -488,8 +492,9 @@ DoRC~可以检测到其它~2~个稀有细胞和~1~个假阳性稀有细胞,
     \label{fig:simulate:venn_auc_f1}
 \end{figure}
 
-\subsubsection{DoRC~是可扩展和快速的}
-\label{subsec:scalable} 
+%\subsubsection{DoRC~是可扩展和快速的}
+%\label{subsec:scalable} 
+
 DoRC~的核心算法孤立森林~(Isolation Forest)~的时间复杂度为~$O(ntlog\psi)$~\cite{liu2008isolation}。
 其中~$n$、$t$~和~$\psi$~分别代表样本数、树的数目和每棵树的子样本数。
 值得注意的是,~DoRC~中的~Isolation Forest~在这种情况下没有训练的阶段。
