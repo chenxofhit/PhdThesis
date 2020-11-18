@@ -48,6 +48,10 @@ make wordcount：论文字数统计；
 
 那么厚的论文都能写完，到这里了所以要有自己的真情实感，如果说论文内容部分是学品，致谢部分则是人品。不要吝惜对别人的夸奖。
 
+### 论文分区
+
+按照博士在读期间该期刊的最高分区来标注 JCR 分区 [来源于计算机学院柳rong老师]
+
 ## 其它问题
 
 模板问题请详细查看 README_local.md, 主体文件 copy from https://github.com/lsyer/CSU-Thesis-LaTeX-Template (last commit:2758256)，针对我自己的情况有改动。如果有问题或者需要交流的，欢迎提 issues 或者给我发送邮件: chenxofhit[at]gmail[dot]com.
