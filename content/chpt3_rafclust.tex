@@ -240,11 +240,12 @@ ARI~值越高,算法的聚类效果越好。
 
 为了测试~RafClust~的性能,
 我们将其应用在十个知名的~scRNA-seq~数据集上~(数据详情见表~\ref{tbl:clusteringdatasets}),
-将其结果~ARI~与其它六种基准方法进行比较,
+将其~ARI~值与其它六种基准方法进行比较,
 包括~RaceID2~\cite{grun2016novo}, CIDR~\cite{lin2017cidr}, SIMLR~\cite{wang2018simlr}, SAFE~\cite{yang2018safe}, RtsneKmeans~\cite{hartigan1979algorithm,maaten2008visualizing,van2014accelerating}, RAFSIL~\cite{pouyan2018random}。
-这六种聚类方法均以~R~包的形式实现并公开了代码,方法概述如表~\ref{supp-tbl:clustereringmethods}~所示。
+这六种聚类方法均以~R~包的形式实现并公开了代码,它们的概述如表~\ref{supp-tbl:clustereringmethods}~所示。
 通过将每种方法的聚类结果与每个基准数据集的细胞类型注释进行比较,计算出对应的~ARI~值。 
-由于个别方法运行结果有随机性,因此我们在每个数据集上对每个方法都重复运行~5~次,结果中位数的~ARI~值如图~\ref{fig:rafari}~所示,
+由于个别方法在代码中引入了随机函数和随机种子,使得运行结果有一定的随机性。
+因此我们在每个数据集上对每个方法都重复运行~5~次,结果中位数的~ARI~值如图~\ref{fig:rafari}~所示。
 由图~\ref{fig:rafari}~可知,~RafClust~在~ARI~上优于其它六种方法。
 我们还记录了这个对比实验每个方法在每个数据集上的执行时间如图~\ref{fig:running-detail}~所示,并将平均执行时间与其它基准方法进行比较,结果如图~\ref{fig:running-summary}~所示。
 时间测量是在运行~GNU Linux/Ubuntu 16.04~操作系统与~4.15.0-46-generic~内核的工作站上进行的,
@@ -363,7 +364,7 @@ ARI~值越高,算法的聚类效果越好。
 \end{figure}
 
 在这十个数据集上,我们选择了~Goolam~和~Usoskin~两个数据集进行了数据集和聚类结果可视化。
-从~\ref{fig:rafari}~可知~SIMLR、RAFSIL~这两种方法的~ARI~仅次于方法~RafClust,
+从图~\ref{fig:rafari}~可知~SIMLR、RAFSIL~这两种方法的~ARI~仅次于方法~RafClust,
 因此我们选用它们跟~RafClust~对在这两个数据集上对聚类结果进行了可视化, 
 如图~\ref{fig:usoskin-tsne}~和~\ref{fig:goolam-tsne}~所示。
 总体上来看,~SIMLR~和~RAFSIL~均比原始数据上直接进行~t-SNE~结果要好,
