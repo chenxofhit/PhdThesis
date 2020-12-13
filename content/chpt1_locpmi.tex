@@ -172,8 +172,6 @@ PCA-CMI~算法利用~MI~和~CMI,从低阶到高阶递归地移除调控网络中
     \label{pca-cmi-fr}
 \end{figure}
 
-
-
 在算法~\ref{alg}~中,在获得每个局部基因簇之后,
 ~PCA-CMI~和~PCA-PMI~都是后续结构精炼化的候选方法。
 除了~Loc-PCA-CMI~外,如果用~PCA-PMI~替换~PCA-CMI,则会生成一种新方法,我们将其命名为~Loc-PCA-PMI。
@@ -331,7 +329,6 @@ $n$~的最佳值可以通过交叉验证获得,通常较大的~$n$~可以促成�
     通过在四个不同的数据集上~k~从~1~改变到~10, 基于~PCA~(路径一致性)~的四个算法的~AUPR~和~AUROC~结果示意图。
     }
     \label{fig:k}
-    \vspace{-0.5em}
 \end{figure*}
 
 固定阶数~$k$=2~后, 我们在~$\beta$=[0.01,0.02,0.03,0.05,0.1,0.15,0.2]~上对这四种算法也进行了测试, 
@@ -374,7 +371,6 @@ AUPR~总体上随着~$\beta$~的增加逐渐增大, 然后又逐渐降低。
     通过在四个不同的数据集上~$\beta$~逐步改变, 基于~PCA~(路径一致性)~的四个算法的~AUPR~和~AUROC~结果示意图。
     }
     \label{fig:beta}
-    \vspace{-0.5em}
 \end{figure*}
 
 \subsubsection{实验结果分析}
@@ -409,7 +405,6 @@ AUPR~总体上随着~$\beta$~的增加逐渐增大, 然后又逐渐降低。
     局部结构策略的引入提升了~PCA-CMI~和~PCA-PMI~的性能。
   }
   \label{fig:loc}
-  \vspace{-0.5em}
 \end{figure*}
 
 % \subsubsection{Loc-PCA-CMI~比其它竞争方法表现更好}
@@ -468,7 +463,7 @@ Loc-PCA-CMI~和~Loc-PCA-PMI~在~AUROC~上几乎相同。
 
 Loc-PCA-CMI~在处理局部网络结构的时候引入了~PCA-CMI,其计算效率的局限性也会受~PCA-CMI~的限制,
 特别是在处理大型数据集时。
-因为在大型网络的情况下, 局部基因簇的数量可能会非常大。
+因为在大型网络的情况下,局部基因簇的数量可能会非常大。
 但是,如果我们可以控制每个局部簇的大小,我们的方法也将适用于大型数据集。
 我们未来的工作之一是改进聚类策略,
 例如整合蛋白质复合物~\cite{li2017identification, li2017dynetviewer},

@@ -3,7 +3,8 @@
 
 \subsection{引言}
 
-上两章中我们分别提出了一种从~scRNA-seq~数据中进行细胞聚类的方法~RafClust~和从超大规模的~scRNA-seq~数据中识别稀有细胞的方法~DoRC。
+上两章中我们分别提出了一种从~scRNA-seq~数据中进行细胞聚类的方法~RafClust~
+和从超大规模的~scRNA-seq~数据中识别稀有细胞的方法~DoRC。
 这两种场景均涉及到单细胞数据上的细胞聚类。
 细胞聚类是单细胞数据分析上游流程里面最基础的问题,为下游分析流程包括单细胞基因调控网络构建打下了基础。
 显然, 对应于每种细胞类型的差异表达基因跟特定的细胞类型的基因调控网络的构建密切相关。
@@ -117,7 +118,7 @@ H~被设置为~500, 主要考虑的是包括足够多的基因以检测微妙的
 经过上述步骤处理后的单细胞数据可以表示为一个矩阵~$X_{C \times G}$, $C$~为细胞的数目, $G$~为基因的数目, 
 矩阵中的每个值表示该基因在对应的细胞中的表达量。
 对于矩阵~$X$, 可以表示为一个因子矩阵~(factor matrix)~$F_{G \times K}$~和一个负荷矩阵~(loading matrix)~$L_{C \times K}$,
-并且满足~$X=LF^T$, 如图~\ref{fig:gep-mf} a~所示。 
+并且满足~$X=LF^T$, 如图~\ref{fig:gep-mf} A~所示。 
 
 我们设计了一个具有以下三个特征的矩阵分解目标函数:
 \begin{enumerate}
@@ -140,7 +141,8 @@ $W$~跟~$X$~的维度相同,并且有：
 \end{equation}
 
 这个目标函数是双凸~(biconvex)~的, 也就是说, 只在~$F$~中凸, 或者只在给定的~$L$~中凸, 但在两者共同存在时不凸。
-我们使用交替最小二乘法~(ALS, alternating least squares)~与梯度下降~(gradient descent)~法来优化目标函数~(算法~\ref{alg:wssmfa}, 在~R~版本~3.5.1~中实现~\cite{goeman2012penalized,goeman2010l1})。
+我们使用交替最小二乘法~(Alternating Least Squares,~ALS)~与梯度下降~(gradient descent)~法来优化目标函数~(算法~\ref{alg:wssmfa}, 
+在~R~版本~3.5.1~中实现~\cite{goeman2012penalized,goeman2010l1})。
 在每一次迭代中我们固定~F~并更新~L, 然后固定~L~并更新~F, 当两次迭代之间~F~的差值的~Frobenius~范数~<~0.01~时, 更新结束。
 在每一步更新中, 优化问题都是有约束条件的线性回归。
 由于线性回归的解保证了均方误差与惩罚之和最小, 所以代价函数单调下降。
@@ -277,41 +279,44 @@ GEP1~牵涉到类别~C2,~C4,~C6~和~C10; GEP14~牵涉到类别~C3,~C4,~C5。
 针对每个~GEP,我们可以结合~TRRUST~(version 2)~提供的~web service~获取这些基因的~TF~从而构建其调控网络。
 
 由~GEP6~构建的基因调控网络如图~\ref{fig:gep-grn-gep6}~所示,
-该网络总共包含~30~个节点~(TF~用蓝色节点表示,~TG~用红色节点表示),~41~条调控边\footnote{默认的调控方向都是~TF~调控~TG, 因此在可视化图中不显式突出边的方向。
+该网络总共包含~30~个节点~(\textcolor{blue}{TF}~用蓝色节点表示,~\textcolor{red}{TG}~用红色节点表示,下同),~41~条调控边\footnote{默认的调控方向都是~TF~调控~TG, 因此在可视化图中不显式突出边的方向。
 }。
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=1\textwidth]{GEP6.key_regulators.tsv.cs.png}
-    \caption{
-    %The gene regulatory network of GEP6, constructed with the TRRUST database.
-    由~GEP6~构建的基因调控网络。
-    }
+    \includegraphics[width=1\textwidth]{GEP6.pdf}
+    \caption{由~GEP6~构建的基因调控网络。}
     \label{fig:gep-grn-gep6}
 \end{figure}
 
 由~GEP8~构建的基因调控网络如图~\ref{fig:gep-grn-gep8}~所示。
-该网络总共包含~74~个节点~(TF~用蓝色节点表示,~TG~用红色节点表示),~127~条调控边。
+该网络总共包含~74~个节点,~127~条调控边。
+
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=1\textwidth]{GEP8.key_regulators.tsv.cs.png}
-    \caption{
-    %The gene regulatory network of GEP8, constructed with the TRRUST database.
-    由~GEP8~构建的基因调控网络。
-    }
+    \includegraphics[width=1\textwidth]{GEP8.pdf}
+    \caption{由~GEP8~构建的基因调控网络。}
     \label{fig:gep-grn-gep8}
 \end{figure}
 
 由~GEP14~构建的基因调控网络如图~\ref{fig:gep-grn-gep14}~所示。
-该网络总共包含~122~个节点~(TF~用蓝色节点表示,~TG~用红色节点表示),~195~条调控边。
+该网络总共包含~122~个节点,~195~条调控边。
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=1\textwidth]{GEP14.key_regulators.tsv.cs.png}
-    \caption{
-    %The gene regulatory network of GEP14, constructed with the TRRUST database.
-    由~GEP14~构建的基因调控网络。
-    }
+    \includegraphics[width=1\textwidth]{GEP14.pdf}
+    \caption{由~GEP14~构建的基因调控网络。}
     \label{fig:gep-grn-gep14}
 \end{figure}
+
+% \begin{figure}[!htbp]
+%     \begin{adjustbox}{addcode={
+%       \begin{minipage}{\width}}{
+%           \caption{由~GEP14~构建的基因调控网络。
+%           }
+%           \label{fig:gep-grn-gep14}
+%       \end{minipage}},rotate=90,center}
+%       \includegraphics[scale=1]{GEP14.key_regulators.tsv.cs.pdf}%
+%     \end{adjustbox}
+%   \end{figure}
 
 \subsection{讨论和结论}
 scGRNHunter~的核心算法依赖~WSSMFA~这个矩阵分解方法, 该方法的一个基本限制是前提假设, 
@@ -319,7 +324,7 @@ scGRNHunter~的核心算法依赖~WSSMFA~这个矩阵分解方法, 该方法的�
 值得注意的是, 这排除了转录抑制的建模, 也就是说其中一个或多个基因将被一个~GEP~诱导,
 当第二个抑制~GEP~在同一细胞中活跃时, 其表达量会显著降低。
 据我们所知, 这种关系还没有在矩阵因子化框架中表示, 但它们可能更容易纳入新的潜变量模型类别,
-如变分自动编码器~(VAEs)~\cite{ding2018interpretable,gronbech2018scvae}。
+如变分自动编码器~(Variational Auto-encoders,~VAEs)~\cite{ding2018interpretable,gronbech2018scvae}。
 VAEs~代表了一个高度灵活的隐式空间中的单元, 可以捕捉隐式变量之间的非线性和相互作用。
 然而, 虽然隐变量的设计是为了促进输入基因表达数据的准确重建, 
 但它们是否可以直接或间接地解释为不同的~GEPs~相互作用, 还有待证明。

@@ -117,17 +117,29 @@ $F$~是这样得到的,对于每个细胞,
 其自身表达值和与其它细胞的相似性关系都被表示出来。
 接着,利用特征矩阵~$F$~来进行基于随机森林~(RF)~的相似性学习。
 图~\ref{fig:rafsim}~展示的是一个例子,在大小为~$15 \times 15$~基因表达矩阵的数据集上来说明整个特征矩阵的构建步骤。
+
 \begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=0.9\textwidth]{rafsim.pdf}
-    % \caption{Illustration of the hand-crafted feature matrix construction in a toy dataset with 15 cells and 15 genes. 
-    % The final feature matrix $F$ is in a $15 \times 34$ shape in this case}
-    \caption{
-        一个有~15~个细胞和每个细胞~15~个基因的示例数据集中手动制作的特征矩阵构造。
-        最终的特征矩阵~$F$~在这个示例中是~$15\times34$~维度大小的。
-    }
-    \label{fig:rafsim}
+  \begin{adjustbox}{addcode={
+    \begin{minipage}{\width}}{
+        \caption{一个有~15~个细胞和每个细胞~15~个基因的示例数据集中手动制作的特征矩阵构造。
+        最终的特征矩阵~$F$~在这个示例中是~$15\times34$~维度大小的。}
+        \label{fig:rafsim}
+    \end{minipage}},rotate=90,center}
+    \includegraphics[scale=.42]{rafsim.pdf}%
+  \end{adjustbox}
 \end{figure}
+
+% \begin{figure}[!htbp]
+%     \centering
+%     \includegraphics[width=0.9\textwidth]{rafsim.pdf}
+%     % \caption{Illustration of the hand-crafted feature matrix construction in a toy dataset with 15 cells and 15 genes. 
+%     % The final feature matrix $F$ is in a $15 \times 34$ shape in this case}
+%     \caption{
+%         一个有~15~个细胞和每个细胞~15~个基因的示例数据集中手动制作的特征矩阵构造。
+%         最终的特征矩阵~$F$~在这个示例中是~$15\times34$~维度大小的。
+%     }
+%     \label{fig:rafsim}
+% \end{figure}
 
 RF~(随机森林,~Random Forest)~是一种应用非常广泛的基于决策树的分类和回归方法~\cite{breiman2001random}。
 另外,它也可以用无监督的方式来推断对象之间的相似性~\cite{shi2006unsupervised,breiman2011manual,pouyan2018random}。
@@ -217,7 +229,7 @@ Zeisel~\cite{zeisel2015cell}。
 
 \subsubsection{评价指标}
 聚类的效果是使用真实的类别标签~$L_T$~和估计的类别标签~$L_E$~之间的相似性来衡量,
-使用的是调整后的~Rand~指数~(ARI,~adjusted Rand index)~\cite{hubert1985comparing,wu2005dynamic}:
+使用的是调整后的~Rand~指数~(Adjusted Rand index,~ARI)~\cite{hubert1985comparing,wu2005dynamic}:
 \begin{equation}
 \label{eq:ARI}
 \resizebox{0.4\textwidth}{!}{$
