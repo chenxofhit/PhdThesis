@@ -142,7 +142,7 @@ PCA-CMI~算法利用~MI~和~CMI,从低阶到高阶递归地移除调控网络中
 显然, 独立性阈值~$\beta$~是全局变量, 
 需要依靠先验知识来赋值。
 
-\subsubsection{Loc-PCA-CMI}
+\subsubsection{算法~Loc-PCA-CMI}
 
 众所周知,生物系统中节点之间是很少完全连通的,
 大多数节点只直接连接到少量其它节点~\cite{jeong2000large},因此~GRN~也是一种稀疏网络。
@@ -162,7 +162,7 @@ PCA-CMI~算法利用~MI~和~CMI,从低阶到高阶递归地移除调控网络中
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.95\textwidth]{pca-cmi-framework.pdf}
-    \caption{Loc-PCA-CMI~方法框架图.
+    \caption{Loc-PCA-CMI~方法框架图。
     (a) 从基因表达矩阵~$M$~中抽取~top~$n$~条共表达边,其对应的候选基因为~$g_1,g_2,\ldots,g_{p}~$。
     这些候选基因被分组到局部簇中~$LOC_{M_1},~LOC_{M_2},\ldots,LOC_{M_{p}}$,
     其中~$g_1,g_2,\ldots,g_{p}$~是分别作为每个簇的质心。
@@ -208,7 +208,7 @@ PCA-CMI~算法利用~MI~和~CMI,从低阶到高阶递归地移除调控网络中
       \State $G_{i}$ $\leftarrow$ PCA-CMI$(LOC_{M_i}, k, \beta)$;
     \EndFor
     \State $G$ $\leftarrow$ mean$(G_{1},G_{2},\ldots,G_{p})$;
-    \State \Return $G$
+    \State \Return $G$ \Comment{Return the graph weight matrix}
     \EndIf
     \end{algorithmic}
     %\end{spacing}
@@ -218,8 +218,8 @@ PCA-CMI~算法利用~MI~和~CMI,从低阶到高阶递归地移除调控网络中
 ~PCA-CMI~的计算复杂度由~CMI~阶数~$k$~和~$LOC_{M_i}$~的簇大小~$|C|$~控制,可以粗略估计为~$O(|C|^k)$~。
 因此,~PCA-CMI~的最终算法复杂度为~$O(m *|C|^k)$。
 在最坏的情况下, 如果簇大小~$|C|$~等于~$m$, 也就是每个簇包含其中的所有基因, 那么计算复杂度为~$m*m^k = m^{k+1}$。 
-然而, 这种最糟糕的情况在实验中很少发生, 因为~$|C|$~通常低于~$m$。
-另外, 在实际实验过程中, 所有~PCA-CMI~子程序可以并行执行,~Loc-PCA-CMI~能以很快的速度执行完毕。
+然而,这种最糟糕的情况在实验中很少发生, 因为~$|C|$~通常低于~$m$。
+另外,在实际实验过程中,所有~PCA-CMI~子程序可以并行执行,~Loc-PCA-CMI~能以很快的速度执行完毕。
 
 \subsection{实验结果}
 
@@ -232,7 +232,9 @@ PCA-CMI~算法利用~MI~和~CMI,从低阶到高阶递归地移除调控网络中
 在实验中,我们采用了~DREAM3~中的总计六个基因敲除表达网络,
 其包括三种不同规模的网络节点数:~10、~50、~100, 和两种不同类型的生物:~Ecoli~和~Yeast, 来对所有的测试方法包括~Loc-PCA-CMI~进行评估。
 
-表~\ref{tbl}~展示了这~6~个数据集的详情。
+表~\ref{tbl}~展示了这~6~个数据集的样本数目~(Number of samples)、节点平均~(最大)度~(Average(Max) degree)、边数目~(Number of edges)~和网络密度~(Network density)。
+它们的节点平均度都在~2-3~之间, 
+网络密度随着节点数目增多而下降。
 \begin{table} [!htbp]
 %\caption{Descriptions of the datasets in our experiments}
 \caption{实验所使用的数据集描述} 
@@ -258,7 +260,7 @@ DREAM3-100 Yeast & 101 & 3.32(10) & 166 & 0.034\\
 针对每个数据集而言,输入数据文件中的行代表样本~(实验),~列代表基因~(实验变量)。
 第一行是野生型表达数据,该样本中的每个基因都保持稳定状态。
 第~$l$~($l>1$)~行则表示在对应的样本中第~$l-1$~个基因敲除后其它基因的表达量。
-我们在仓库~\url{https://github.com/chenxofhit/Loc-PCA-CMI.git}~上上传了所有实验所用到的数据集。
+我们在仓库~\url{https://github.com/chenxofhit/Loc-PCA-CMI.git}~上上传了所有实验用到的数据集。
 
 \subsubsection{评价指标}
 
@@ -271,7 +273,7 @@ DREAM3-100 Yeast & 101 & 3.32(10) & 166 & 0.034\\
 为此,我们通过比较金标准网络~(golden network)~中的真实边与
 方法~Loc-PCA-CMI~输出的有序边列表里最高~$q$~条边来计算真阳性~(TP)、真阴性~(TN)、假阳性~(FP)~和假阴性~(FN)~边的数量。
 通过绘制真实阳性率~TPR = TP/(TP + FN)~与假阳性率~FPR = FP/(FP + TN)~来增加~$q$~($q = 1, 2, \ldots, m^2$)~来构建~ROC~曲线。
-类似地,通过增加~$q$~来绘制精度~(TP/(TP+FP))~和召回~(TP/TP+FN)~曲线。
+类似地,通过增加~$q$~来绘制精度~TP/(TP+FP)~和召回~TP/TP+FN~曲线。
 
 
 \subsubsection{模型选择}
@@ -286,7 +288,6 @@ $n$~的最佳值可以通过交叉验证获得,通常较大的~$n$~可以促成�
 除了上述三个参数外,我们在算法~\ref{alg}~中设置常量~$c = 10$,
 即如果基因数小于或等于~10,则~Loc-PCA-CMI~直接调用~PCA-CMI,
 显然在这种情况下,~Loc-PCA-CMI~和~PCA-CMI~的性能是相同的。
-
 
 为了探讨阶数~$k$~的大小是如何影响这些方法的性能,
 按照~\cite{zhang2011inferring,zhao2016part}~中建议的参数设置,
@@ -326,7 +327,7 @@ $n$~的最佳值可以通过交叉验证获得,通常较大的~$n$~可以促成�
       \medskip  
     \end{minipage}
     \caption{%AUPR and AUROC  by varying $k$ from 1 to 10 of four PCA based methods on four different datasets: 
-    通过在四个不同的数据集上~k~从~1~改变到~10, 基于~PCA~(路径一致性)~的四个算法的~AUPR~和~AUROC~结果示意图。
+    在四个不同的数据集上~k~值从~1~改变到~10, 基于~PCA~(路径一致性)~的四个算法的~AUPR~和~AUROC~结果示意图。
     }
     \label{fig:k}
 \end{figure*}
@@ -368,7 +369,7 @@ AUPR~总体上随着~$\beta$~的增加逐渐增大,然后又逐渐降低。
       \medskip  
     \end{minipage}
     \caption{%AUPR and AUROC  by varying $k$ from 1 to 10 of four PCA based methods on four different datasets: 
-    通过在四个不同的数据集上~$\beta$~逐步改变, 基于~PCA~(路径一致性)~的四个算法的~AUPR~和~AUROC~结果示意图。
+    在四个不同的数据集上~$\beta$~逐步改变, 基于~PCA~(路径一致性)~的四个算法的~AUPR~和~AUROC~结果示意图。
     }
     \label{fig:beta}
 \end{figure*}
@@ -376,13 +377,13 @@ AUPR~总体上随着~$\beta$~的增加逐渐增大,然后又逐渐降低。
 \subsubsection{实验结果分析}
 %\subsubsection{局部结构策略的引入有效提升了~PCA-CMI~和~PCA-PMI~的性能}
 
-相对于~PCA-CMI, ~Loc~PCA-CMI~引入了
-根据共表达的边进行局部基因聚类的策略, 为了验证这个策略是否有效, 我们对比了~Loc~PCA-CMI~和~PCA-CMI~在~AUPR~上的变化。
+相对于~PCA-CMI, ~Loc-PCA-CMI~引入了
+根据共表达的边进行局部基因聚类的策略,为了验证这个策略是否有效,我们对比了~Loc-PCA-CMI~和~PCA-CMI~在~AUPR~上的变化。
 同理, 我们也对比了~Loc~PCA-PMI~和~PCA-PMI。
 这四个算法的参数统一设置为:~$\beta = 0.03$,~$k = 2$。
 结果如图~\ref{fig:loc}~所示,
 在这四个不同的数据集上,~Loc-PCA-CMI~和~Loc-PCA-PMI~分别比~PCA-CMI~和~PCA-PMI~具有更高的~AUPR~值,
-可以看出局部聚类策略有助于提高方法~PCA-CMI~和~PCA-PMI~的性能。
+可以看出局部聚类策略有助于提高~PCA-CMI~和~PCA-PMI~这两种方法的性能。
 
 \begin{figure*}[!htbp]
   \centering
@@ -408,7 +409,6 @@ AUPR~总体上随着~$\beta$~的增加逐渐增大,然后又逐渐降低。
 \end{figure*}
 
 % \subsubsection{Loc-PCA-CMI~比其它竞争方法表现更好}
-
 我们在六个基准数据集上使用~Loc-PCA-CMI~和四种基准方法~ARACNE、MRNET、PCA-PMI、PCA-CMI~进行了比较实验。
 我们使用~R~包~``minet"和其默认参数来评估~ARACNE~和~MRNET~\cite{meyer2008minet}。
 使用~Pearson~相关系数直接从连续基因敲除表达数据~\cite{olsen2008impact,meyer2010information}~中近似估计方法的~MI~矩阵。
@@ -416,16 +416,15 @@ AUPR~总体上随着~$\beta$~的增加逐渐增大,然后又逐渐降低。
 另外,~PCA-PMI~和~PCA-CMI~方法中的参数使用它们推荐的默认值,也就是~$\beta = 0.03$~和~$k = 2$。
 对于~Loc-PCA-CMI, 我们还对这两个参数采用了相同的值进行比较。
 表~\ref{tab:performance_comparison}~给出了实验结果的~AUROC~和~AUPR。
-从表中可以看出,当网络规模增大时, 所有的方法的~AUPR~都会急剧下降。
+从表中可以看出,当网络规模增大时,所有的方法的~AUPR~都会急剧下降。
 Loc-PCA-CMI~仅在~DREAM3-10~Yeast~数据集中的~PCA-PMI~(或本章提出的~Loc-PCA-PMI~)之后,
 而在其它五个数据集中,就~AUROC~和~AUPR~而言,
-Loc-PCA-CMI~表现优于其它四种方法~ARACNE、MRNET、PCA-PMI~和~PCA-CMI。
+Loc-PCA-CMI~表现优于~ARACNE、MRNET、PCA-PMI~和~PCA-CMI~这四种方法。
 此外,为了更完整地比较,我们还在表中展示了~Loc-PCA-PMI~的实验结果,
 其中~$\beta = 0.03$~和~$k = 2$。
 Loc-PCA-CMI~和~Loc-PCA-PMI~在~AUROC~上几乎相同。
 然而,在大多数数据集中,~Loc-PCA-CMI~的~AUPR~优于~Loc-PCA-PMI。
-我们提供了包括所有方法、基准数据集和测评脚本相关的资料, 
-在~\url{https://github.com/chenxofhit/Loc-PCA-CMI.git}~上获取。
+所有方法、基准数据集和测评脚本相关的资料公开在~GitHub~仓库~\url{https://github.com/chenxofhit/Loc-PCA-CMI.git}~上。
 
 \begin{table}[!htbp]
 

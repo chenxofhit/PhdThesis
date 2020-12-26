@@ -224,7 +224,7 @@ RaceID~中的~\textit{k}-means~聚类是基于距离的,
 基于近邻的方法假设一个离群物体与其最近邻居的接近程度与该物体与数据集中大多数其它物体的接近程度有很大的差异。
 聚类通常取决于一些敏感参数且工作效率低下,因为不同分布的数据点之间的近似度不同。
 另一个主要问题是决定群体身份的解析。
-一般来说,多级聚类变得至关重要,因为次要的类经常在第一次筛选就被忽略~\cite{campbell2017molecular}。
+一般来说,多级聚类变得至关重要,因为次要的类经常在首次筛选就被忽略~\cite{campbell2017molecular}。
 发生这种情况是因为其它主要细胞类型会影响数据集中的表达差异,
 特别是在处理大型~scRNA-seq~数据集时,情况变得更加糟糕。
 
@@ -235,7 +235,7 @@ DoRC~的灵感来自于我们观察到稀有细胞在单细胞数据集里往往
 其中,每个细胞的稀有性是以树枝的聚合长度为特征的。
 一个细胞的长度越长,该细胞与其它细胞区分的因素就越多,它成为稀有细胞的可能性就越大。
 从数量上看,孤立森林中的聚合异常分数在本质上反应了稀有特性,
-这为我们调查和进一步决定细胞的稀有性提供了便利。
+这为我们调查和进一步决定细胞的稀有性提供了基础。
 为了说明这一点,我们将~DoRC~应用于包含~${\sim}68$k~外周血单核细胞的~scRNA-seq~数据集~(PBMCs)~的标注进行比对,
 这个数据集是知名的纯化的免疫细胞亚型数据集~\cite{zheng2017massively}。
 研究者首先对细胞进行了无监督聚类,
@@ -333,15 +333,15 @@ C4、C5、C9~和~C11~完全由树枝状细胞组成,根据~Zheng~等人提供~\c
     % (C) These four dendritic sub-types cells are highlighted on the~\textit{PBMCs\_68k} dataset t-SNE-based 2D plot.
     % (D) Characterization of dendritic cell sub-types utilizing markers obtained from DE analysis (See~\ref{subsec:de})
     DoRC~检测到人类血液树突状稀有细胞的异质性。
-    (A)~DoRC~检测到的稀有细胞在~RafClust~中被聚成~12~个亚型,即~C0,C1,$\ldots$,C11。
-    通过~\cite{zheng2017massively}~给出的标注,~C4、C5、C9、C11~多为树枝状细胞亚型。
-    用~RafClust~聚类稀有细胞,同种颜色的点代表一个亚群。
-    对于每个亚群,根据~\cite{zheng2017massively}~给出的注释,
-    用星号标记的细胞也是树突状细胞。
-    (B)~每个亚群的细胞数和本组中树突状细胞的数量。
-    显然,树枝状细胞在~C4、C5、C9、C11~的亚群中占有多数。
-    (C)~这四种树枝状亚型细胞在~\textit{PBMCs\_68k}~数据集的~t-SNE~二维图上突出显示。
-    (D)~利用从~DE~分析中获得的标记来描述树突状细胞亚型的特征~(见节~\ref{subsec:de})
+    % (A)~DoRC~检测到的稀有细胞在~RafClust~中被聚成~12~个亚型,即~C0,C1,$\ldots$,C11。
+    % 通过~\cite{zheng2017massively}~给出的标注,~C4、C5、C9、C11~多为树枝状细胞亚型。
+    % 用~RafClust~聚类稀有细胞,同种颜色的点代表一个亚群。
+    % 对于每个亚群,根据~\cite{zheng2017massively}~给出的注释,
+    % 用星号标记的细胞也是树突状细胞。
+    % (B)~每个亚群的细胞数和本组中树突状细胞的数量。
+    % 显然,树枝状细胞在~C4、C5、C9、C11~的亚群中占有多数。
+    % (C)~这四种树枝状亚型细胞在~\textit{PBMCs\_68k}~数据集的~t-SNE~二维图上突出显示。
+    % (D)~利用从~DE~分析中获得的标记来描述树突状细胞亚型的特征~(见节~\ref{subsec:de})
     }
     \label{fig:dorc_dendritic}
 \end{figure}
@@ -409,12 +409,12 @@ F1-score~反应了精度和灵敏度之间的平衡。
     % (G) DoRC, FiRE detected rare cells and true rare cells overlap with each other, shown in this Venn diagram. 
     % (H) Detail of the confusion matrices with TP, FP, FN, TN prediction metrics for DoRC and FiRE.
     在由~Jurkat~和~293T~细胞组成的模拟数据集中,次要细胞类型的可检测性示意图。
-    (A)~按照生物信息上逐渐改变人工植入的稀有细胞的比例,计算关于稀有类别~(也就是~Jurkat)~的~DoRC~和~FiRE~的~F1~分数。
-    (B)~基准数据集上细胞的基于~t-SNE~的二维嵌入可视化图,不同颜色代表不同的细胞类别。
-    (C-D)~DoRC~和~FiRE~得分分别绘制在基于~t-SNE~的二维嵌入可视化图上。
-    (E-F)~DoRC~和~FiRE~分别检测到的稀有细胞,用高亮来显示。
-    (G)~DoRC~和~FiRE~检测到的稀有细胞和真正的稀有细胞相互重叠,在该维恩图中显示出来。
-    (H)~DoRC~和~FiRE~的混淆矩阵与~TP、FP、FN、TN~指标的计算细节。
+    % (A)~按照生物信息上逐渐改变人工植入的稀有细胞的比例,计算关于稀有类别~(也就是~Jurkat)~的~DoRC~和~FiRE~的~F1~分数。
+    % (B)~基准数据集上细胞的基于~t-SNE~的二维嵌入可视化图,不同颜色代表不同的细胞类别。
+    % (C-D)~DoRC~和~FiRE~得分分别绘制在基于~t-SNE~的二维嵌入可视化图上。
+    % (E-F)~DoRC~和~FiRE~分别检测到的稀有细胞,用高亮来显示。
+    % (G)~DoRC~和~FiRE~检测到的稀有细胞和真正的稀有细胞相互重叠,在该维恩图中显示出来。
+    % (H)~DoRC~和~FiRE~的混淆矩阵与~TP、FP、FN、TN~指标的计算细节。
     }
     \label{fig:jurkat}
 \end{figure}
@@ -450,14 +450,14 @@ F1-score~反应了精度和灵敏度之间的平衡。
     % specific number of differentially expressed genes. 
     % The AUC analysis is performed using cell-type annotations, 
     % and DoRC scores are assigned to individual cells.
-    DoRC~对细胞类型特征的敏感。
-    在~scRNA-seq~数据集~\textit{Splatter\_500}上,
-    DoRC~从正确识别比例小的细胞类型开始,
-    只要差异表达基因的数量变得足以产生一个代表小细胞亚群的微小簇。
-    左上角图作为后续AUC图的图例。
-    每个~t-SNE~和~ROC~图对对应为为~1000~次重复实验的一个代表结果,
-    对应于一种特定数量的差异表达基因。
-    AUC~是使用各个细胞的类型标签和~DoRC~得分来计算到的。
+    DoRC~对细胞类型特征敏感。
+    % 在~scRNA-seq~数据集~\textit{Splatter\_500}上,
+    % DoRC~从正确识别比例小的细胞类型开始,
+    % 只要差异表达基因的数量变得足以产生一个代表小细胞亚群的微小簇。
+    % 左上角图作为后续AUC图的图例。
+    % 每个~t-SNE~和~ROC~图对对应为为~1000~次重复实验的一个代表结果,
+    % 对应于一种特定数量的差异表达基因。
+    % AUC~是使用各个细胞的类型标签和~DoRC~得分来计算到的。
     }
     \label{fig:simulate:roc}
 \end{figure}
@@ -484,9 +484,9 @@ DoRC~可以检测到其它~2~个稀有细胞和~1~个假阳性稀有细胞,
     % while FiRE failed to identify the left 2 rare cells.
     % (B) The AUC and precision of DoRC and FiRE are almost the same, while the Recall and  F1-score of DoRC is higher than FiRE.
     在~\textit{Splatter\_500}数据集上,~DoRC~和~FiRE~对数据集中稀有细胞检测的比较。
-    (A)~在所有~25~个稀有细胞中,~23~个稀有细胞全部被~DoRC~和~FiRE~检测出来。
-    DoRC~可以检测到另外~2~个稀有细胞和~1~个假阳性稀有细胞,而~FiRE~则未能识别出剩下的~2~个稀有细胞。
-    (B)~DoRC~和~FiRE~的~AUC~和精度几乎相同,而~DoRC~的~Recall~和~F1-score~高于~FiRE。
+    % (A)~在所有~25~个稀有细胞中,~23~个稀有细胞全部被~DoRC~和~FiRE~检测出来。
+    % DoRC~可以检测到另外~2~个稀有细胞和~1~个假阳性稀有细胞,而~FiRE~则未能识别出剩下的~2~个稀有细胞。
+    % (B)~DoRC~和~FiRE~的~AUC~和精度几乎相同,而~DoRC~的~Recall~和~F1-score~高于~FiRE。
     }
     \label{fig:simulate:venn_auc_f1}
 \end{figure}
@@ -502,8 +502,8 @@ DoRC~的核心算法孤立森林~(Isolation Forest)~的时间复杂度为~$O(ntl
 这个复杂度没有包括使用~RafClust~来确认稀有细胞的类型,
 因为~FiRE~和~LOF~这两种方法也没有包含稀有细胞的类型细化这个步骤。
 
-我们改变输入数据大小,
-统计了~DoRC、FiRE、GiniClust、LOF~\cite{breunig2000lof}和~RaceID~所花费的时间,
+我们不断变化输入单细胞数据规模的大小,
+分别统计出~DoRC、FiRE、GiniClust、LOF~\cite{breunig2000lof}~和~RaceID~所消耗的时间,
 如图~\ref{fig:timecomplexity}~所示。
 测试机器为一台运行~GNU Linux/Ubuntu 16.04~操作系统~4.15.0-47-generic~内核的工作站上,
 硬件配置如下:~Intel(R) Xeon(R) Silver 4116 CPU @ 2.10GHz,~48~核,~64GB~内存。
@@ -528,13 +528,13 @@ LOF~(local outlier factor)~是数据挖掘领域应用广泛的算法。
     }
     \label{fig:timecomplexity}
 \end{figure}
-
-如图~\ref{fig:timecomplexity}~所示,为了从~${\sim}68$k scRNA-seq~数据中发现稀有细胞。 
+图~\ref{fig:timecomplexity}~展示了从~${\sim}68$k scRNA-seq~数据中发现稀有细胞不同方法在不同细胞输入规模时所消耗的时间。 
 GiniClust~和~RaceID~要么耗时,要么耗内存;
 LOF~对输入数据规模非常敏感;
 然而,~DoRC~和~FiRE~都是非常快的,因为它们只需要不到~2~分钟就可以完成任务。
 与~DoRC~相比,~FiRE~的速度明显更快。
-然而,孤立森林可以很容易地使用并行计算~\cite{hariri2018batch},因此~DoRC~的性能还有提升空间。
+DoRC~的实现代码可在~GitHub~仓库~\url{https://github.com/chenxofhit/DoRC}~上获取,
+本章节相关的实验代码和相关数据集可以根据用户的要求提供。
 
 \subsection{讨论和结论}
 近来,单细胞转录组学大大改善了我们对细胞表型性质的理解,
@@ -553,8 +553,8 @@ Isolation Forest~是机器学习中被广泛研究、应用得很广的一种无
 每个细胞的稀有度用其在相应的高维空间中的``异常点得分"来表示。
 DoRC~在~${\sim}68$k~人血细胞单细胞表达谱上结合~RafClust~聚类方法,能准确识别出人血树突状细胞亚型。
 此外,在其它两个模拟数据集上的实验表明,~DoRC~可识别人工伪造的稀有细胞并且对细胞类型特征也很敏感。
-实验还表明,~DoRC~是可扩展的,而且速度很快。DoRC~的实现代码可在以下网址获得~\url{https://github.com/chenxofhit/DoRC},
-本章节相关的实验代码和相关数据集可以根据用户的要求提供。
+实验还表明,~DoRC~是可扩展的,而且速度很快。
+
 
 其实,除了孤立森林外,
 最近在一些领域提出了这几种方法~\cite{aggarwal2015theoretical,zhao2019pyod,liu2019generative,weng2019multi}~也值得关注。

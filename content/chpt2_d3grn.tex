@@ -152,10 +152,17 @@ ARNI~算法调用后,返回的是被选中的调控因子~$SM_j$~的一个有序
   %\caption{D3GRN Pseudo Code}
   \caption{D3GRN~算法伪代码}
   \label{alg:D3GRN}
+%  \begin{algorithmic}[1]
+  {\bf Input:} 
+  $A \in \mathbb{R}^{M \times N}$, $I \subset \{1,\ldots,N\}$, 
+            $|I| = n$,
+            $b$(the number of bootstrapping runs), $L$(ARNI steps) %\Comment{Number of bootstrapping runs and ARNI steps}
+  \Comment{$M$ samples, $N$ genes, I index set of $n$ regulators}
+  
+  {\bf Output:} %???????
+  The score matrix $S$ 
   \begin{algorithmic}[1]
-  \Require $A \in \mathbb{R}^{M \times N}$, $I \subset \{1,\ldots,N\}$, 
-            $|I| = n$                                   \Comment{$M$ samples, $N$ genes, I index set of $n$ regulators}
-  \Ensure $b$, $L$                                      \Comment{Number of bootstrapping runs and ARNI steps}
+
   \State Initialize $S \in \mathbb{R}^{N \times n}$     \Comment{Initialize adjacency matrix of the GRN}
   \State Initialize $SM \in \mathbb{R}^{n \times b}$     \Comment{Initialize the selection matrix}
   \For{$i = 1 \to b$}                                   \Comment{For each bootstrapping run}
@@ -166,7 +173,7 @@ ARNI~算法调用后,返回的是被选中的调控因子~$SM_j$~的一个有序
         \EndFor
   \EndFor           
   \State $S$ = area-score$(SM,L,b)$                      \Comment{Get the weight score matrix with the area-score metric}
-  \State Output: $S$                                    \Comment{Output the score matrix}
+  \State \Return $S$                                    \Comment{Output the score matrix}
 \end{algorithmic}
 \end{algorithm}
 
@@ -428,7 +435,7 @@ D3GRN~中有两个参数,
 我们在~DREAM4~和~DREAM5~网络进行了两次对比实验,来评测我们提出的方法~D3GRN。
 NIMEFI~用~R~实现,而~GENIE3、TIGRESS~是用~MATLAB~实现。
 这些方法的代码从对应论文提供的~URL~进行下载,在实验中各方法中的参数使用它们代码注释中提供的默认值。
-我们提出的方法~D3GRN~也是在~MATLAB~中实现的,使用的数据集及代码公开在仓库~\url{https://github.com/chenxofhit/D3GRN}~上。
+我们提出的方法~D3GRN~也是在~MATLAB~中实现的,使用的数据集及代码公开在~GitHub~仓库~\url{https://github.com/chenxofhit/D3GRN}~上。
 
 表~\ref{tab:performance_dr4}~列出了~D3GRN~与其它~GRN~推理方法在五个~DREAM4~网络上比较的结果。
 其中,~D3GRN~的参数是在抽样数~$b=200$,~ARNI~步数~$L=2$~下得到的。
