@@ -92,10 +92,9 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 % 算法编号
 \RequirePackage{algorithm}
 
-
-
 \usepackage{tikz}
 \usepackage{algorithm,algorithmicx,algpseudocode}
+
 \usepackage{amssymb}
 \usepackage{adjustbox}
 \usepackage{graphicx}

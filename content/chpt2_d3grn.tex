@@ -152,17 +152,13 @@ ARNI~算法调用后,返回的是被选中的调控因子~$SM_j$~的一个有序
   %\caption{D3GRN Pseudo Code}
   \caption{D3GRN~算法伪代码}
   \label{alg:D3GRN}
-%  \begin{algorithmic}[1]
-  {\bf Input:} 
-  $A \in \mathbb{R}^{M \times N}$, $I \subset \{1,\ldots,N\}$, 
+  \begin{algorithmic}[1]
+  \Require  $A \in \mathbb{R}^{M \times N}$, $I \subset \{1,\ldots,N\}$, 
             $|I| = n$,
             $b$(the number of bootstrapping runs), $L$(ARNI steps) %\Comment{Number of bootstrapping runs and ARNI steps}
   \Comment{$M$ samples, $N$ genes, I index set of $n$ regulators}
   
-  {\bf Output:} %???????
-  The score matrix $S$ 
-  \begin{algorithmic}[1]
-
+  \Ensure The score matrix $S$ 
   \State Initialize $S \in \mathbb{R}^{N \times n}$     \Comment{Initialize adjacency matrix of the GRN}
   \State Initialize $SM \in \mathbb{R}^{n \times b}$     \Comment{Initialize the selection matrix}
   \For{$i = 1 \to b$}                                   \Comment{For each bootstrapping run}
@@ -176,7 +172,6 @@ ARNI~算法调用后,返回的是被选中的调控因子~$SM_j$~的一个有序
   \State \Return $S$                                    \Comment{Output the score matrix}
 \end{algorithmic}
 \end{algorithm}
-
 
 \subsubsection{基于~ARNI~的特征选择}
 

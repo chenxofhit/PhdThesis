@@ -185,15 +185,11 @@ PCA-CMI~算法利用~MI~和~CMI,从低阶到高阶递归地移除调控网络中
 我们选择了其它四个基因数目大于~10~的数据集。
 
 \begin{algorithm}[!htbp]
-    \caption{Loc-PCA-CMI~伪代码} %?????
+    \caption{Loc-PCA-CMI~伪代码}
     \label{alg}
-    {\bf Input:} %?????? \hspace*{0.02in}??????????? \\ ????
-    $M$ (the gene expression data matrix), $m$ (the number of genes), $n$ (the number of top ranked edges), $c$ (constant number); $k$ (CMI order number) and $\beta$ (order threshold) in subroutine PCA-CMI.
-    
-    {\bf Output:} %???????
-    Graph weight matrix $G$ 
-    %\begin{spacing}{1.5}
     \begin{algorithmic}[1]
+    \Require $M$ (the gene expression data matrix), $m$ (the number of genes), $n$ (the number of top ranked edges), $c$ (constant number); $k$ (CMI order number) and $\beta$ (order threshold) in subroutine PCA-CMI.
+    \Ensure Graph weight matrix $G$ 
     \If {$m \leq c$} 
     \State $G$ $\leftarrow$ PCA-CMI$(M, k, \beta)$;
     \State \Return $G$
@@ -211,7 +207,6 @@ PCA-CMI~算法利用~MI~和~CMI,从低阶到高阶递归地移除调控网络中
     \State \Return $G$ \Comment{Return the graph weight matrix}
     \EndIf
     \end{algorithmic}
-    %\end{spacing}
 \end{algorithm}
 
 算法~\ref{alg}~的计算复杂度通常由两个参数决定:~第一个是局部重叠基因簇~$p$~的数量,通常低于基因的总体数目~$m$; 第二个是~PCA-CMI~子程序本身的算法复杂度。

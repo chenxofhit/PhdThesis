@@ -9,8 +9,9 @@
 细胞聚类是~scRNA-seq~数据分析上游流程里面最基础的问题,为下游分析流程包括单细胞基因调控网络构建奠定了基础。
 显然, 对应于每种细胞类型的差异表达基因跟该细胞类型的基因调控网络的构建密切相关。
 但是,仅仅停留在构建跟细胞身份类别特征相关的基因调控网络不太完整。
-我们认为,识别细胞的基因表达身份程序和细胞的基因表达活动程序~(如生命周期过程、对环境因素的反应)~对于理解细胞和组织的组成都至关重要。
-虽然~scRNA-seq~可以量化成个体细胞中的转录本,
+我们认为,识别细胞的基因表达身份程序和细胞的基因表达活动程序~(如生命周期过程、对环境因素的反应)~
+对于理解细胞和组织的组成都至关重要。
+虽然~scRNA-seq~数据可以量化成个体细胞中的转录本,
 每个细胞的表达谱可能是这两种类型的程序的混合物,使它们难以分离。
 在本文中,我们提出了一种基于矩阵分解的算法~WSSMFA~来解决这个问题。
 在公开的大脑类器官~scRNA-seq~数据集上的实验表明,
@@ -27,13 +28,15 @@
 scRNA-seq~可以让我们观察到许多的单个细胞的基因表达变化,
 极大地提高了我们解析~GEPs~的能力。
 即使如此,~GEPs~的推断仍然具有挑战性,
-因为~scRNA-seq~数据是高噪声和高维度的,因此我们需要使用合适的计算方法来发现潜在的模式。
+因为~scRNA-seq~数据是高噪声和高维度的,因此我们需要使用合适的计算方法来挖掘潜在的模式。
 此外,技术上的人为因素,如双胞~(doublets,两个或两个以上不同的细胞被错误地折叠成一个细胞)~和高度表达值缺失~(dropout)~为我们的分析增加了难度。
-最近在降维、聚类、系谱轨迹追踪和差异表达分析方面的进展~\cite{amir2013visne,kharchenko2014bayesian,satija2015spatial,trapnell2014dynamics},有助于我们解决其中的一些问题。
+最近在降维、聚类、系谱轨迹追踪和差异表达分析方面的进展~\cite{amir2013visne,kharchenko2014bayesian,satija2015spatial,trapnell2014dynamics},
+有助于我们解决其中的一些问题。
 
-在本文中,我们认为从~scRNA-seq~数据中推断基因调控网络的关键是,准确推断出基因表达程序:
-事实上,单个细胞可能表达多个~GEPs,但我们只检测反应它们组合的细胞表达谱,而不是~GEPs~本身。
-一个细胞的基因表达是由许多因素形成的,包括其细胞类型,其在时间依赖性过程中的状态,如细胞周期,以及其对不同环境刺激的反应~\cite{wagner2016revealing}。
+在本文中,我们认为从~scRNA-seq~数据中推断基因调控网络的关键是,准确推断出基因表达程序。
+事实上,单个细胞可能表达多个~GEPs,但是单细胞表达谱本身只反应了它们的组合,而不是直接表达~GEPs~本身。
+一个细胞的基因表达是由许多因素形成的,
+包括其细胞类型,其在时间依赖性过程中的状态,如细胞周期,以及其对不同环境刺激的反应~\cite{wagner2016revealing}。
 我们可以在~scRNA-seq~数据中检测到的表达程序可以归为两个大类:
 \begin{enumerate}
     \item 对应于特定细胞类型身份,如肝细胞或黑色素细胞的~GEPs~(identity program);
@@ -148,13 +151,13 @@ $W$~跟~$X$~的维度相同,并且有：
 在~R~版本~3.5.1~中实现~\cite{goeman2012penalized,goeman2010l1})。
 在每一次迭代中我们固定~F~并更新~L, 然后固定~L~并更新~F, 当两次迭代之间~F~的差值的~Frobenius~范数~<~0.01~时, 更新结束。
 在每一步更新中, 优化问题都是有约束条件的线性回归。
-由于线性回归的解保证了均方误差与惩罚之和最小, 所以代价函数单调下降。
+由于线性回归的解保证了均方误差与惩罚之和最小,所以代价函数单调下降。
 \begin{algorithm}
     \caption{Weighted semi-nonnegative sparse matrix factorization algorithm~(WSSMFA)}
     \label{alg:wssmfa}
     \begin{algorithmic}[1]
-        \State Input: $X_{G \times C}$                                   \Comment{$G$ genes, $C$ cells}
-        \State Output: $L_{G \times K}$, $F_{C \times K}$                \Comment{Loading matrix and factor matrix}
+    \Require  $X_{G \times C}$                                   \Comment{$G$ genes, $C$ cells}
+    \Ensure $L_{G \times K}$, $F_{C \times K}$                \Comment{Loading matrix and factor matrix}
         \While{not converged}
             \For{$i = 1 \to G$}                                           
                 \State $l_{i} \leftarrow \min _{l_{i}}\left\|\left(x_{i}-l_{i} F^{T}\right) \odot w_{i}\right\|_{F}^{2}+\alpha\left\|l_{i}\right\|_{1}$
@@ -166,7 +169,8 @@ $W$~跟~$X$~的维度相同,并且有：
                 \State which is equivalent to 
                 \State $f_{j} \leftarrow \min _{f_{j}}\left\|\left(x_{j} \odot w_{j}-f_{j}\left(L^{T} \operatorname{diag}\left(w_{j}\right)\right)\right)\right\|_{F}^{2}+\lambda\left\|f_{j}\right\|_{1},\left\|f_{j}\right\| \geq 0$
             \EndFor
-        \EndWhile           
+        \EndWhile  
+        \State \Return $L$, $F$        
   \end{algorithmic}
 \end{algorithm}
 
@@ -329,7 +333,7 @@ scGRNHunter~的核心算法依赖~WSSMFA~这个矩阵分解方法,
 当第二个抑制~GEP~在同一细胞中活跃时, 其表达量会显著降低。
 据我们所知, 这种关系还没有在矩阵因子化框架中表示, 但它们可能更容易纳入新的潜变量模型类别,
 如变分自动编码器~(Variational Auto-encoders,~VAEs)~\cite{ding2018interpretable,gronbech2018scvae}。
-VAEs~代表了一个高度灵活的隐式空间中的单元, 可以捕捉隐式变量之间的非线性和相互作用。
+VAEs~代表了一个高度灵活的隐式空间中的建模, 可以捕捉隐式变量之间的非线性和相互作用。
 然而, 虽然隐变量的设计是为了促进输入基因表达数据的准确重建, 
 但它们是否可以直接或间接地解释为不同的~GEPs~相互作用, 还有待证明。
 在可预见的未来, 调控关系的建模需要综合权衡考虑模型本身的灵活性与训练和解释它们的输出的难度这两个方面。
