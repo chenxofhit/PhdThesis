@@ -95,6 +95,10 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 \usepackage{tikz}
 \usepackage{algorithm,algorithmicx,algpseudocode}
 
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+
 \usepackage{amssymb}
 \usepackage{adjustbox}
 \usepackage{graphicx}
