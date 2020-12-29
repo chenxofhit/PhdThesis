@@ -15,7 +15,7 @@ all: $(THESIS).pdf
 .PHONY : all cleanall pvc view wordcount git zip
 
 $(THESIS).pdf : $(THESIS).tex $(TEX_DIR)/*.tex $(BIB_DIR)/*.bib CSUthesis.cls Makefile
-	-latexmk $(LATEXMK_OPT) $(THESIS)
+	-latexmk $(LATEXMK_OPT) $(THESIS) 
 
 pvc :
 	latexmk $(LATEXMK_OPT_PVC) $(THESIS)
