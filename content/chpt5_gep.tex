@@ -146,7 +146,7 @@ $W$~跟~$X$~的维度相同,并且有：
     W_{i j}=\left\{\begin{array}{ll}1 & \text { if } x_{i j}>0 \\ 0 & \text { otherwise }\end{array}\right.
 \end{equation}
 
-这个目标函数是双凸~(biconvex)~的, 也就是说, 只在~$F$~中凸, 或者只在给定的~$L$~中凸, 但在两者共同存在时不凸。
+这个目标函数是双凸~(biconvex)~的, 也就是说, 只在~$F$~中凸, 或者只在给定的~$L$~中凸, 但在两者共同变化时不是凸的。
 我们使用交替最小二乘法~(Alternating Least Squares,~ALS)~与梯度下降~(gradient descent)~法来优化目标函数~(算法~\ref{alg:wssmfa}, 
 在~R~版本~3.5.1~中实现~\cite{goeman2012penalized,goeman2010l1})。
 在每一次迭代中我们固定~F~并更新~L, 然后固定~L~并更新~F, 当两次迭代之间~F~的差值的~Frobenius~范数~<~0.01~时, 更新结束。
