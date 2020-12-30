@@ -33,11 +33,12 @@
 % 贝叶斯和动态贝叶斯网络~\cite{murphy1999modelling, zou2004new, vinh2011globalmit, young2014fast, Liu2016, omranian2016gene},
 % 以及基于状态空间的方法~\cite{wu2003modeling, quach2007estimating}。
 % 不幸的是,
-基因表达数据通常具有高维度和相对较小的样本量,存在``维度诅咒"的问题~\cite{wang2006inferring}。
-此外,基因表达数据通常涉及大量外部噪声和非线性关系。
-所有这些问题使得准确推断基因之间的调控相互作用,
-尤其是在后基因组时代处理大规模基因表达数据时,
-变得更加复杂和具有挑战性。
+
+% 基因表达数据通常具有高维度和相对较小的样本量,存在``维度诅咒"的问题~\cite{wang2006inferring}。
+% 此外,基因表达数据通常涉及大量外部噪声和非线性关系。
+% 所有这些问题使得准确推断基因之间的调控相互作用,
+% 尤其是在后基因组时代处理大规模基因表达数据时,
+% 变得更加复杂和具有挑战性。
 
 研究者基于各种不同的假设和不同的条件提出了从表达数据构建~GRN~精确结构的各种不同的计算方法~\cite{longabaugh2005computational,karlebach2008modelling}。
 目前的这些方法可以大致分为基于模型~(model-based)~和无模型~(model-free)~两大类别。
@@ -453,7 +454,7 @@ Loc-PCA-CMI~和~Loc-PCA-PMI~在~AUROC~上几乎相同。
         }
     \end{table} 
 
-\subsection{讨论和结论}
+\subsection{小结}
 
 Loc-PCA-CMI~在处理局部网络结构的时候引入了~PCA-CMI,其计算效率的局限性也会受~PCA-CMI~的限制,
 特别是在处理大型数据集时。
