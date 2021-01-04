@@ -15,7 +15,7 @@
 我们使用多种相关性度量方法来刻画细胞的特征, 
 然后使用随机森林回归模型进一步学习细胞与细胞之间的相似性矩阵,
 基于相似性矩阵后采用层次聚类来决定细胞的最终类别。
-实验结果表明, 在十个单细胞数据集上,~RafClust~在~ARI~上表现优于其它六种基准方法。
+实验结果表明, 在十个单细胞数据集上,~RafClust~在~ARI~上表现优于其它六种方法。
 
 \subsection{相关工作}
 
@@ -62,7 +62,7 @@ RAFSIL~首先对基因过滤和聚类,接着对每个基因模块使用主成分
 \subsection{基于随机森林相似性学习的单细胞聚类方法~RafClust}
 \label{sec:method}
 
-RafClust~方法对~scRNA-seq~数据进行细胞聚类,包括几个子步骤,如图~\ref{fig:rafclust}~所示, 这些步骤的细节将在下文中详述。
+RafClust~方法对~scRNA-seq~数据进行细胞聚类,包括几个子步骤如图~\ref{fig:rafclust}~所示, 这些步骤的细节将在下文中详述。
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.95\textwidth]{flowchart-rafclust.pdf}
@@ -249,7 +249,7 @@ ARI~值越高,算法的聚类效果越好。
 
 为了测试~RafClust~的性能,
 我们将其应用在十个知名的~scRNA-seq~数据集上~(数据详情见表~\ref{tbl:clusteringdatasets}),
-将其~ARI~值与其它六种基准方法进行比较,
+将其~ARI~值与其它六种方法进行比较,
 包括~RaceID2~\cite{grun2016novo}, CIDR~\cite{lin2017cidr}, SIMLR~\cite{wang2018simlr}, SAFE~\cite{yang2018safe}, RtsneKmeans~\cite{hartigan1979algorithm,maaten2008visualizing,van2014accelerating}, RAFSIL~\cite{pouyan2018random}。
 这六种聚类方法均以~R~包的形式实现并公开了代码,它们的概述如表~\ref{supp-tbl:clustereringmethods}~所示。
 通过将每种方法的聚类结果与每个基准数据集的细胞类型注释进行比较,计算出对应的~ARI~值。 
@@ -265,7 +265,7 @@ ARI~值越高,算法的聚类效果越好。
   \centering
   \caption{
   %Overview of the benchmark clustering methods
-  使用的基准聚类方法概览
+  使用的聚类方法概览
   }
   \label{supp-tbl:clustereringmethods}
   \resizebox{\columnwidth}{!}{%
@@ -347,7 +347,7 @@ ARI~值越高,算法的聚类效果越好。
         \medskip  
       \end{minipage}
     \caption{
-    RafClust~与其它六种基准方法在~10~个数据集上的中位数运行时间示意图。
+    RafClust~与其它六种方法在~10~个数据集上的中位数运行时间示意图。
     }
     \label{fig:running-detail}
     \vspace{-0.5em}
@@ -357,7 +357,7 @@ ARI~值越高,算法的聚类效果越好。
     \centering
     \includegraphics[width=0.9\textwidth]{Average.pdf}
     \caption{
-    RafClust~与其它六种基准方法在~10~个数据集上的中位数运行时间示意图。
+    RafClust~与其它六种方法在~10~个数据集上的中位数运行时间示意图。
     }
     \label{fig:running-summary}
 \end{figure}
@@ -425,6 +425,6 @@ RafClust~的~R~包可在~GitHub~仓库~\url{https://github.com/chenxofhit/RafClu
 本章中,我们提出了一种高效准确的单细胞聚类方法~RafClust。
 我们使用多种相似性度量方法刻画细胞的特征,
 使用随机森林回归模型来学习细胞与细胞之间的相似性矩阵,基于相似性矩阵后采用层次聚类来决定细胞的最终类别。
-实验结果表明, 在十个单细胞数据集上,~RafClust~在~ARI~上表现优于其它六种基准方法。
+实验结果表明, 在十个单细胞数据集上,~RafClust~在~ARI~上表现优于其它六种方法。
 
 

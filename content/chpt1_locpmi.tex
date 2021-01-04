@@ -275,8 +275,8 @@ DREAM3-100 Yeast & 101 & 3.32(10) & 166 & 0.034\\
 总体上来讲,较高的~AUROC~和~AUPR~值表明更准确的~GRN~预测。
 为此,我们通过比较金标准网络~(golden network)~中的真实边与
 方法~Loc-PCA-CMI~输出的有序边列表里最高~$q$~条边来计算真阳性~(TP)、真阴性~(TN)、假阳性~(FP)~和假阴性~(FN)~边的数量。
-通过绘制真实阳性率~TPR = TP/(TP + FN)~与假阳性率~FPR = FP/(FP + TN)~来增加~$q$~($q = 1, 2, \ldots, m^2$)~来构建~ROC~曲线。
-类似地,通过增加~$q$~来绘制精度~TP/(TP+FP)~和召回~TP/TP+FN~曲线。
+通过绘制真实阳性率~TPR = $\frac{TP}{TP + FN}$~与假阳性率~FPR = $\frac{FP}{FP + TN}$~来增加~$q$~($q = 1, 2, \ldots, m^2$)~来构建~ROC~曲线。
+类似地,通过增加~$q$~来绘制精度~$\frac{TP}{TP+FP}$~和召回~$\frac{TP}{TP+FN}$~曲线。
 
 
 \subsubsection{模型选择}
@@ -293,7 +293,7 @@ $n$~的最佳值可以通过交叉验证获得,通常较大的~$n$~可以促成�
 显然在这种情况下,~Loc-PCA-CMI~和~PCA-CMI~的性能是相同的。
 
 为了探讨阶数~$k$~的大小是如何影响这些方法的性能,
-按照~\cite{zhang2011inferring,zhao2016part}~中建议的参数设置,
+按照文献~\cite{zhang2011inferring,zhao2016part}~中建议的参数设置,
 设置固定阈值~$\beta = 0.03$~后,
 我们把这四种方法中的阶数~$k$~从~1~逐渐变化为~10,
 然后分别计算每种方法的~AUROC~和~AUPR。
