@@ -18,11 +18,11 @@
 最终通过聚合局部网络结构,也就是基因之间的依赖性网络,来构造最终的~GRN。
 我们在~DREAM3~敲除数据集上对~Loc-PCA-CMI~进行了评估,
 将其与其它基于信息理论的网络结构推断方法,包括~ARACNE、MRNET、PCA-CMI~和~PCA-PMI,进行了性能比较。
-实验结果证明,~Loc-PCA-CMI~在~DREAM3~数据集上特别是在基因数目为~50~和~100~的网络上表现优于其它四种基准方法。
+实验结果证明,~Loc-PCA-CMI~在~DREAM3~数据集上特别是在基因数目为~50~和~100~的网络上表现优于其它四种方法。
 
 \subsection{相关工作}
 
-推断和理解基因调控网络~(GRNs)~是系统生物学中的一个关键问题, 
+推断和理解~GRNs~是系统生物学中的一个关键问题, 
 可以帮助生物医学科学家明确识别基因与基因之间复杂的调控关系、理解细胞中的调控机制~\cite{altay2010inferring, basso2005reverse}。
 在过去,~GRN~是从实验干预中推断出来的,其中基因之间的调控相互作用被验证。
 显然,这种方法是不可行的~\cite{elnitski2006locating},需要耗费大量时间和相当大的成本。
@@ -77,7 +77,7 @@ Zhao~等人~\cite{zhao2016part}~引入了基于偏互信息~(PCA-PMI)~的路径�
 路径一致性算法~(PCA,Path Consistency Algorithm)~是一种穷举算法,广泛用于推断~GRN~\cite{zhang2011inferring}。
 ~PCA-CMI~和~PCA-PMI~这两个算法通常会在运行时间和准确度之间进行折衷权衡。
 
-随着网络规模的增加, 网络噪声本身在增加,
+随着网络规模的增加, 网络噪声在增加,
 PCA~这种~top-down~的算法的复杂度很高, 而且受到经验参数的影响,使得~GRN~的预测精度急剧下降。
 为了改善这种情况,我们直接从局部结构入手,辅助以合并的策略,提出了一种新的基因调控网络结构推断方法,命名为~Loc-PCA-CMI。
 该方法首先使用~的高度共同表达的基因作为局部基因簇的质心,
@@ -158,7 +158,7 @@ PCA-CMI~算法利用~MI~和~CMI,从低阶到高阶递归地移除调控网络中
 需要注意的是,
 在算法~\ref{alg}~里面,
 由于~PCA-CMI~本身就非常适合相对较小的~GRN~结构推断,
-因此我们设置了一个过滤处理步骤:如果局部类中基因的数量小于或等于常数~$c$,
+因此我们设置了一个过滤预处理步骤:如果局部类中基因的数量小于或等于常数~$c$,
 则直接应用~PCA-CMI~推断~GRN~的结构。
 \begin{figure}[!htbp]
     \centering
@@ -177,16 +177,16 @@ PCA-CMI~算法利用~MI~和~CMI,从低阶到高阶递归地移除调控网络中
 ~PCA-CMI~和~PCA-PMI~都可以视为后续结构精炼化的候选方法。
 除了~Loc-PCA-CMI~外,如果用~PCA-PMI~替换~PCA-CMI,则会生成一种新方法,类似地我们将其命名为~Loc-PCA-PMI。
 如此一来,我们便得到了四种基于~PCA~(路径一致性)~的方法,即是~PCA-PMI、PCA-CMI、Loc-PCA-PMI~和~Loc-PCA-CMI,
-显然,所有这些方法都属于无模型~(model-free)~方法。
+显然,这四种方法都属于无模型~(model-free)~方法。
 
 另外, 如表~\ref{tbl}~所示,在六个基准数据集~DREAM3-10~中,因为~Ecoli~和~Yeast~数据集仅包含~10~个基因,
-满足算法~\ref{alg}~的过滤处理条件,
-因此~Loc-PCA-CMI~和~PCA-CMI~在这两个数据集上的的表现相同,同理此时~Loc-PCA-PMI~和~PCA-PMI~的表现也相同。
+满足算法~\ref{alg}~的过滤预处理条件,
+此时,~Loc-PCA-CMI~和~PCA-CMI~在这两个数据集上的输出的调控网络结构相同,同样地此时~Loc-PCA-PMI~和~PCA-PMI~输出的调控网络结构也相同。
 为了对这些基于~PCA~(路径一致性)~的方法进行更有意义的比较,
 我们选择了其它四个基因数目大于~10~的数据集。
 
 \begin{algorithm}[!htbp]
-    \caption{Loc-PCA-CMI~伪代码}
+    \caption{Loc-PCA-CMI~算法伪代码}
     \label{alg}
     \begin{algorithmic}[1]
     \Require $M$ (the gene expression data matrix), $m$ (the number of genes), $n$ (the number of top ranked edges), $c$ (constant number); $k$ (CMI order number) and $\beta$ (order threshold) in subroutine PCA-CMI.
@@ -221,7 +221,14 @@ PCA-CMI~算法利用~MI~和~CMI,从低阶到高阶递归地移除调控网络中
 
 \subsubsection{数据集}
 
-我们使用来自著名的~DREAM3~竞赛的六个模拟数据~\cite{schaffter2011genenetweaver}~对~Loc-PCA-CMI~的性能进行了基准测试。
+
+在过去十年中,~GRN~推理一直是一个相当活跃的研究领域。
+因此,一个名为``逆向工程对话"的社区联盟~(DREAM)~\cite{stolovitzky2007dialogue}~成立,
+这个社区联盟的研究人员一起协作,积极讨论和研究~GRNs~推理。
+DREAM~联盟还举办国际逆向工程挑战赛, 提供标准化的通用输入数据集和性能评估指标来比较不同的方法。
+该组织提供的数据集事实上成为了~GRN~推理领域的金标准网络数据集, 经常被用于评测各种各样新的~GRN~重建算法。
+
+我们使用来自~DREAM3~竞赛的六个模拟数据~\cite{schaffter2011genenetweaver}~对~Loc-PCA-CMI~的性能进行了测试。
 ~DREAM3~使用~GeneNetWeaver~软件来模拟生成基因网络表达数据,
 在来自已知生物模式的调节相互作用系统的子网:~Ecoli~(大肠杆菌)~和~Yeast~(酵母)~的基础上,
 得到测试使用的基准网络。 
@@ -256,7 +263,7 @@ DREAM3-100 Yeast & 101 & 3.32(10) & 166 & 0.034\\
 针对每个数据集而言,输入数据文件中的行代表样本~(实验),~列代表基因~(实验变量)。
 第一行是野生型表达数据,该样本中的每个基因都保持稳定状态。
 第~$l$~($l>1$)~行则表示在对应的样本中第~$l-1$~个基因敲除后其它基因的表达量。
-我们在仓库~\url{https://github.com/chenxofhit/Loc-PCA-CMI.git}~上上传了所有实验用到的数据集。
+用户可以在~GitHub~仓库~\url{https://github.com/chenxofhit/Loc-PCA-CMI.git}~上查看我们在本章节实验用到的数据集。
 
 \subsubsection{评价指标}
 
@@ -405,10 +412,10 @@ AUPR~总体上随着~$\beta$~的增加逐渐增大,然后又逐渐降低。
 \end{figure*}
 
 % \subsubsection{Loc-PCA-CMI~比其它竞争方法表现更好}
-我们在六个基准数据集上使用~Loc-PCA-CMI~和四种基准方法~ARACNE、MRNET、PCA-PMI、PCA-CMI~进行了比较实验。
-我们使用~R~包~``minet"和其默认参数来评估~ARACNE~和~MRNET~\cite{meyer2008minet}。
-使用~Pearson~相关系数直接从连续基因敲除表达数据~\cite{olsen2008impact,meyer2010information}~中近似估计方法的~MI~矩阵。
-为了实现~PCA-PMI~和~PCA-CMI, 我们根据~\cite{zhang2011inferring,zhao2016part}~中提供的~URL~下载了~MATLAB~代码。
+我们在六个基准数据集上使用~Loc-PCA-CMI~和四种方法~ARACNE、MRNET、PCA-PMI、PCA-CMI~进行了比较实验。
+我们使用~R~包~``minet"和其默认参数来评估~ARACNE~和~MRNET~\cite{meyer2008minet},
+采用了~Pearson~相关性系数直接从连续基因敲除表达数据中近似估计这两个方法中涉及到的~MI~矩阵~\cite{olsen2008impact,meyer2010information}~。
+为了实现~PCA-PMI~和~PCA-CMI, 我们根据对应的文献~\cite{zhang2011inferring,zhao2016part}~中提供的~URL~下载了~MATLAB~代码。
 另外,~PCA-PMI~和~PCA-CMI~方法中的参数使用它们推荐的默认值,也就是~$\beta = 0.03$~和~$k = 2$。
 对于~Loc-PCA-CMI, 我们还对这两个参数采用了相同的值进行比较。
 表~\ref{tab:performance_comparison}~给出了实验结果的~AUROC~和~AUPR。
@@ -461,12 +468,12 @@ Loc-PCA-CMI~在处理局部网络结构的时候引入了~PCA-CMI,其计算效�
 因为在大型网络的情况下,局部基因簇的数量可能会非常大。
 但是,如果我们可以控制每个局部簇的大小,我们的方法也将适用于大型数据集。
 我们未来的工作之一是改进聚类策略,
-例如整合蛋白质复合物~\cite{li2017identification, li2017dynetviewer},
+例如整合蛋白质复合物~\cite{li2017identification,li2017dynetviewer},
 以便更有效地处理大规模样本数据。
 另外,值得注意的是,我们主要关注推断~GRN~的结构,并没有考虑网络自身的稳定性问题。
 因此,我们未来的研究将尝试从网络稳定性的角度出发推断更鲁棒的基因调控网络结构。
 
-我们从局部基因结构出发, 然后合并局部结构来构造全局网络的想法,提出了一种命名为~Loc-PCA-CMI~的新的基于无模型~(model-free)~的~GRN~结构推断方法。
+我们从局部基因结构出发,然后合并局部结构来构造全局网络的想法,提出了一种命名为~Loc-PCA-CMI~的新的基于无模型~(model-free)~的~GRN~结构推断方法。
 与~PCA~类算法~top-down~的思想相反,~Loc-PCA-CMI~采用了类似~bottom-up~的策略。
 在~DREAM3~敲除数据集上的实验表明,~Loc-PCA-CMI~受益于局部聚类的策略。
 此外,~Loc-PCA-CMI~优于其它方法,
