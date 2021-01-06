@@ -1,0 +1,45 @@
+Key TF	Description	# of overlapped genes	P value	Q value	List of overlapped genes
+KLF4	Kruppel-like factor 4 (gut)	4	0.000119	0.00327	KRT19,TAGLN,CDKN1A,GDF15
+STAT3	signal transducer and activator of transcription 3 (acute-phase response factor)	6	0.000295	0.00327	FOS,TIMP1,CYR61,CTGF,A2M,CDKN1A
+JUN	jun proto-oncogene	6	0.000381	0.00327	CDKN1A,CTGF,ACTA1,EZR,STMN1,ELN
+ETV6	ets variant 6	2	0.000396	0.00327	CDKN1A,IGFBP5
+TFAP2B	transcription factor AP-2 beta (activating enhancer binding protein 2 beta)	2	0.000396	0.00327	PTGDS,CRYAB
+WT1	Wilms tumor 1	4	0.000473	0.00327	CTGF,CKM,IGF2,CDKN1A
+SRF	serum response factor (c-fos serum response element-binding transcription factor)	3	0.000521	0.00327	TAGLN,FOS,ACTA1
+KLF10	Kruppel-like factor 10	2	0.000825	0.00454	STMN1,CDKN1A
+HDAC1	histone deacetylase 1	4	0.00109	0.00479	HMGCS1,FOS,HSPA5,CDKN1A
+JUND	jun D proto-oncogene	3	0.0013	0.00479	SOX4,CDKN1A,TIMP1
+HIPK2	homeodomain interacting protein kinase 2	2	0.0014	0.00479	CDKN1A,MEF2C
+SMARCA4	SWI/SNF related, matrix associated, actin dependent regulator of chromatin, subfamily a, member 4	2	0.0014	0.00479	FOS,CDKN1A
+TWIST1	twist basic helix-loop-helix transcription factor 1	3	0.00141	0.00479	TIMP1,GDF15,FOS
+EGR1	early growth response 1	4	0.0024	0.00755	GDF15,STMN1,CDKN1A,IGF2
+HDAC7	histone deacetylase 7	2	0.00299	0.00877	MEF2C,CDKN1A
+TP53	tumor protein p53	5	0.00398	0.0103	GDF15,CDKN1A,CRYAB,ANKRD1,CKM
+TBP	TATA box binding protein	2	0.00399	0.0103	FOS,CDKN1A
+BRCA1	breast cancer 1, early onset	3	0.00572	0.0132	CDKN1A,HSPA5,FOS
+FOS	FBJ murine osteosarcoma viral oncogene homolog	3	0.00572	0.0132	EZR,FOS,ACTA1
+ESR2	estrogen receptor 2 (ER beta)	2	0.00639	0.0141	FOS,CDKN1A
+PAX5	paired box 5	2	0.00778	0.0163	TIMP1,CDKN1A
+PPARG	peroxisome proliferator-activated receptor gamma	3	0.00858	0.0172	CDKN1A,GDF15,DBI
+SOX9	SRY (sex determining region Y)-box 9	2	0.0093	0.0178	CDKN1A,NES
+TFAP2A	transcription factor AP-2 alpha (activating enhancer binding protein 2 alpha)	3	0.0105	0.0185	CDKN1A,CRYAB,IGFBP5
+SP1	Sp1 transcription factor	8	0.0106	0.0185	EZR,CTGF,GATA3,TIMP1,CDKN1A,IGF2,KRT19,FOS
+TWIST2	twist basic helix-loop-helix transcription factor 2	2	0.0109	0.0185	FOS,GDF15
+RARA	retinoic acid receptor, alpha	2	0.0118	0.0192	SCD,CDKN1A
+ESR1	estrogen receptor 1	3	0.0126	0.0196	KRT19,CDKN1A,FOS
+NFKB1	nuclear factor of kappa light polypeptide gene enhancer in B-cells 1	6	0.013	0.0196	PTGDS,TIMP1,GATA3,CDKN1A,S100A6,A2M
+RUNX3	runt-related transcription factor 3	2	0.0155	0.0228	TIMP1,CDKN1A
+RB1	retinoblastoma 1	2	0.0165	0.0235	CDKN1A,FOS
+MYCN	v-myc myelocytomatosis viral related oncogene, neuroblastoma derived (avian)	2	0.0332	0.0457	CDKN1A,NES
+SIRT1	sirtuin 1	2	0.0374	0.0499	BCL11A,CDKN1A
+IRF1	interferon regulatory factor 1	2	0.0418	0.0541	DST,CDKN1A
+CEBPB	CCAAT/enhancer binding protein (C/EBP), beta	2	0.0559	0.0703	GDF15,CDKN1A
+USF1	upstream transcription factor 1	2	0.0644	0.0787	PTGDS,S100A6
+ETS1	v-ets erythroblastosis virus E26 oncogene homolog 1 (avian)	2	0.0901	0.107	CDKN1A,CTGF
+STAT1	signal transducer and activator of transcription 1, 91kDa	2	0.1	0.116	CDKN1A,TIMP1
+CREB1	cAMP responsive element binding protein 1	2	0.112	0.126	FOS,STMN1
+YY1	YY1 transcription factor	2	0.114	0.126	ACTC1,HSPA5
+AR	androgen receptor	2	0.118	0.127	CDKN1A,ACTA1
+RELA	v-rel reticuloendotheliosis viral oncogene homolog A (avian)	4	0.126	0.132	GATA3,TIMP1,CDKN1A,S100A6
+SP3	Sp3 transcription factor	2	0.162	0.165	CDKN1A,TIMP1
+E2F1	E2F transcription factor 1	2	0.21	0.21	HSPA5,CDKN1A
