@@ -3,7 +3,7 @@
 
 \subsection{引言}
 
-从基因表达数据构建基因调控网络~(GRNs)~是系统生物学中一个具有挑战性的基础问题。
+% 从基因表达数据构建基因调控网络~(GRNs)~是系统生物学中一个具有挑战性的基础问题。
 在上一章中我们提出了一种基因调控网络的结构构建方法,
 Loc-PCA-CMI~输出的是无向网络,基因和基因之间的权重表示的是调控相互作用关系的强弱。
 很多时候在~GRN~中,我们除了关注基因之间的相互作用之外,还对基因调控的具体方向十分感兴趣。
@@ -11,8 +11,9 @@ Loc-PCA-CMI~输出的是无向网络,基因和基因之间的权重表示的是�
 最近关于数据驱动的动态网络构建的研究,主要是偏微分方程和机器学习相结合, 
 为我们利用回归方法研究基因调控网络提供了一个全新的视角。
 在本文的研究中,我们提出了一种改进数据驱动的动态网络构建方法来构建基因调控网络,命名为~D3GRN。
-该方法将每个目标基因的调控关系转化为函数分解问题,利用改进后的揭示网络相互作用的算法~ARNI~解决各个子问题。
-我们采用抽样~(bootstrapping)~和基于面积的评分方法~(area-based scoring)~来构建最终的网络,克服了~ARNI~仅从单元级构建网络的缺陷。
+该方法将每个目标基因的调控关系转化为函数分解问题,利用改进的揭示网络相互作用的算法~ARNI~解决各个子问题。
+我们采用抽样~(bootstrapping)~和基于面积的评分方法~(area-based scoring)~来构建最终的网络,
+克服了~ARNI~仅从单元级构建网络的缺陷。
 实验结果表明, 在~DREAM4~和~DREAM5~基准数据集上, D3GRN~在~AUPR~这个评价指标上优于最先进的算法。
 
 \subsection{相关工作}
@@ -349,14 +350,14 @@ $O((tp)^3)$~是由于~BOLS~算法的~Moore-Penrose~伪逆复杂性。
 如果一个数据集用矩阵表示,那么行表示样本,列表示基因。
 我们采用~DREAM4~挑战赛中的~5~个多因素数据集,
 每个包含~100~个基因和~100~个样本。
-这~5~个数据集中的样本是通过从原始数据中同时微扰动所有基因表达值, 借助于使用开源的~GeneNetWeaver~软件~\cite{marbach2009generating}生成的。
+这~5~个数据集中的样本是通过从原始数据中同时微扰动所有的基因, 借助于使用开源的~GeneNetWeaver~软件~\cite{marbach2009generating}~辅助生成的。
 因此,这~5~个数据集中的每个样本都代表了一个多因素扰动实验。
-调控因子可以被看作是这些基因本身,因为在这五个网络中挑战赛官方并没有指定哪些基因是调控因子。
+调控因子可以被看作是这些基因本身,因为挑战赛官方针对这五个网络没有指定哪些基因是调控因子。
 %此外,我们从~DREAM5~数据集中选用了三个不同的和大小变化的网络。
 我们还使用了一个~DREAM5~数据集~1,这也是一个由~GeneNetWeaver~模拟生成的网络。
 这个模拟网络的拓扑结构是基于的已知的生物模型~GRNs~进行修正的。
 与~DREAM4~中的网络不同的是,
-DREAM5~数据集中的转录因子~(TFs)~是作为调控因子显式提供的,它是提供的所有基因中一个子集。
+DREAM5~数据集中的转录因子~(TFs)~集合是被挑战赛举办方显式提供的,它们是提供的所有基因的一个子集。
 
 % while the other two expression datasets are real expression data collected 
 % for E. coli (Network 3) and S. cerevisiae (Network 4). 
@@ -396,19 +397,22 @@ DREAM5 Network 1   & 1643    & 195                & 805       & 4012            
 
 \subsubsection{评价指标}
 
-为了评估~GRN~推理算法的效果,我们使用准确率-召回率曲线下的面积~(AUPR)~作为评价指标。
+为了评估~GRN~推理算法的效果,我们使用精确率-召回率曲线下的面积~(AUPR)~作为评价指标。
 除了~AUPR~之外,接收者操作特征曲线下的面积~(AUROC)~也被广泛用于评估效果。
-一般来说,~AUROC~和~AUPR~值越高,说明~GRN~预测越准确。
-需要注意的是,在稀疏的生物网络中,不存在的边数目~(阴性边)大大超过现有边的数量~(阳性边),
-因而~AUPR~比~AUROC~\cite{saito2015precision}~更有参考价值。
+一般来说,~AUROC~和~AUPR~值越高,说明~GRN~预测得越准确。
+需要注意的是,在稀疏的生物网络中,不存在的边数目~(阴性边)~大大超过现有边的数量~(阳性边),
+因而~AUPR~比~AUROC更有参考价值~\cite{saito2015precision}~。
 
 我们首先通过比较金标准网络中的调节边和~D3GRN~的排序列表输出前~$q$~条边,
 计算出真阳性~(TP)、真阴性~(TN)、假阳性~(FP)~和假阴性~(FN)~边的数量。
-
+随着~$q$~不断增加,~$q = 1,2,\ldots,N\times(N-1)$,其中~$N$~为基因数,
+我们通过绘制真阳性率~(The true positive rates,~TPR)~与假阳性率~(The false positive rates,~FPR)~,
+便得到了接收者操作特征~(Receiver Operating Characteristic,~ROC)~曲线; 
+同样地,
 %The ROC curve is constructed by plotting the true positive rates~(TPR = TP/(TP + FN)) versus the false positive rates~(FPR = FP/(FP + TN)) for increasing $q$~($q = 1,2,\ldots,m^2$).
-精确度-召回曲线是通过绘制精确度~$\frac{\text{TP}}{\text{TP + FP}}$~与召回度~$\frac{\text{TP}}{\text{TP + FN}}$~在增加~$q$~的情况下构建的。
-~$q = 1,2,\ldots,N\times(N-1)$,其中~$N$~为基因数。
-通过计算曲线下的面积得到~AUPR。
+精确率-召回率~(Precision-Recall,PR)~曲线是通过绘制精确率~Precision~与召回率~Recall~而得到。
+其中,~TPR、FPR、Precision、Recall~的计算如等式~\ref{eq:tpr}、\ref{eq:fpr}、\ref{eq:precision}、\ref{eq:recall}~所示。
+我们再通过计算曲线下的面积便得到了~AUROC~和~AUPR。
 %Similarly, the precision~(TP/(TP + FP)) and recall~(TP/(TP + FN)) curve is plotted for increasing $q$.
 
 
@@ -430,7 +434,7 @@ P_k=\left\{\begin{matrix}
 我们在本研究中也遵循这种简化的方式。
 换句话说,其它基因对目标基因的调控是基于多项式非线性函数的混合。
 
-D3GRN~中有两个参数,
+D3GRN~中涉及到两个可变参数,
 包括抽样的次数~$b$~和~ARNI~步数~$L$。
 图~\ref{fig:performance_dr5}~展示了通过改变~DREAM5~网络~1~的~ARNI~步数和抽样次数这两个参数的结果。
 一般来说,较大的抽样次数~$b$~运行时间越长,但是它的性能会越趋于稳定和优异。
@@ -448,16 +452,16 @@ D3GRN~中有两个参数,
 \label{fig:performance_dr5}
 \end{figure}
 
-我们在~DREAM4~和~DREAM5~网络进行了两次对比实验,来评测我们提出的方法~D3GRN。
+我们分别在~DREAM4~和~DREAM5~网络进行了对比实验,来评测我们提出的方法~D3GRN。
 NIMEFI~用~R~实现,而~GENIE3、TIGRESS~是用~MATLAB~实现。
-这些方法的代码从对应论文提供的~URL~进行下载,在实验中各方法中的参数使用它们代码注释中提供的默认值。
-我们提出的方法~D3GRN~也是在~MATLAB~中实现的,使用的数据集及代码公开在~GitHub~仓库~\url{https://github.com/chenxofhit/D3GRN}~上。
+这些方法的代码从对应论文提供的~URL~进行下载,在实验中各方法中的参数使用它们代码中推荐的默认值。
+我们提出的方法~D3GRN~也是利用~MATLAB~实现的,使用的数据集及代码公开在~GitHub~仓库~\url{https://github.com/chenxofhit/D3GRN}~上。
 
 表~\ref{tab:performance_dr4}~列出了~D3GRN~与其它~GRN~推理方法在五个~DREAM4~网络上比较的结果。
 其中,~D3GRN~的参数是在抽样数~$b=200$,~ARNI~步数~$L=2$~下得到的。
 如表所示,除了在~DREAM4网络~2~上,~D3GRN~跟其它方法相比~AUPR~值最高。
 
-表~\ref{tab:performance_dr5}~总结了~D3GRN~与其它~GRN~推理方法在~DREAM5~数据集上的比较结果。
+表~\ref{tab:performance_dr5}~总结了~D3GRN~与其它~GRN~构建方法在~DREAM5~数据集上的比较结果。
 D3GRN~的参数设置为抽样数~$b=200$,ARNI步数~$L=5$。
 D3GRN~在网络~1~上跟其它方法相比~AUPR~值最高。
 
@@ -491,7 +495,7 @@ D3GRN~在网络~1~上跟其它方法相比~AUPR~值最高。
   \centering
   \begin{threeparttable}  
 %  \caption{Performance comparisons of different GRN inference methods on the DREAM4 networks in terms of AUPR}
-  \caption{不同~GRN~推理方法在~DREAM4~网络上的~AUPR~结果}
+  \caption{不同~GRN~构建方法在~DREAM4~网络上的~AUPR~结果}
 
   \label{tab:performance_dr4} 
     \begin{tabular}{cccccc}  
@@ -518,7 +522,7 @@ D3GRN~在网络~1~上跟其它方法相比~AUPR~值最高。
    % \resizebox{\columnwidth}{!}{%
   \begin{threeparttable}  
 %  \caption{Performance comparisons of different GRN inference methods on the DREAM5 Network 1 in terms of AUPR}  
-  \caption{不同~GRN~推理方法在~DREAM5~网络~1~上的~AUPR~结果}
+  \caption{不同~GRN~构建方法在~DREAM5~网络~1~上的~AUPR~结果}
 
   \label{tab:performance_dr5} 
     \begin{tabular}{ccccccc}  
@@ -535,9 +539,8 @@ D3GRN~在网络~1~上跟其它方法相比~AUPR~值最高。
 
 \subsection{小结}
 
-在~GRN~推理中, 假设相互作用是稀疏的结构是合理的,
-特别是在``小~$n$~大~$p$"的情况下, 即可用样本数量少,基因数量多。
-稀疏性约束在机器学习中被广泛应用。
+在~GRN~构建中, 基因与基因的调控作用所形成的网络存在稀疏的结构这一假设是合理的,
+特别是在``小~$n$~大~$p$"的情况下, 即可用的测序基因表达样本数量少,基因数量多。
 在~GRN~中,稀疏性假设意味着每个基因只有少量的调控因子,这个假设也很合理,
 本章提出的~D3GRN~方法也遵循同样的假设。
 我们在~DREAM4~和~DREAM5~数据集上评估了我们的方法。

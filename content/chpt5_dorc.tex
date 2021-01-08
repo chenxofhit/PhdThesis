@@ -197,15 +197,15 @@ de.facLoc = 0.4, de.facScale = 0.8, nGenes = 5000)}
 \subsubsection{评价指标}
 
 在两类实验中,直接构建一个混淆矩阵~(confusion matrix),其数字为真阳性~(TP)、假阳性~(FP)、真阴性~(TP)、假阴性~(FN)。
-混淆矩阵上的精确性、召回率和~F1-score~可以很容易地计算如下:
-\begin{equation}
-    \label{eq:precision}
-    \text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}}
-\end{equation}
-\begin{equation}
-    \label{eq:recall}
-    \text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}}
-\end{equation}
+混淆矩阵上的精确率~Precision、召回率~Recall~和综合评价指标~F1-score~可以很容易地计算,如等式~\ref{eq:precision}、\ref{eq:recall}、\ref{eq:f1score}~所示。
+% \begin{equation}
+%     \label{eq:precision}
+%     \text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}}
+% \end{equation}
+% \begin{equation}
+%     \label{eq:recall}
+%     \text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}}
+% \end{equation}
 \begin{equation}
 \label{eq:f1score}
 \text{F1-score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{ \text{Precision} + \text{Recall}}

@@ -5,19 +5,19 @@
 
 从基因表达数据中推断基因调控网络~(GRNs)~的结构一直是系统生物学中的十分具有挑战的问题。
 鉴定基因之间复杂的调控关系对于理解细胞的调控机制至关重要。
-到如今,基于信息理论的各种~GRN~推断方法已经被提出来。
+到如今,不少基于信息理论的~GRN~构建方法已经被提出来。
 在上一章里面, 我们回顾了各种网络模型和建模方法。
 基于信息理论的~GRN~推断方法属于关联网络建模方法的范畴。
 然而,在传统的DNA~微阵列测序数据中由于存在的外部噪声、
 网络结构中的拓扑稀疏性和基因之间的传递依赖等因素,
-这些基于信息理论的~GRN~推断方法在网络推断中会引入假阳性的依赖关系。
-特别是随着网络规模的增加,这些方法的性能会大幅下降。
-在本章中我们提出了一种新的网络结构推断方法~Loc-PCA-CMI:
+使得基于信息理论的~GRN~推断方法在网络推断中会引入假阳性的依赖关系。
+特别是随着网络规模的增加,这类方法的性能会大幅下降。
+在本章,我们提出了一种新的网络结构推断方法~Loc-PCA-CMI:
 首先识别局部重叠基因簇~(local overlapped gene clusters),
 然后基于条件互信息~(PCA-CMI)~的路径一致性算法推断每个簇的局部网络结构,
-最终通过聚合局部网络结构,也就是基因之间的依赖性网络,来构造最终的~GRN。
+最终通过聚合局部网络结构,也就是基因之间的依赖性网络,来构建最终的~GRN。
 我们在~DREAM3~敲除数据集上对~Loc-PCA-CMI~进行了评估,
-将其与其它基于信息理论的网络结构推断方法,包括~ARACNE、MRNET、PCA-CMI~和~PCA-PMI,进行了性能比较。
+将该方法与其它基于信息理论的网络结构推断方法,包括~ARACNE、MRNET、PCA-CMI~和~PCA-PMI,进行了比较。
 实验结果证明,~Loc-PCA-CMI~在~DREAM3~数据集上特别是在基因数目为~50~和~100~的网络上表现优于其它四种方法。
 
 \subsection{相关工作}
@@ -221,11 +221,18 @@ PCA-CMI~算法利用~MI~和~CMI,从低阶到高阶递归地移除调控网络中
 
 \subsubsection{数据集}
 
-
 在过去十年中,~GRN~推理一直是一个相当活跃的研究领域。
-因此,一个名为``逆向工程对话"的社区联盟~(DREAM)~\cite{stolovitzky2007dialogue}~成立,
-这个社区联盟的研究人员一起协作,积极讨论和研究~GRNs~推理。
-DREAM~联盟还举办国际逆向工程挑战赛, 提供标准化的通用输入数据集和性能评估指标来比较不同的方法。
+因此,一个英文译名为``逆向工程对话"的社区联盟~(DREAM)~\cite{stolovitzky2007dialogue}~成立。
+由该组织举办的~DREAM Challenge~是生物医药领域最具影响力的开放数据建模旗舰竞赛,
+旨在通过算法解决当前热点的生物学问题。
+该赛事根据当下热点的研究问题发起挑战竞赛,由组织方提供测试数据,
+并设计不同的任务主题供参赛者进行建模预测,根据预测结果决定优胜者。
+其第三方验证的特性保证了算法的可重复性,使得算法能得到最有效的验证,
+从而在推动在该研究领域的进展。
+目前该赛事已经完成了~50~多项挑战赛,产生了近百篇相关文献。
+
+DREAM~联盟举办了~DREAM3, DREAM4~和~DREAM5~等与~GRNs~推理构建相关的挑战赛, 
+举办方提供了标准化的通用输入数据集和性能评估指标来比较不同的候选方法。
 该组织提供的数据集事实上成为了~GRN~推理领域的金标准网络数据集, 经常被用于评测各种各样新的~GRN~重建算法。
 
 我们使用来自~DREAM3~挑战赛的六个模拟数据~\cite{schaffter2011genenetweaver}~对~Loc-PCA-CMI~的性能进行了测试。
@@ -269,14 +276,37 @@ DREAM3-100 Yeast & 101 & 3.32(10) & 166 & 0.034\\
 
 我们通过评估接收者操作特征曲线下面积~(AUROC)~和准确率召回率曲线下面积~(AUPR)~来评估~Loc-PCA-CMI~的性能。
 与稀疏生物网络一样,不存在的边~(负样本)~的数量明显超过现有边~(正样本)~的数量; 
-事实上,~AUPR~对~AUROC~\cite{saito2015precision}~提供了更多信息。
+事实上,~AUPR~对~AUROC提供了更多信息~\cite{saito2015precision}~。
 我们倾向于使用~AUPR~进行评估,但为了与采用~AUROC~作为评估指标的其它方法进行完整地比较,
 我们也计算了~AUROC~作为补充。
 总体上来讲,较高的~AUROC~和~AUPR~值表明更准确的~GRN~预测。
-为此,我们通过比较金标准网络~(golden network)~中的真实边与
-方法~Loc-PCA-CMI~输出的有序边列表里最高~$q$~条边来计算真阳性~(TP)、真阴性~(TN)、假阳性~(FP)~和假阴性~(FN)~边的数量。
-通过绘制真实阳性率~TPR = $\frac{TP}{TP + FN}$~与假阳性率~FPR = $\frac{FP}{FP + TN}$~来增加~$q$~($q = 1, 2, \ldots, m^2$)~来构建~ROC~曲线。
-类似地,通过增加~$q$~来绘制精度~$\frac{TP}{TP+FP}$~和召回~$\frac{TP}{TP+FN}$~曲线。
+
+为此,我们通过比较金标准网络~(golden network)~中的真实边与方法~Loc-PCA-CMI~输出的有序边列表里最高~$q$~条边来计算真阳性~(TP)、真阴性~(TN)、假阳性~(FP)~和假阴性~(FN)~边的数量。
+我们通过绘制真阳性率~(The true positive rates,~TPR)~与假阳性率~(The false positive rates,~FPR)~,
+便得到了接收者操作特征~(Receiver Operating Characteristic,~ROC)~曲线; 
+同样地,
+%The ROC curve is constructed by plotting the true positive rates~(TPR = TP/(TP + FN)) versus the false positive rates~(FPR = FP/(FP + TN)) for increasing $q$~($q = 1,2,\ldots,m^2$).
+精确率-召回率~(Precision-Recall,PR)~曲线是通过绘制精确率~Precision~与召回率~Recall~而得到。
+其中,~TPR、FPR、Precision、Recall~的计算如等式~\ref{eq:tpr}、\ref{eq:fpr}、\ref{eq:precision}、\ref{eq:recall}~所示。
+我们再通过计算曲线下的面积便得到了~AUROC~和~AUPR。
+
+\begin{equation}
+  \label{eq:tpr}
+  \text{TPR} = \frac{\text{TP}}{\text{TP + FN}}
+\end{equation}
+\begin{equation}
+  \label{eq:fpr}
+  \text{FPR} = \frac{\text{FP}}{\text{FP + TN}}
+\end{equation}
+\begin{equation}
+  \label{eq:precision}
+  \text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}}
+\end{equation}
+\begin{equation}
+  \label{eq:recall}
+  \text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}}
+\end{equation}
+\begin{equation}
 
 
 \subsubsection{模型选择}
