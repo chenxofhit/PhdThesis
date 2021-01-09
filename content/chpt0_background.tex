@@ -74,17 +74,17 @@
 它首先通过生物实验获取高通量生物数据, 然后根据生物网络的先验知识, 针对特定生物问题建立数学模型, 
 并设计合理的算法构建基因调控网络, 最后通过生物学实验验证逐步逼近和发现真实的基因调控网络~\cite{sima2009inference}。
 从计算角度讲,基因调控网络构建依赖于已知的知识数据库发现~(Knowledge Database Discovery,~KDD)~工作流程。
-KDD~从输入数据预处理到模型的验证, 通过数据库搜索比较之前的实验数据结果来完成的,总计包含~6~个步骤,如图~\ref{cover-3}~所示。
+KDD~从输入数据预处理到模型的验证, 通过数据库搜索比较之前的实验数据结果来完成的,总计包含六个步骤,如图~\ref{cover-3}~所示。
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=0.95\textwidth]{cover-3.pdf}
+    \includegraphics[width=0.8\textwidth]{kdd.pdf}
     \caption{基于~KDD~工作流程的~GRN~重建步骤。
-    \textcircled{\raisebox{-0.9pt}{1}}输入数据。
-    \textcircled{\raisebox{-0.9pt}{2}}数据预处理。
-    \textcircled{\raisebox{-0.9pt}{3}}网络构建算法。
-    \textcircled{\raisebox{-0.9pt}{4}}生成模型。
-    \textcircled{\raisebox{-0.9pt}{5}}模型分析和校验。
-    \textcircled{\raisebox{-0.9pt}{6}}生物知识。
+    (a) 输入数据。
+    (b) 数据预处理。
+    (c) 网络构建算法。
+    (d) 生成模型。
+    (e) 模型分析和校验。
+    (f) 生物知识。
     }
     \label{cover-3}
 \end{figure}
@@ -182,12 +182,12 @@ DNA~微阵列技术(DNA microarray)~是上个世纪~90~年代产生的最为重�
 图~\ref{fig:pre-bn}~展示了使用布尔模型方法的整体的工作流程。
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=0.9\textwidth]{pre-bn.png}
+    \includegraphics[width=0.9\textwidth]{introduction-bn.pdf}
     \caption{
         使用布尔模型的方法的整体工作流程。
-        (i)~这些方法首先对基因表达数据进行二值化,然后生成初始布尔状态。
-        (ii)~这些方法针对二值对模型的状态进行优化。
-        (iii)~这些方法输出带有激活和抑制边缘的GRN或一组布尔函数。
+        (a)~这些方法首先对基因表达数据进行二值化,然后生成初始布尔状态。
+        (b)~这些方法针对二值对模型的状态进行优化。
+        (c)~这些方法输出带有激活和抑制边缘的GRN或一组布尔函数。
     }
     \label{fig:pre-bn}
 \end{figure}
@@ -243,14 +243,14 @@ Chen~\cite{chen1999modeling}~最早使用微分方程系统作为基因表达调
 图~\ref{fig:pre-df}~展示了使用微分方程模型方法的整体的工作流程。
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=0.9\textwidth]{pre-df.png}
+    \includegraphics[width=0.9\textwidth]{introduction-df.pdf}
     \caption{
         利用微分方程的方法的整体工作流程。
-        (i)~针对单细胞数据集利用外部算法或软件构建细胞间的伪时序, 或者直接采用数据集提供的时间标签特征。
+        (a)~针对单细胞数据集利用外部算法或软件构建细胞间的伪时序, 或者直接采用数据集提供的时间标签特征。
         ~DNA~微阵列测序数据直接采用提供的时间标签特征。
-        (ii)~方法利用微分方程描述基因之间跟时间的关系。
-        (iii)~使用不同的优化技术进行参数估计。
-        (iv)~根据使用优化后的参数结合微分方程构建出基因之间的关系, 输出关联矩阵。
+        (b)~方法利用微分方程描述基因之间跟时间的关系。
+        (c)~使用不同的优化技术进行参数估计。
+        (d)~根据使用优化后的参数结合微分方程构建出基因之间的关系, 输出关联矩阵。
     }
     \label{fig:pre-df}
 \end{figure}
@@ -404,12 +404,12 @@ MI(X,Y) = H(X) + H(Y) - H(X,Y) = \sum\limits_{i,j} {P(x_i ,y_i )\log \frac{{p(x_
 图~\ref{fig:pre-gc}~展示了关联网络模型方法的整体的工作流程。
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=0.9\textwidth]{pre-gc.png}
+    \includegraphics[width=0.9\textwidth]{introduction-gc.pdf}
     \caption{
         利用基因表达相关的方法的整体工作流程。
-        (i)~首先通过计算每个基因对的表达相关性来初始化边缘的权重。
-        (ii)~进行假设检验,估计每个边缘的显著性,然后使用预定义的显著性阈值去除被认为不显著的边缘。
-        (iii)~方法输出最大的连接分量。
+        (a)~首先通过计算每个基因对的表达相关性来初始化边缘的权重。
+        (b)~进行假设检验,估计每个边缘的显著性,然后使用预定义的显著性阈值去除被认为不显著的边缘。
+        (c)~方法输出最大的连接分量。
     }
     \label{fig:pre-gc}
 \end{figure}
