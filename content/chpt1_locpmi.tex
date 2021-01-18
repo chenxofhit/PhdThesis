@@ -81,7 +81,7 @@ Zhao~等人~\cite{zhao2016part}~引入了基于偏互信息的路径一致性算
 PCA~这种~top-down~的算法的复杂度很高, 而且受到经验参数的影响,使得~GRN~的预测精度急剧下降。
 为了改善这种情况,我们直接从局部结构入手,辅助以合并的策略,提出了一种新的基因调控网络结构推断方法,命名为~Loc-PCA-CMI。
 该方法首先使用~的高度共同表达的基因作为局部基因簇的质心,
-然后使用~PCA-CMI~对每个簇的结构进行精炼,~GRN~的最终结构是将所有局部网络结构进行合并。
+然后使用~PCA-CMI~对每个簇的结构进行构建,~GRN~的最终结构是将所有局部网络结构进行合并。
 从这个流程可以看出,~Loc-PCA-CMI~方法可以处理相对较大的数据集,
 并且将从~PCA-CMI~在小规模基因子网的相对准确的结构推断上受益。
 
@@ -143,7 +143,7 @@ PCA-CMI~算法利用~MI~和~CMI,从低阶到高阶递归地移除调控网络中
 显然, 独立性阈值~$\beta$~是全局变量, 
 需要依靠先验知识来赋值。
 
-\subsubsection{算法~Loc-PCA-CMI}
+\subsubsection{算法~Loc-PCA-CMI~和算法~Loc-PCA-PMI~}
 
 众所周知,生物系统中节点之间是很少完全连通的,
 大多数节点只直接连接到少量其它节点~\cite{jeong2000large},因此~GRN~也是一种稀疏网络。
@@ -172,19 +172,6 @@ PCA-CMI~算法利用~MI~和~CMI,从低阶到高阶递归地移除调控网络中
     }
     \label{pca-cmi-fr}
 \end{figure}
-
-在算法~\ref{alg}~中,在获得每个局部基因簇之后,
-~PCA-CMI~和~PCA-PMI~都可以视为后续结构精炼化的候选方法。
-除了~Loc-PCA-CMI~外,如果用~PCA-PMI~替换~PCA-CMI,则会生成一种新方法,类似地我们将其命名为~Loc-PCA-PMI。
-如此一来,我们便得到了四种基于~PCA~(路径一致性)~的方法,即是~PCA-PMI、PCA-CMI、Loc-PCA-PMI~和~Loc-PCA-CMI,
-显然,这四种方法都属于无模型~(model-free)~方法。
-
-另外, 如表~\ref{tbl}~所示,在六个基准数据集~DREAM3-10~中,因为~Ecoli~和~Yeast~数据集仅包含~10~个基因,
-满足算法~\ref{alg}~的过滤预处理条件,
-此时,~Loc-PCA-CMI~和~PCA-CMI~在这两个数据集上的输出的调控网络结构相同,
-同样地此时~Loc-PCA-PMI~和~PCA-PMI~输出的调控网络结构也相同。
-为了对这些基于~PCA~(路径一致性)~的方法进行更有意义的比较,
-我们选择了其它四个基因数目大于~10~的数据集。
 
 \begin{algorithm}[!htbp]
     \caption{Loc-PCA-CMI~算法伪代码}
@@ -221,6 +208,25 @@ PCA-CMI~算法利用~MI~和~CMI,从低阶到高阶递归地移除调控网络中
 那么计算复杂度为~$m*m^k = m^{k+1}$。 
 然而,这种最糟糕的情况在实验中很少发生,因为~$|C|$~通常低于~$m$。
 另外,在实际实验过程中,所有~PCA-CMI~子程序可以并行执行,~Loc-PCA-CMI~能以很快的速度执行完毕。
+
+需要注意的是, 在算法~\ref{alg}~中,在获得每个局部基因簇之后,
+~PCA-CMI~和~PCA-PMI~都可以视为后续局部结构推断的候选方法。
+如果在局部结构构建时使用~PCA-PMI~替换~PCA-CMI,我们将该方法命名为~Loc-PCA-PMI。
+其对应的方法框架如图~\ref{pca-pmi-fr}~所示, 
+~Loc-PCA-PMI~与~Loc-PCA-CMI~唯一不同的地方在于局部结构构建的时候,
+~Loc-PCA-PMI~的实现细节在这里不再赘述了,感兴趣的读者可以参考算法~\ref{alg}~自行推理出来。
+同样地,由于子程序~PCA-PMI~跟~PCA-CMI~的算法复杂度相同,
+因此,~Loc-PCA-PMI~的计算复杂度跟~Loc-PCA-CMI~保持一致。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.95\textwidth]{pca-pmi-framework.pdf}
+  \caption{Loc-PCA-PMI~方法框架图。}
+  \label{pca-pmi-fr}
+\end{figure}
+
+% 如此一来,我们便得到了四种基于~PCA~(路径一致性)~的方法,即是~PCA-PMI、PCA-CMI、Loc-PCA-PMI~和~Loc-PCA-CMI,
+% 显然,这四种方法都属于无模型~(model-free)~方法。
 
 \subsection{实验结果}
 
@@ -322,15 +328,22 @@ DREAM3-100 Yeast & 101 & 3.32(10) & 166 & 0.034\\
 如果~$n$~增加,则考虑的共表达的边数目增大,局部基因簇的大小将增加。
 第二个参数是~$\beta$,它作为~MI~和~CMI~的阈值来决定独立性。
 第三个参数是~CMI~阶数~$k$,从理论上讲,通过增加~$k$,如果~CMI~没有达到~$k-1$~阶的阈值~$\beta$,结构会更准确。
-第二个和第三这两个参数也是~PCA-CMI~和~PCA-PMI~里面的参数。
+第二和第三这两个参数属于~PCA-CMI~和~PCA-PMI~方法里面的固有参数。
 $n$~的最佳值可以通过交叉验证获得,通常较大的~$n$~可以促成使得每个子网络中涵盖更多的基因;
-在我们的实验中,我们将其值统一设置为~$n =\binom{m} {2}/5$。
+在实验中,我们将其值统一设置为~$n =\binom{m} {2}/5$。
 除了上述三个参数外,我们在算法~\ref{alg}~中设置常量~$c = 10$,
 即如果基因数小于或等于~10,则~Loc-PCA-CMI~直接调用~PCA-CMI,
 显然在这种情况下,~Loc-PCA-CMI~和~PCA-CMI~的性能是相同的。
 
+% 如表~\ref{tbl}~所示,在六个基准数据集~DREAM3-10~中,因为~Ecoli~和~Yeast~数据集仅包含~10~个基因,
+% 满足算法~\ref{alg}~的过滤预处理条件,
+% 此时,~Loc-PCA-CMI~和~PCA-CMI~在这两个数据集上的输出的调控网络结构相同,
+% 同样地此时~Loc-PCA-PMI~和~PCA-PMI~输出的调控网络结构也相同。
+% 为了对这些基于~PCA~(路径一致性)~的方法进行更有意义的比较,
+% 我们选择了其它四个基因数目大于~10~的数据集。
+
 为了探讨阶数~$k$~的大小是如何影响这些方法的性能,
-按照文献~\cite{zhang2011inferring,zhao2016part}~中建议的参数设置,
+按照文献~\cite{zhang2011inferring,zhao2016part}~中建议的参数取值,
 设置固定阈值~$\beta = 0.03$~后,
 我们把这四种方法中的阶数~$k$~从~1~逐渐变化为~10,
 然后分别计算每种方法的~AUROC~和~AUPR。
@@ -421,7 +434,7 @@ AUPR~总体上随着~$\beta$~的增加逐渐增大,然后又逐渐降低。
 
 相对于~PCA-CMI, ~Loc-PCA-CMI~引入了
 根据共表达的边进行局部基因聚类的策略,为了验证这个策略是否有效,我们对比了~Loc-PCA-CMI~和~PCA-CMI~在~AUPR~上的变化。
-同理, 我们也对比了~Loc~PCA-PMI~和~PCA-PMI。
+同理, 我们也对比了~Loc-PCA-PMI~和~PCA-PMI。
 这四个算法的参数统一设置为:~$\beta = 0.03$,~$k = 2$。
 结果如图~\ref{fig:loc}~所示,
 在这四个不同的数据集上,~Loc-PCA-CMI~和~Loc-PCA-PMI~分别比~PCA-CMI~和~PCA-PMI~具有更高的~AUPR~值,
@@ -502,6 +515,14 @@ Loc-PCA-CMI~和~Loc-PCA-PMI~在~AUROC~上几乎相同。
 
 \subsection{小结}
 
+按照推断局部基因调控网络结构,然后不断合并局部结构来构造全局网络的策略,
+我们提出了一种基于互信息和局部结构融合的~GRN~结构推断方法~Loc-PCA-CMI。
+与~PCA~类算法~top-down~的思想相反,~Loc-PCA-CMI~采用了类似~bottom-up~的策略。
+在~DREAM3~敲除数据集上的实验表明,~Loc-PCA-CMI~受益于局部聚类的策略。
+此外,~Loc-PCA-CMI~优于其它方法,
+包括~ARACNE、MRNET、PCA-PMI~和~PCA-CMI,
+特别是在大小为~50~和~100~的网络上~Loc-PCA-CMI~的表现更佳。
+
 Loc-PCA-CMI~在处理局部网络结构的时候引入了~PCA-CMI,因此其计算效率也会受到~PCA-CMI~的影响,
 特别是在处理大型数据集时。
 因为在大型网络的情况下,局部基因簇的数量可能会非常大。
@@ -510,11 +531,5 @@ Loc-PCA-CMI~在处理局部网络结构的时候引入了~PCA-CMI,因此其计�
 例如整合蛋白质复合物~\cite{li2017identification,li2017dynetviewer},
 以便更有效地处理大规模样本数据。
 另外,值得注意的是,我们主要关注推断~GRN~的结构,并没有考虑网络自身的稳定性问题。
-因此,我们未来的研究将尝试从网络稳定性的角度出发,来推断更鲁棒的基因调控网络结构。
+因此,我们在未来的研究中将尝试从网络稳定性的角度出发,来推断更鲁棒的基因调控网络结构。
 
-我们从局部基因结构出发,然后合并局部结构来构造全局网络的想法,提出了一种命名为~Loc-PCA-CMI~的新的基于无模型~(model-free)~的~GRN~结构推断方法。
-与~PCA~类算法~top-down~的思想相反,~Loc-PCA-CMI~采用了类似~bottom-up~的策略。
-在~DREAM3~敲除数据集上的实验表明,~Loc-PCA-CMI~受益于局部聚类的策略。
-此外,~Loc-PCA-CMI~优于其它方法,
-包括~ARACNE、MRNET、PCA-PMI~和~PCA-CMI,
-特别是在大小为~50~和~100~的网络上~Loc-PCA-CMI~的表现更佳。
