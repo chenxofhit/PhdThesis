@@ -1,4 +1,4 @@
-\section{基于数据驱动的基因调控网络构建方法}
+\section{基于改进~ARNI~和抽样的基因调控网络构建方法}
 \label{sec:d3grn}
 
 \subsection{引言}
@@ -8,14 +8,14 @@
 Loc-PCA-CMI~输出的是无向网络,基因和基因之间的权重表示的是调控相互作用关系的强弱。
 很多时候在~GRN~中,我们除了关注基因之间的相互作用之外,还对基因调控的具体方向十分感兴趣。
 为了构建有向网络,现有的一些流行的算法将~GRN~推理表述为回归问题,并以聚合~(ensemble)~策略获得最终的网络。
-最近关于数据驱动的动态网络构建的研究,主要是偏微分方程和机器学习相结合, 
+最近关于数据驱动的动态网络构建的研究,主要是偏微分方程和机器学习相结合的方法, 
 为我们利用回归方法研究基因调控网络提供了一个全新的视角。
-在本文的研究中,我们提出了一种改进数据驱动的动态网络构建方法来构建基因调控网络,命名为~D3GRN。
+在本文的研究中,我们提出了一种改进~ARNI~和抽样的动态网络构建方法来构建基因调控网络,命名为~D3GRN。
 该方法将每个目标基因的调控关系转化为函数分解问题,
 利用改进的揭示网络相互作用的算法~ARNI~来构造以目标基因为中心的局部基因调控网络。
 我们采用抽样~(bootstrapping)~和基于面积的评分方法~(area-based scoring)~来构建最终的全局网络,
 克服了~ARNI~仅从单个节点构建局部网络的缺陷。
-实验结果表明, 在~DREAM4~和~DREAM5~基准数据集上, D3GRN~在~AUPR~这个评价指标上优于其它最先进的算法。
+实验结果表明,在~DREAM4~和~DREAM5~基准数据集上,~D3GRN~在~AUPR~这个评价指标上优于其它最先进的算法。
 
 \subsection{相关工作}
 
@@ -56,7 +56,7 @@ ARNI~\cite{casadiego2017model}~是一个独立于模型的框架,依赖于它们
 所以在本研究中,我们第一次综合考虑这三个方面,提出了一种改进的数据驱动的动态网络构建方法。
 ~D3GRN~将每个目标基因的调控关系转化为函数分解问题并通过采用改进的~ARNI~算法,
 来构造每个目标基因相互作用的候选基因及其局部~GRN~结构。
-最后,我们采用基于面积的评分方法聚合这些抽样结果后得到的子网络,来构建最后的~GRN~有向网络。
+最后,我们采用基于面积的评分方法聚合经过抽样之后得到的~GRN~网络,来构建最后的~GRN~有向网络。
 我们在~DREAM4~和~DREAM5~基因调控网络重建挑战赛数据集上将方法~D3GRN~与其它几种当今表现最好的有向基因调控网络构建方法进行了比较,
 结果表明~D3GRN~在~AUPR~上具有优势。
 
@@ -78,7 +78,7 @@ ARNI~\cite{casadiego2017model}~是一个独立于模型的框架,依赖于它们
   %  \end{adjustbox}
 \end{table}
 
-\subsection{基于数据驱动的基因调控网络构建方法~D3GRN}
+\subsection{基于改进~ARNI~和抽样的基因调控网络构建方法~D3GRN}
 % \subsubsection{问题定义}
 
 如果不考虑基因之间的上游或下游调节关系并且忽略自我调节机制,则可以将~GRN~视为有向无环图~(directed acyclic graph,~DAG)。
@@ -251,25 +251,28 @@ $c^i_{j,p}$,~$c^i_{js,p}$,~$c^i_{jsw,p}$~为未知系数。
 %     +&\ldots + \epsilon_{i}, \forall jj,ss,ww \in \{1,\ldots,i-1,i+1,\ldots,N\}
 % \end{split}
 \begin{split}
-   x_i = &\sum_{j=1}^{N} \Lambda^i_{j} \sum_{p=1}^{P_1} c^i_{j,p}h_{j,p}(x_j)\\  
+   x_i = &\sum_{j=1}^{N} \Lambda^i_{j} \sum_{p=1}^{P_1} c^i_{j,p}h_{j,p}(x_j)\\ 
+       + &\sum_{j=1}^{N} \sum_{s=1}^{N}\Lambda^i_{j}\Lambda^i_{s} \sum_{p=1}^{P_2} c^i_{js,p}h_{js,p}(x_j,x_s) \\ 
        + &\sum_{j=1}^{N} \sum_{s=1}^{N} \sum_{w=1}^{N}\Lambda^i_{j}\Lambda^i_{s}\Lambda^i_{w} \sum_{p=1}^{P_3} c^i_{jsw,p}h_{jsw,p}(x_j,x_s,x_w)\\
        +&\ldots + \epsilon_{i}
    \end{split}
 \end{equation}
 
-从等式~(\ref{eq:xi_with_h})~到等式~(\ref{eq:x_i_fs})~的转换, 是对原始~ARNI~算法的改进。
+等式~(\ref{eq:x_i_fs})~是对原始等式~(\ref{eq:xi_with_h})~的改进。
 在这种情况下,等式~(\ref{eq:x_i_fs})~就是等式~(\ref{eq:fs})~的详细实现。
-重构问题就变成了识别等式~(\ref{eq:x_i_fs})~中的非零相互作用项。
+重构问题就变成了寻找等式~(\ref{eq:x_i_fs})~中的非零相互作用项。
 系数向量~$c^i_{j,p}$,~$c^i_{js,p}$,~$c^i_{jsw,p}$~是未知的,
 阻碍了~$\Lambda^i$~的计算。
 在等式~(\ref{eq:x_i_fs})~中加上一个由零和非零系数组成的块状结构约束即可,
 分别代表不存在和现有的相互作用。
-这些结构化的解是由沿~$c^i$~分布的非零条目~(代表作用于单位~$i$~的非零交互作用)的块~$c^i_s$~构成的。
-提出了揭示网络交互作用的算法~ARNI~来解决这个数学分组变量的回归问题。
-这是一种基于块正交最小二乘~(BOLS)~算法的贪心方法~(greedy method)~\cite{majumdar2009fast}。
-ARNI~在本质上可以看作是一种合适的特征选择方法,
-与知名的~Sparse Group Lasso~\cite{friedman2010note}~有异曲同工之处。
+这些结构化的解是由沿~$c^i$~分布的非零条目~(代表作用于单位~$i$~的非零交互作用)~的块~$c^i_s$~构成的。
+为了解决这个数学分组变量的回归问题,我们使用一种基于块正交最小二乘~(BOLS)~算法的贪心方法~(greedy method)~\cite{majumdar2009fast}。
 该算法的细节在文献~\cite{casadiego2017model}~的补充文档中有很详细的陈述。
+
+ARNI~虽然是在动态网络构建领域中被提出来,在本质上可以看作是一种机器学习领域里的特征选择方法,
+与知名的~Sparse Group Lasso~\cite{friedman2010note}~有异曲同工之处。
+我们在~ARNI~做了修改,使其在非时间序列数据一样适用。
+针对于目的基因,我们应用改进的~ARNI~就能获取其调控因子以及对应的调控关系~(边)~的权重。
 
 \subsubsection{抽样方法}
 
@@ -277,10 +280,10 @@ D3GRN~算法采用抽样方法,用来获取可靠的目标基因的调控候选�
 一般来说,抽样~\cite{efron1994introduction}~是用于从经验分布的中估计参数。
 具体来说是从经验分布中产生多组样本,也就是通过从观察样本中重采样, 
 然后计算每个重采样样本里面的未知参数。
-最后, 通过对所有重新采样的集合进行平均,就可以得到有关参数的估计值。
+最后,通过对所有重新采样的集合进行平均,就可以得到有关参数的估计值。
 在重采样中, 从观察样本中均匀随机,有替换地抽取样本。
 重采样技术经常被应用于在欠确定问题的情况下得到稳定的结果~\cite{wang2011random}。
-在当前的~D3GRN~实现中,抽样次数~$b$=200。
+%在当前的~D3GRN~实现中,抽样次数~$b$=200。
 在每次抽样过程中, 
 ~$y$~和~$X$~是从给定的基因表达数据中均匀随机选择重新采样与替换。
 随后,~ARNI~算法被用来选择每次抽样后与目的基因有关的调控因子。
@@ -290,10 +293,8 @@ D3GRN~算法采用抽样方法,用来获取可靠的目标基因的调控候选�
 
 \subsubsection{基于面积的评分}
 基于面积的评分法~(area-based scoring})~是根据候选调控因子在所有的抽样中的出现的频率,
-给该调控因子进行评分。
-在每次抽样中,~ARNI~提供的目标基因的调控因子的有序列表是相互独立的。
-为了充分利用被选择到的调控因子的整体排序信息,
-我们采用通过基于面积的评分方法来实现这个目的。
+给该调控因子进行评分。在每次抽样中,~ARNI~提供的目标基因的调控因子的有序列表是相互独立的。
+为了充分利用被选择到的调控因子的整体排序信息,我们采用通过基于面积的评分方法来实现这个目的。
 
 设~$\phi_{ijl}$~为目标基因~$i$~的调控因子~$j$~在~ARNI~的第~$l$~步中的累积选择频率。
 $l={1,\ldots,L}$,显然~$\phi_{ijl}$~在~$[0,1]$。
@@ -410,14 +411,12 @@ DREAM5 Network 1   & 1643    & 195                & 805       & 4012            
 便得到了接收者操作特征~(Receiver Operating Characteristic,~ROC)~曲线; 
 同样地,
 %The ROC curve is constructed by plotting the true positive rates~(TPR = TP/(TP + FN)) versus the false positive rates~(FPR = FP/(FP + TN)) for increasing $q$~($q = 1,2,\ldots,m^2$).
-精确率-召回率~(Precision-Recall,PR)~曲线是通过绘制精确率~Precision~与召回率~Recall~而得到。
+精确率-召回率~(Precision-Recall,~PR)~曲线是通过绘制精确率~Precision~与召回率~Recall~而得到。
 其中,~TPR、FPR、Precision、Recall~的计算如等式~\ref{eq:tpr}、\ref{eq:fpr}、\ref{eq:precision}、\ref{eq:recall}~所示。
 我们再通过计算曲线下的面积便得到了~AUROC~和~AUPR。
 %Similarly, the precision~(TP/(TP + FP)) and recall~(TP/(TP + FN)) curve is plotted for increasing $q$.
 
-
 \subsubsection{实验结果分析}
-%\subsubsection{D3GRN~的实验结果}
 
 等式~(\ref{eq:xi_with_h})~中基函数的类型、阶数~$K$~和基函数的数量~$P_k$~在~ARNI~中的模型分解中起着至关重要的作用。
 对于一大类动态系统,使用多项式非线性是充分的~\cite{mangan2016inferring}。
@@ -436,19 +435,56 @@ P_k=\left\{\begin{matrix}
 
 D3GRN~中涉及到两个可变参数,
 包括抽样的次数~$b$~和~ARNI~步数~$L$。
-图~\ref{fig:performance_dr5}~展示了通过改变~DREAM5~网络~1~的~ARNI~步数和抽样次数这两个参数的结果。
+DREAM4~数据集中我们选用~DREAM4~网络~4~作为一个代表,
+图~\ref{fig:performance_dr4_4}~展示了通过改变~ARNI~步数和抽样次数这两个参数后的~AUPR~值变化结果;
+同样地,~DREAM5~网络~1~的~ARNI~步数和抽样次数这两个参数对~AUPR~的变化结果的影响如图~\ref{fig:performance_dr5}~所示。
 一般来说,较大的抽样次数~$b$~运行时间越长,但是它的性能会越趋于稳定和优异。
-然而,D3GRN~的性能对抽样次数相当稳定,只要它大于某一阈值,通常是~200~次左右。
+然而,~D3GRN~的性能对抽样次数相当稳定,只要它大于某一阈值,通常是~200~次左右。
 对于~ARNI~的步数~$L$,一个直觉是如果~$L$~接近网络中先验的平均调控因子的数量,
-那么结果将是最佳的,可以用~$\frac{2  \times \#\text{Verified interactions}}{\#\text{Genes}}$~估计到。
- 
+那么结果将是最佳的,可以用~$\frac{\#\text{Verified interactions}}{\#\text{Genes}}$~近似估计到。
+
+% \begin{figure}[!htbp]
+%   \centering
+%   \input{DREAM4_Multifactorial_Network_1_AUPR.tikz}
+%     %\caption{AUPR by varying ARNI steps $L$ and the bootstrapping number $b$ in DREAM5  Network 1.}
+%   \caption{在~DREAM4~网络1~上不同的~ARNI~步骤数~$L$~和抽样数目~$b$~取得的~AUPR~值}
+%   \label{fig:performance_dr4_1}
+%   \end{figure}
+
+
+%   \begin{figure}[!htbp]
+%     \centering
+%     \input{DREAM4_Multifactorial_Network_2_AUPR.tikz}
+%     \caption{在~DREAM4~网络2~上不同的~ARNI~步骤数~$L$~和抽样数目~$b$~取得的~AUPR~值}
+%     \label{fig:performance_dr4_2}
+%     \end{figure}
+
+%     \begin{figure}[!htbp]
+%       \centering
+%       \input{DREAM4_Multifactorial_Network_3_AUPR.tikz}
+%       \caption{在~DREAM4~网络3~上不同的~ARNI~步骤数~$L$~和抽样数目~$b$~取得的~AUPR~值}
+%       \label{fig:performance_dr4_3}
+%       \end{figure}
+
+
+      \begin{figure}[!htbp]
+        \centering
+        \input{DREAM4_Multifactorial_Network_4_AUPR.tikz}
+        \caption{在~DREAM4~网络4~上不同的~ARNI~步骤数~$L$~和抽样数目~$b$~取得的~AUPR~值示意图。}
+        \label{fig:performance_dr4_4}
+        \end{figure}
+
+        % \begin{figure}[!htbp]
+        %   \centering
+        %   \input{DREAM4_Multifactorial_Network_5_AUPR.tikz}
+        %   \caption{在~DREAM4~网络5~上不同的~ARNI~步骤数~$L$~和抽样数目~$b$~取得的~AUPR~值}
+        %   \label{fig:performance_dr4_5}
+        %   \end{figure}
+
 \begin{figure}[!htbp]
 \centering
-\input{figperformance.tex}
-%\caption{AUPR by varying ARNI steps $L$ and the bootstrapping number $b$ in DREAM5  Network 1.}
-\caption{
-在~DREAM5~网络1~上不同的~ARNI~步骤数~$L$~和抽样数目~$b$~取得的~AUPR~值}
-
+\input{DREAM5_Multifactorial_Network_1_AUPR.tikz}
+\caption{在~DREAM5~网络1~上不同的~ARNI~步骤数~$L$~和抽样数目~$b$~取得的~AUPR~值示意图。}
 \label{fig:performance_dr5}
 \end{figure}
 
@@ -462,7 +498,7 @@ NIMEFI~用~R~实现,而~GENIE3、TIGRESS~是用~MATLAB~实现。
 如表所示,除了在~DREAM4网络~2~上,~D3GRN~跟其它方法相比~AUPR~值最高。
 
 表~\ref{tab:performance_dr5}~总结了~D3GRN~与其它~GRN~构建方法在~DREAM5~数据集上的比较结果。
-D3GRN~的参数设置为抽样数~$b=200$,ARNI步数~$L=5$。
+D3GRN~的参数设置为抽样数~$b=200$,~ARNI步数~$L=5$。
 D3GRN~在网络~1~上跟其它方法相比~AUPR~值最高。
 
 % \begin{table*}[!htbp]
@@ -495,7 +531,7 @@ D3GRN~在网络~1~上跟其它方法相比~AUPR~值最高。
   \centering
   \begin{threeparttable}  
 %  \caption{Performance comparisons of different GRN inference methods on the DREAM4 networks in terms of AUPR}
-  \caption{不同~GRN~构建方法在~DREAM4~网络上的~AUPR~结果}
+  \caption{不同~GRN~构建方法在~DREAM4~网络上的~AUPR~结果。}
 
   \label{tab:performance_dr4} 
     \begin{tabular}{cccccc}  
@@ -550,7 +586,9 @@ D3GRN~在网络~1~上跟其它方法相比~AUPR~值最高。
 另一个重要问题是关于~D3GRN~的计算复杂度。
 客观地讲,~ARNI~适合于构建节点级的小型物理动态网络。
 ARNI~采用的~BOLS~算法的~Moore-Penrose~伪逆运算,对于大型生物网络来说是很耗时的。
-D3GRN~中采用的抽样策略使其在处理大规模~GRNs~推理时更加糟糕。
+D3GRN~中采用的抽样策略使其在处理大规模~GRNs~推理时,
+针对单个的子网络而言由于对样本抽样后的数据样本规模减小,
+在一定程度上提升了单次运行的性能。
 关于~ARNI~的改进空间,~D3GRN~中抽样策略中的``for"~循环是完全可以并行的,
 可以在多核甚至集群中的分布式机器上同时进行。
 这也值得其它方法尝试,比如用~BOMP~\cite{majumdar2009fast}来替代~BOLS~算法,这是留给未来的工作。

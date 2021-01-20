@@ -74,7 +74,7 @@ Meyer~\cite{meyer2007information}~的最小冗余网络~(MRNET)~使用最小冗�
 其中对于网络中的每个候选基因,它选择其高度相关基因的子集,同时最小化所选基因之间基于互信息的相关性。
 Zhang~等人~\cite{zhang2011inferring}~介绍了一种基于条件互信息的路径一致性算法~PCA-CMI~; 
 Zhao~等人~\cite{zhao2016part}~引入了基于偏互信息的路径一致性算法~PCA-PMI~。
-路径一致性算法~(PCA,Path Consistency Algorithm)~是一种穷举算法,广泛用于推断~GRN~\cite{zhang2011inferring}。
+路径一致性算法~(Path Consistency Algorithm,~PCA)~是一种穷举算法,广泛用于推断~GRN~\cite{zhang2011inferring}。
 ~PCA-CMI~和~PCA-PMI~这两个算法通常会在运行时间和准确度之间进行折衷权衡。
 
 随着网络规模的增加, 网络噪声在增加,
@@ -87,7 +87,7 @@ PCA~这种~top-down~的算法的复杂度很高, 而且受到经验参数的影�
 
 \subsection{基于互信息和局部结构融合的基因调控网络结构推断方法~Loc-PCA-CMI}
 在本节中,我们将介绍信息理论中的互信息~(MI)~和条件互信息~(CMI)~并简单回顾~PCA-CMI~方法,
-然后再重点介绍我们提出的~GRN~结构推断方法~Loc-PCA-CMI。
+然后再重点介绍我们提出的~GRN~结构推断方法~Loc-PCA-CMI~以及~Loc-PCA-PMI。
 
 \subsubsection{互信息和条件互信息}
 \label{relatedwork}
@@ -198,7 +198,7 @@ PCA-CMI~算法利用~MI~和~CMI,从低阶到高阶递归地移除调控网络中
     \end{algorithmic}
 \end{algorithm}
 
-算法~\ref{alg}~的计算复杂度通常由两个参数决定:
+算法~\ref{alg}~的计算复杂度由两个因素决定:
 ~第一个是局部重叠基因簇~$p$~的数量,通常低于基因的总体数目~$m$; 
 第二个是~PCA-CMI~子程序本身的算法复杂度。
 ~PCA-CMI~的计算复杂度由~CMI~阶数~$k$~和~$LOC_{M_i}$~的簇大小~$|C|$~控制,
@@ -225,8 +225,7 @@ PCA-CMI~算法利用~MI~和~CMI,从低阶到高阶递归地移除调控网络中
   \label{pca-pmi-fr}
 \end{figure}
 
-% 如此一来,我们便得到了四种基于~PCA~(路径一致性)~的方法,即是~PCA-PMI、PCA-CMI、Loc-PCA-PMI~和~Loc-PCA-CMI,
-% 显然,这四种方法都属于无模型~(model-free)~方法。
+综合上文,我们的讨论涉及到了四种基于路径一致性的方法,即是~PCA-PMI、PCA-CMI、Loc-PCA-PMI~和~Loc-PCA-CMI。
 
 \subsection{实验结果}
 
@@ -281,16 +280,16 @@ DREAM3-100 Yeast & 101 & 3.32(10) & 166 & 0.034\\
 \end{center}
 \end{table} 
 
-针对每个数据集而言,输入数据文件中的行代表样本~(实验),~列代表基因~(实验变量)。
+针对每个数据集而言,输入数据文件中的行代表样本~(实验),列代表基因~(实验变量)。
 第一行是野生型表达数据,该样本中的每个基因都保持稳定状态。
 第~$l$~($l>1$)~行则表示在对应的样本中第~$l-1$~个基因敲除后其它基因的表达量。
-用户可以在~GitHub~仓库~\url{https://github.com/chenxofhit/Loc-PCA-CMI.git}~上查看我们在本章节实验用到的数据集。
+读者可以在~GitHub~仓库~\url{https://github.com/chenxofhit/Loc-PCA-CMI.git}~上查看我们在本章节实验用到的数据集。
 
 \subsubsection{评价指标}
 
 我们通过评估接收者操作特征曲线下面积~(AUROC)~和准确率召回率曲线下面积~(AUPR)~来评估~Loc-PCA-CMI~的性能。
 与稀疏生物网络一样,不存在的边~(负样本)~的数量明显超过现有边~(正样本)~的数量; 
-事实上,~AUPR~对~AUROC提供了更多信息~\cite{saito2015precision}~。
+事实上,~AUPR~对~AUROC~提供了更多信息~\cite{saito2015precision}~。
 我们倾向于使用~AUPR~进行评估,但为了与采用~AUROC~作为评估指标的其它方法进行完整地比较,
 我们也计算了~AUROC~作为补充。
 总体上来讲,较高的~AUROC~和~AUPR~值表明更准确的~GRN~预测。
@@ -382,7 +381,7 @@ $n$~的最佳值可以通过交叉验证获得,通常较大的~$n$~可以促成�
       \medskip  
     \end{minipage}
     \caption{%AUPR and AUROC  by varying $k$ from 1 to 10 of four PCA based methods on four different datasets: 
-    在四个不同的数据集上~k~值从~1~改变到~10, 基于~PCA~(路径一致性)~的四个算法的~AUPR~和~AUROC~结果示意图。
+    在四个不同的数据集上~k~值从~1~改变到~10, 基于路径一致性的四个算法的~AUPR~和~AUROC~结果示意图。
     }
     \label{fig:k}
 \end{figure*}
@@ -424,7 +423,7 @@ AUPR~总体上随着~$\beta$~的增加逐渐增大,然后又逐渐降低。
       \medskip  
     \end{minipage}
     \caption{%AUPR and AUROC  by varying $k$ from 1 to 10 of four PCA based methods on four different datasets: 
-    在四个不同的数据集上~$\beta$~逐步改变, 基于~PCA~(路径一致性)~的四个算法的~AUPR~和~AUROC~结果示意图。
+    在四个不同的数据集上~$\beta$~逐步改变, 基于路径一致性的四个算法的~AUPR~和~AUROC~结果示意图。
     }
     \label{fig:beta}
 \end{figure*}
@@ -465,9 +464,9 @@ AUPR~总体上随着~$\beta$~的增加逐渐增大,然后又逐渐降低。
 
 % \subsubsection{Loc-PCA-CMI~比其它竞争方法表现更好}
 我们在六个基准数据集上使用~Loc-PCA-CMI~和四种方法~ARACNE、MRNET、PCA-PMI、PCA-CMI~进行了比较实验。
-我们使用~R~包~``minet"和其默认参数来评估~ARACNE~和~MRNET~\cite{meyer2008minet},
+我们使用~R~包~``minet"和其默认参数来评估~ARACNE~和~MRNET,
 采用了~Pearson~相关性系数直接从连续基因敲除表达数据中近似估计这两个方法中涉及到的~MI~矩阵~\cite{olsen2008impact,meyer2010information}~。
-为了实现~PCA-PMI~和~PCA-CMI, 我们根据对应的文献~\cite{zhang2011inferring,zhao2016part}~中提供的~URL~下载了~MATLAB~代码。
+为了评估~PCA-PMI~和~PCA-CMI, 我们根据对应的文献~\cite{zhang2011inferring,zhao2016part}~中提供的~URL~下载了~MATLAB~代码。
 另外,~PCA-PMI~和~PCA-CMI~方法中的参数使用它们推荐的默认值,也就是~$\beta = 0.03$~和~$k = 2$。
 对于~Loc-PCA-CMI, 我们还对这两个参数采用了相同的值进行比较。
 表~\ref{tab:performance_comparison}~给出了实验结果的~AUROC~和~AUPR。
