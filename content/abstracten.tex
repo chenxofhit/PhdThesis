@@ -20,14 +20,14 @@ The method identifies locally overlapping gene clusters based on their co-expres
 and finally constructs the final gene regulatory network by aggregating the local network structure.
 We evaluate Loc-PCA-CMI on the DREAM3 knockout dataset and compare its performance with four other information theory-based methods for inferring network structure.
 In particular, the experimental results on the DREAM3 dataset show that Loc-PCA-CMI~ reduces the redundant dependencies 
-in the construction  and outperforms the other four benchmark methods in terms of AUPR.
+in the construction  and outperforms the other four  methods in terms of AUPR.
 
 (2) To address the shortcomings that data-driven methods cannot construct global networks, 
 a data-driven gene regulatory network construction method, D3GRN, is proposed in this paper. 
 The method uses a bootstrapping strategy to transform the regulatory relationship of each target gene into a functional decomposition problem and solve each subproblem by using an algorithm that reveals the network interactions. 
 To compensate for the inability of data-driven approaches to construct global networks, 
 a bootstrapping strategy and an area-based scoring method are used to infer the final network. 
-The experimental results on DREAM4 and DREAM5 benchmark datasets show that D3GRN is competitive with other benchmark methods in terms of AUPR.
+The experimental results on DREAM4 and DREAM5 benchmark datasets show that D3GRN is competitive with other  methods in terms of AUPR.
 
 
 (3) To address the problem that gene regulatory networks related to cell type and cell activity cannot be inferred simultaneously from single-cell RNA-seq data, 
@@ -35,7 +35,6 @@ a matrix decomposition-based gene regulatory network construction method, scGRNH
 The cell type program and the cell activity program are also isolated, and then a gene regulatory network based on each program is constructed in conjunction with the public database TRRUST. 
 The experimental results on the publicly available brain-like organ single-cell RNA-Seq dataset show that our proposed scGRNHunter method can effectively infer the identity and activity of subprograms, 
 and construct cell type-based and cell activity-based gene regulatory networks based on them.
-
 
 % (3) In order to solve the problem of inaccurate cell clustering on single-cell RNA-seq datasets, 
 % RafClust is proposed as a random forest similarity learning-based single-cell clustering method, 
