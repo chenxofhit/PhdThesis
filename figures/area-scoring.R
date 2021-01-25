@@ -24,17 +24,17 @@ axis(side=1,at=breaks,tck=0.02) #set the x axis
 
 lines(breaks, y2$CSF,type ='s',col = "blue")# join the points
 
-text(1.5, 0.45, TeX("$\\phi_{ip1}"),col = 'red')
-text(2.5, 0.55, TeX("$\\phi_{ip2}"),col = 'red')
-text(3.5, 0.65, TeX("$\\phi_{ip3}"),col = 'red')
-text(4.4, 0.85, TeX("$\\phi_{ip4}"),col = 'red')
+text(1.5, 0.45, TeX("$\\phi_{ip1}"),col = 'red',cex = 1.2)
+text(2.5, 0.55, TeX("$\\phi_{ip2}"),col = 'red',cex = 1.2)
+text(3.5, 0.65, TeX("$\\phi_{ip3}"),col = 'red',cex = 1.2)
+text(4.4, 0.85, TeX("$\\phi_{ip4}"),col = 'red',cex = 1.2)
 
-text(1.5, 0.65, TeX("$\\phi_{iq1}"),col = 'blue')
-text(2.5, 0.95, TeX("$\\phi_{iq2}"),col = 'blue')
-text(3.5, 0.95, TeX("$\\phi_{iq3}"),col = 'blue')
-text(4.6, 0.95, TeX("$\\phi_{iq4}"),col = 'blue')
+text(1.5, 0.65, TeX("$\\phi_{iq1}"),col = 'blue',cex = 1.2)
+text(2.5, 0.95, TeX("$\\phi_{iq2}"),col = 'blue',cex = 1.2)
+text(3.5, 0.95, TeX("$\\phi_{iq3}"),col = 'blue',cex = 1.2)
+text(4.6, 0.95, TeX("$\\phi_{iq4}"),col = 'blue',cex = 1.2)
 
 
 # 4. Add a legend to the plot and set legend lty
 legend("bottomright", legend = c("Regulator p", "Regulator q"),
-       col = c("red", "blue"), lty = 1:1, cex = 0.6)
+       col = c("red", "blue"), lty = 1:1, cex = 1.2)

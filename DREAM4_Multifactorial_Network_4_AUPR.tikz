@@ -9,8 +9,8 @@
 
 \newlength{\fheight}
 \newlength{\fwidth}
-\setlength{\fheight}{5cm}
-\setlength{\fwidth}{6cm}
+\setlength{\fheight}{8cm}
+\setlength{\fwidth}{10cm}
 
 \begin{axis}[%
 width=0.958\fwidth,
@@ -26,7 +26,7 @@ ymax=0.26,
 ylabel style={font=\color{white!15!black}},
 ylabel={AUPR},
 axis background/.style={fill=white},
-title style={font=\bfseries},
+%title style={font=\bfseries},
 title={DREAM4 Network 4},
 axis x line*=bottom,
 axis y line*=left,
