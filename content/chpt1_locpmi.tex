@@ -21,6 +21,7 @@
 实验结果证明, Loc-PCA-CMI 在 DREAM3 数据集上特别是在基因数目为 50 和 100 的网络上表现优于其它四种方法。
 
 \subsection{相关工作}
+\label{subsec:relatedwork}
 
 推断和理解 GRNs 是系统生物学中的一个关键问题, 
 可以帮助生物医学科学家明确识别基因与基因之间复杂的调控关系、理解细胞中的调控机制 \cite{altay2010inferring, basso2005reverse}。
@@ -64,35 +65,13 @@
 例如 Pearson 相关性,秩相关性,欧几里德距离和表达值向量之间的角度 \cite{wang2014review}。
 然而,基于相关性的方法无法识别基因之间的复杂依赖性,例如非线性依赖性 \cite{ruyssinck2014nimefi}。
 此外,相当多的功能相关基因可能不会共表达,因此难以准确推断它们之间的调控相互作用。
-基于信息理论的方法也是一种代表性的无模型 (model-free) 方法,其中互信息 (MI) 有助于衡量基因之间的潜在依赖性,
+基于信息理论的方法也是一种代表性的无模型 (model-free) 方法。
+信息理论在测量两个变量之间的非线性依赖关系时相对高效, 
+因此越来越多地用于衡量基因间的调控关系强弱,其中互信息和条件互信息应用最为广泛。
+其中互信息 (MI) 有助于衡量基因之间的潜在依赖性,
 因为它可以有效地捕获非线性依赖关系 \cite{brunel2010miss,zhang2011inferring}。
 近年来,研究者陆续提出了基于信息理论的各种网络推断方法,
 其侧重于区分调控中的直接相互作用和间接相互作用 \cite{marbach2010revealing}。
-
-Margolin 等人 \cite{margolin2006aracne}提出了 ARACNE 方法,使用数据处理不等式 (DPI) 来过滤掉来自三重基因的间接相互作用。
-Meyer \cite{meyer2007information} 的最小冗余网络 (MRNET) 使用最小冗余特征选择方法 \cite{peng2005feature},
-其中对于网络中的每个候选基因,它选择其高度相关基因的子集,同时最小化所选基因之间基于互信息的相关性。
-Zhang 等人 \cite{zhang2011inferring} 介绍了一种基于条件互信息的路径一致性算法 PCA-CMI ; 
-Zhao 等人 \cite{zhao2016part} 引入了基于偏互信息的路径一致性算法 PCA-PMI 。
-路径一致性算法 (Path Consistency Algorithm, PCA) 是一种穷举算法,广泛用于推断 GRN \cite{zhang2011inferring}。
- PCA-CMI 和 PCA-PMI 这两个算法通常会在运行时间和准确度之间进行折衷权衡。
-
-随着网络规模的增加, 网络噪声在增加,
-PCA 这种 top-down 的算法的复杂度很高, 而且受到经验参数的影响,使得 GRN 的预测精度急剧下降。
-为了改善这种情况,我们直接从局部结构入手,辅助以合并的策略,提出了一种新的基因调控网络结构推断方法,命名为 Loc-PCA-CMI。
-该方法首先使用 的高度共同表达的基因作为局部基因簇的质心,
-然后使用 PCA-CMI 对每个簇的结构进行构建, GRN 的最终结构是将所有局部网络结构进行合并。
-从这个流程可以看出, Loc-PCA-CMI 方法可以处理相对较大的数据集,
-并且将从 PCA-CMI 在小规模基因子网的相对准确的结构推断上受益。
-
-\subsection{GRN 结构推断方法}
-在本节中,我们将介绍信息理论中的互信息 (MI) 和条件互信息 (CMI) 并简单回顾 PCA-CMI 方法,
-然后再重点介绍我们提出的 GRN 结构推断方法 Loc-PCA-CMI 以及 Loc-PCA-PMI。
-
-\subsubsection{互信息和条件互信息}
-\label{relatedwork}
-信息理论在测量两个变量之间的非线性依赖关系时相对高效, 
-因此越来越多地用于衡量基因间的调控关系强弱,其中互信息和条件互信息应用最为广泛。
 互信息 (MI) 的定义如下:
 \begin{align} % requires amsmath; align* for no eq. number
     MI(X,Y)=\int \int p(x,y)log \frac{p(x,y)}{p(x)p(y)}dxdy
@@ -122,6 +101,13 @@ CMI 值越高,表明给定变量 $Z$ ,变量 $X$ 和 $Y$ 之间越可能存在�
     MI(X,Y)=\frac{1}{2}log\frac{|C(X)|*|C(Y)|}{|C(X,Y)|}
 \end{equation}
 
+Margolin 等人 \cite{margolin2006aracne}提出了 ARACNE 方法,使用数据处理不等式 (DPI) 来过滤掉来自三重基因的间接相互作用。
+Meyer \cite{meyer2007information} 的最小冗余网络 (MRNET) 使用最小冗余特征选择方法 \cite{peng2005feature},
+其中对于网络中的每个候选基因,它选择其高度相关基因的子集,同时最小化所选基因之间基于互信息的相关性。
+Zhang 等人 \cite{zhang2011inferring} 介绍了一种基于条件互信息的路径一致性算法 PCA-CMI ; 
+Zhao 等人 \cite{zhao2016part} 引入了基于偏互信息的路径一致性算法 PCA-PMI 。
+下面我们将重点介绍 PCA-CMI 算法，PCA-PMI 算法的思路与之类似。
+
 PCA-CMI 算法利用 MI 和 CMI,从低阶到高阶递归地移除调控网络中具有独立或条件
 独立关系的边,其具体步骤如下:
 
@@ -143,6 +129,19 @@ PCA-CMI 算法利用 MI 和 CMI,从低阶到高阶递归地移除调控网络中
 显然, 独立性阈值 $\beta$ 是全局变量, 
 需要依靠先验知识来赋值。
 
+路径一致性算法 (Path Consistency Algorithm, PCA) 是一种穷举算法,广泛用于推断 GRN \cite{zhang2011inferring}。
+PCA-CMI 和 PCA-PMI 这两个算法通常会在运行时间和准确度之间进行折衷权衡。
+随着网络规模的增加, 网络噪声在增加,
+PCA 这种 top-down 的算法的复杂度很高, 而且受到经验参数的影响,使得 GRN 的预测精度急剧下降。
+
+\subsection{GRN 结构推断方法}
+为了改善 PCA 在随着网络规模增加复杂度变高, GRN 预测精度急剧下降的状况,我们直接从局部结构入手,辅助以合并的策略,提出了一种新的基因调控网络结构推断方法,命名为 Loc-PCA-CMI。
+该方法首先使用高度共同表达的基因作为局部基因簇的质心,
+然后使用 PCA-CMI 对每个簇的结构进行构建, GRN 的最终结构是将所有局部网络结构进行合并。
+从这个流程可以看出, Loc-PCA-CMI 方法可以处理相对较大的数据集,
+并且将从 PCA-CMI 在小规模基因子网的相对准确的结构推断上受益。
+在本节中,我们将重点介绍提出的 GRN 结构推断方法 Loc-PCA-CMI 以及 Loc-PCA-PMI。
+
 \subsubsection{算法 Loc-PCA-CMI }
 
 众所周知,生物系统中节点之间是很少完全连通的,
@@ -152,7 +151,7 @@ PCA-CMI 算法利用 MI 和 CMI,从低阶到高阶递归地移除调控网络中
 然后,在缩减的边构成的空间中, 用边连接的基因计算局部重叠基因簇。
 然后对于每个局部基因簇, 我们应用 PCA-CMI 算法 \cite{zhang2011inferring},
 它可以通过从低到高依赖关联重复去除不相关的边来构建高置信度无向网络 \cite{spirtes2000causation},
-直到没有边可以删除,从而获取到每个局部网络的最终结构 (见 \ref{relatedwork})。
+直到没有边可以删除,从而获取到每个局部网络的最终结构 (见 \ref{subsec:relatedwork})。
 最后, 我们对每个推断的局部子网络结构边权重取平均,来获得完整的调控网络的边的权重。
 整个方法流程如图 \ref{pca-cmi-fr} 所示,实现细节如算法 \ref{alg} 所示。
 需要注意的是,

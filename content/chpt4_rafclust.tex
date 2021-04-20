@@ -1,4 +1,4 @@
-\section{单细胞 RNA-seq 测序数据下的细胞聚类和稀有细胞识别方法}
+\section{单细胞 RNA-seq 数据下的细胞类型识别方法}
 \label{sec:rafclust}
 
 \subsection{引言}
@@ -12,7 +12,7 @@
 同时,单细胞 RNA-seq 测序中将基因作为特征,常见的人和老鼠两种物种都有 20000 多个基因,
 这种高维特征也给单细胞 RNA-seq 数据上的聚类带来挑战 \cite{stegle2015computational}。
 
-在单细胞数据上,除了聚类之外,还有一个十分具有挑战性的问题,即是如何从超大规模的 scRNA-seq 数据中识别稀有细胞。
+在单细胞数据上的细胞类型识别上,除了聚类之外,还有一个十分具有挑战性的问题,即是如何从超大规模的 scRNA-seq 数据中识别稀有细胞。
 稀有细胞代表了生物体内的次要细胞类型,当测序细胞的数量在数百个规模时,一个孤立的离群点 (singleton) 也很值得关注。
 然而,随着吞吐能力的提高,研究重点转换到次要细胞类型的发现,再也不仅仅是单纯的单个细胞。
 稀有细胞类型包括循环肿瘤细胞、癌症干细胞、循环内皮细胞、内皮祖细胞、抗原特异性 T 细胞、不变性自然杀伤性 T 细胞等。
@@ -226,7 +226,17 @@ DoRC 的灵感来自于我们观察到,稀有细胞在单细胞数据集里往�
 从数量上看,孤立森林中的聚合异常分数在本质上反应了稀有特性,
 这为我们调查和进一步决定细胞的稀有性提供了基础。
 
-DoRC 方法是用于从超大型 scRNA-seq 数据中发现稀有细胞,包括几个子步骤,如图 \ref{fig:flowchart} 所示, 每个步骤的细节将在下文中详述。
+DoRC 方法是用于从超大型 scRNA-seq 数据中发现稀有细胞,包括若干个子步骤,如图 \ref{fig:flowchart} 所示。
+% \subsubsection{}
+% \label{subsec:datapreprocessing} 
+其中,预处理部分包括数据规范化和基因选择。
+每个数据集上,在至少 3 个细胞中读数超过 2 的基因被保留用于下游分析,
+然后使用中位数归一化。
+除 \textit{Splatter\_500} 之外的其它数据集,
+我们基于基于它们的相对分散度 (dispersion,即方差/均值) 与具有相似平均表达量的基因之间的预期分散度 \cite{zheng2017massively,macosko2015highly}选出 1000个变化最大的基因。
+最后,将处理后的伪计数矩阵 (pseudo-count) 加 1 后进行对数变换。
+对所有的数据集进行了预处理之后,后续的关键的处理步骤在下文中将详细讲述。
+
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=\linewidth]{flowchartv4.pdf}
@@ -256,14 +266,6 @@ DoRC 方法是用于从超大型 scRNA-seq 数据中发现稀有细胞,包括几
     }
     \label{fig:flowchart}
 \end{figure}
-
-\subsubsection{数据规范化和基因选择}
-\label{subsec:datapreprocessing} 
-每个数据集上,在至少 3 个细胞中读数超过 2 的基因被保留用于下游分析,
-然后使用中位数归一化。
-除 \textit{Splatter\_500} 之外的其它数据集,
-我们基于基于它们的相对分散度 (dispersion,即方差/均值) 与具有相似平均表达量的基因之间的预期分散度 \cite{zheng2017massively,macosko2015highly}选出 1000个变化最大的基因。
-最后,将处理后的伪计数矩阵 (pseudo-count) 加 1 后进行对数变换。
 
 \subsubsection{使用孤立森林识别稀有细胞}
 \label{subsec:if} 
@@ -324,7 +326,7 @@ NODES 被证明比传统的基于批量细胞测序的差异分析方法 DESeq2
 
 \subsection{实验结果}
 
-\subsubsection{RafClust 提高了 scRNA-seq 数据的聚类效果}
+\subsubsection{聚类效果分析}
 % \subsubsection{数据集}
 % \label{subsec:datasets} 
 
@@ -614,7 +616,7 @@ RafClust 的 R 包可在 GitHub 仓库 \url{https://github.com/chenxofhit/RafClu
 %\label{subsec:dorc}
 
 
-\subsubsection{DoRC 揭示了树突状细胞之间的异质性}
+\subsubsection{树突状细胞的异质性分析}
 
 我们将 DoRC 应用于包含 ${\sim}68$k 外周血单核细胞的 scRNA-seq 数据集 (PBMCs) 的标注进行比对。
  \textit{PBMCs\_68k}数据集是知名的包含有 11个 纯化的免疫细胞亚型的数据集,由 68579 个从健康供体收集的 PBMCs 组成 \cite{zheng2017massively},
@@ -752,7 +754,7 @@ C4、C5、C9 和 C11 完全由树枝状细胞组成,根据 Zheng 等人提供 \c
 
 \end{table}
 
-\subsubsection{DoRC 能够识别人工伪造的稀有细胞}
+\subsubsection{人工伪造的稀有细胞识别}
 \label{subsec:recplanted} 
 
 
@@ -804,7 +806,7 @@ F1-score 反应了精度和灵敏度之间的平衡。
     \label{fig:jurkat}
 \end{figure}
 
-\subsubsection{DoRC 对细胞类型敏感}
+\subsubsection{细胞类型敏感性与可扩展性分析}
 
 
 我们设计了一项模拟研究,来分析 DoRC 评分的鲁棒性和敏感性与差异表达基因 DE 数量之间的关系。
@@ -893,9 +895,6 @@ DoRC 可以检测到其它 2 个稀有细胞和 1 个假阳性稀有细胞,
     \label{fig:simulate:venn_auc_f1}
 \end{figure}
 
-\subsubsection{DoRC 是可扩展和快速的}
-\label{subsec:scalable} 
-
 DoRC 的核心算法孤立森林 (Isolation Forest) 的时间复杂度为 $O(ntlog\psi)$ \cite{liu2008isolation}。
 其中 $n$、$t$ 和 $\psi$ 分别代表样本数、树的数目和每棵树的子样本数。
 值得注意的是, DoRC 中的 Isolation Forest 在这种情况下没有训练的阶段。
@@ -979,5 +978,3 @@ DoRC 在 ${\sim}68$k 人血细胞单细胞表达谱上结合 RafClust 聚类方�
 % 我们使用多种相似性度量方法刻画细胞的特征,
 % 使用随机森林回归模型来学习细胞与细胞之间的相似性矩阵,基于相似性矩阵后采用层次聚类来决定细胞的最终类别。
 % 实验结果表明, 在十个单细胞数据集上, RafClust 在 ARI 上表现优于其它六种方法。
-
-
