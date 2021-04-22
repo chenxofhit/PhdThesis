@@ -2,7 +2,7 @@
 \label{sec:dorc}
 
 \subsection{引言}
-在上一章我们提出了一种高效准确的单细胞聚类方法。
+在上一章本文提出了一种高效准确的单细胞聚类方法。
 在单细胞数据上,除了聚类之外,还有一个十分具有挑战性的问题,即是如何从超大规模的~scRNA-seq~数据中识别稀有细胞。
 现有的寻找稀有细胞的算法大部分依赖单细胞聚类方法,
 在处理超大规模~scRNA-seq~数据时候因而变得非常耗时或者耗费内存。
@@ -44,17 +44,17 @@ RaceID~涉及到计算成本十分高昂的参数模型,并用于检测离群的
 它使用~Sketching~技术~\cite{wang2007sizing}来估计每个细胞的密度,
 对于大规模细胞的低维编码来说,~FiRE~运行速度非常快。
 
-我们提出了一种从超大规模~scRNA-seq~数据中快速检测稀有细胞的方法,命名为~DoRC。
+本文提出了一种从超大规模~scRNA-seq~数据中快速检测稀有细胞的方法,命名为~DoRC。
 DoRC~方法的设计灵感来自于对细胞稀有度估计的观察。
 在多维空间中某一特定异常点,可以看作是机器学习中的异常检测问题。
 据我们所知,~DoRC~是第一个从超大规模~scRNA-seq~数据中发现稀有细胞的异常检测方法。
 在~DoRC~中,每个细胞的稀有度用每个给定点的``异常得分"来表示。
 这是通过使用孤立森林~\cite{liu2008isolation}~实现的。
-我们在多个真实和模拟数据集上对~DoRC~的性能进行了评估。
+本文在多个真实和模拟数据集上对~DoRC~的性能进行了评估。
 ~DoRC~在~${\sim}68$k~这个人血细胞的单细胞表达谱数据集上能划分出人血树枝状细胞亚型。
 此外,在其它两个模拟数据集上的实验表明,~DoRC~可以识别仿真数据集中的稀有细胞,
 并且对细胞类型特征也很敏感。
-我们的性能测试实验还表明,~DoRC~是快速可扩展的。
+本文的性能测试实验还表明,~DoRC~是快速可扩展的。
 
 \subsection{基于孤立森林的单细胞稀有细胞识别方法~DoRC}
 \label{sec:method}
@@ -75,7 +75,7 @@ DoRC~方法是用于从超大型~scRNA-seq~数据中发现稀有细胞,包括几
     % (F) Rare cells with types visualization, different colors represent different rare cell types in the t-SNE-based 2D plot of the rare cells.
     % (G) Different expression genes analysis with different types of rare cells, the cell type specific genes are consequently obtained. 
     % }
-    \caption{DoRC~流程图。该流程图展示了我们提出的从超大规模~scRNA-seq~数据中检测稀有细胞的过程。
+    \caption{DoRC~流程图。该流程图展示了本文提出的从超大规模~scRNA-seq~数据中检测稀有细胞的过程。
     本图中的每个注释图代表了相应过程的输入或输出可视化。
     (A)~输入的是~scRNA-seq~表达数据二维矩阵,其中行代表细胞,列代表基因。
     (B)~用输入的表达数据进行数据预处理,输出的是一个归一化和列的维度缩减的矩阵。
@@ -149,7 +149,7 @@ $s(x,n)$~的值接近~1~表示异常,远小于~0.5~表示正常观测值。
 \label{subsec:de}
 
 使用上一章中介绍的单细胞聚类方法~RafClust~得到了细胞的类别标签后,
-我们采用~NODES~\cite{Sengupta049734}~这一快速的非参数化、差异化表达~(DE)~分析工具进行差异基因分析。
+本文采用~NODES~\cite{Sengupta049734}~这一快速的非参数化、差异化表达~(DE)~分析工具进行差异基因分析。
 NODES~被证明比传统的基于批量细胞测序的差异分析方法~DESeq2~\cite{love2014moderated}、edgeR~\cite{robinson2010edger},
 以及针对单细胞的差异表达分析方法~scde~\cite{kharchenko2014bayesian}~和~Wilcoxon~秩和检验~(Wilcoxon rank sum test)~都有效~\cite{Sengupta049734}。
 以~0.05~作为~FDR~(False Discovery Rate)~的阈值,~FC~(fold change)~变化(也就是两个组间表达量的比值)~阈值默认为~log2(5)。

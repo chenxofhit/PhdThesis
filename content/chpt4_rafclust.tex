@@ -26,7 +26,7 @@
 
 本章中,我们提出了一种高效准确的单细胞聚类方法 RafClust。
 针对当前单细胞 RNA-seq 数据集上细胞聚类不够准确鲁棒的问题,
-我们使用多种相关性度量方法来刻画细胞的特征, 
+本文使用多种相关性度量方法来刻画细胞的特征, 
 然后使用随机森林回归模型进一步学习细胞与细胞之间的相似性矩阵,
 基于相似性矩阵后采用层次聚类来决定细胞的最终类别。
 实验结果表明,在十个单细胞数据集上, RafClust 在 ARI 上表现优于其它六种方法。
@@ -110,7 +110,7 @@ RafClust 方法对 scRNA-seq 数据进行细胞聚类,包括几个子步骤,如�
 \subsubsection{数据规范化和基因选择}
 \label{subsec:datapreprocessing} 
 
-我们假设归一化的 $n$ 个细胞的基因表达数据 (观测值), 每个细胞含有 $p$ 个基因(特征),
+本文假设归一化的 $n$ 个细胞的基因表达数据 (观测值), 每个细胞含有 $p$ 个基因(特征),
 组成一个 $n \times p$ 的表达式矩阵 $X=\left(x_{1}, x_{2}, \ldots, x_{n} \right)^ T$。
 其中 $x_{i}$ 表示 $p$ 基因在细胞 $i$ 中的表达值。
 $x_{i}=\left(x_{i1}, x_{i2},\ldots, x_{ip} \right)$。
@@ -121,15 +121,15 @@ $x_{i}=\left(x_{i1}, x_{i2},\ldots, x_{ip} \right)$。
 
 \subsubsection{细胞类型识别}
 \label{subsec:rafclust} 
-为了从稀有细胞集合中确认不同的细胞类型,我们提出了一种无监督的基于随机森林的相似性学习算法,命名为 RafClust。
+为了从稀有细胞集合中确认不同的细胞类型,本文提出了一种无监督的基于随机森林的相似性学习算法,命名为 RafClust。
 类似于其它的许多方法 \cite{kiselev2017sc3,pouyan2018random,mohammadi2018geometric,sinha2018dropclust,Srinivasan511626,Li530378,zheng2019sinnlrr},
 RafClust 也是两个步骤的方法,
-第一个步骤是我们使用随机森林进行相似度学习 (相似性学习步骤, similarity learning),
-第二个步骤中我们使用层次聚类 (聚类步骤, clustering)。
+第一个步骤是使用随机森林进行相似度学习 (相似性学习步骤, similarity learning),
+第二个步骤中使用层次聚类 (聚类步骤, clustering)。
 在相似度学习步骤中,一个非常关键的预处理程序是特征矩阵的构建。
-稀有细胞 (rare cells) 与丰富细胞 (abundant cells) 不同,我们将使用细胞和细胞的尽量多的不同类型的相似性,来充分刻画稀有细胞的本性特征。
+稀有细胞 (rare cells) 与丰富细胞 (abundant cells) 不同,本文将使用细胞和细胞的尽量多的不同类型的相似性,来充分刻画稀有细胞的本性特征。
 因此,在基于基因过滤后的表达矩阵 $X^{\prime}$ 上,
-我们利用欧几里德 (Euclidean)、皮尔逊 (Pearson) 和斯皮尔曼 (Spearman) 指标分别计算出三种不同的细胞-细胞距离矩阵 $\{C_1, C_2, C_3\}$。
+本文利用欧几里德 (Euclidean)、皮尔逊 (Pearson) 和斯皮尔曼 (Spearman) 指标分别计算出三种不同的细胞-细胞距离矩阵 $\{C_1, C_2, C_3\}$。
 然后将主成分分析 PCA 应用于每个距离矩阵,也应用于 $X^{\prime}$ 上,来减少数据维度的同时也去除其本能噪声。
 每个矩阵中信息量最大的成分由``elbow 法" \cite{thorndike1953belongs} 保留,
 这样就共计产生了 $\left\{ {F}_{i} \in \mathbb {R} ^ {n \times m_{i}} \right\}_{i = 0}^{3}$ 四个矩阵。
@@ -172,7 +172,7 @@ RF (随机森林, Random Forest) 是一种应用非常广泛的基于决策树�
 基于 RF 的相似性学习方法很容易适应于并行计算,
 对离群值具有鲁棒性,内在具有特征选择的特性,这三个特点特别适合用来分析高维和噪声数据,
 特别是类似于单细胞 RNA 测序图谱数据。
-我们按照以下步骤来学习细胞-细胞的相似性。
+本文按照以下步骤来学习细胞-细胞的相似性。
 在选择一个单一的特征 $j$ (特征矩阵 $F$ 中的第 $j$ 列) 后, 
 我们使用围绕质心点进行划分的算法 PAM (partitioning around medoids),估计类别的数量并得到对应于类别的伪标签。
 与 K-means 聚类算法相比, PAM 对孤立点不敏感。
@@ -196,7 +196,7 @@ $S_{j_{pq}} = nt(f_p,f_q) / N, 1 \le p,q \le n$。
 \label{subsec:de}
 
 使用 RafClust 得到了细胞的类别标签后,
-我们采用 NODES \cite{Sengupta049734} 这一快速的非参数化、差异化表达 (DE) 分析工具进行差异基因分析。
+本文采用 NODES \cite{Sengupta049734} 这一快速的非参数化、差异化表达 (DE) 分析工具进行差异基因分析。
 NODES 被证明比传统的基于批量细胞测序的差异分析方法 DESeq2 \cite{love2014moderated}、edgeR \cite{robinson2010edger},
 以及针对单细胞的差异表达分析方法 scde \cite{kharchenko2014bayesian} 和 Wilcoxon 秩和检验 (Wilcoxon rank sum test) 都有效 \cite{Sengupta049734}。
 以 0.05 作为 FDR (False Discovery Rate) 的阈值, FC (fold change) 变化(也就是两个组间表达量的比值) 阈值默认为 log2(5)。
@@ -217,7 +217,7 @@ RaceID 中的 \textit{k}-means 聚类是基于距离的,
 其它主要细胞类型会影响数据集中的表达差异,
 特别是在处理大型 scRNA-seq 数据集时,情况变得更加糟糕。
 
-为了解决上述问题,我们提出了一种从超大规模 scRNA-seq 数据中快速准确检测稀有细胞的方法,
+为了解决上述问题,本文提出了一种从超大规模 scRNA-seq 数据中快速准确检测稀有细胞的方法,
 命名为 DoRC。
 DoRC 的灵感来自于我们观察到,稀有细胞在单细胞数据集里往往是``少而不同", 这跟机器学习里的样本孤立性十分契合。
 孤立森林可以充分捕捉稀有细胞的特征,
@@ -233,7 +233,7 @@ DoRC 方法是用于从超大型 scRNA-seq 数据中发现稀有细胞,包括若
 每个数据集上,在至少 3 个细胞中读数超过 2 的基因被保留用于下游分析,
 然后使用中位数归一化。
 除 \textit{Splatter\_500} 之外的其它数据集,
-我们基于基于它们的相对分散度 (dispersion,即方差/均值) 与具有相似平均表达量的基因之间的预期分散度 \cite{zheng2017massively,macosko2015highly}选出 1000个变化最大的基因。
+本文基于基于它们的相对分散度 (dispersion,即方差/均值) 与具有相似平均表达量的基因之间的预期分散度 \cite{zheng2017massively,macosko2015highly}选出 1000个变化最大的基因。
 最后,将处理后的伪计数矩阵 (pseudo-count) 加 1 后进行对数变换。
 对所有的数据集进行了预处理之后,后续的关键的处理步骤在下文中将详细讲述。
 
@@ -252,7 +252,7 @@ DoRC 方法是用于从超大型 scRNA-seq 数据中发现稀有细胞,包括若
     % (F) Rare cells with types visualization, different colors represent different rare cell types in the t-SNE-based 2D plot of the rare cells.
     % (G) Different expression genes analysis with different types of rare cells, the cell type specific genes are consequently obtained. 
     % }
-    \caption{DoRC 流程图。该流程图展示了我们提出的从超大规模 scRNA-seq 数据中检测稀有细胞的过程。
+    \caption{DoRC 流程图。该流程图展示了本文提出的从超大规模 scRNA-seq 数据中检测稀有细胞的过程。
     本图中的每个注释图代表了相应过程的输入或输出可视化。
     (A) 输入的是 scRNA-seq 表达数据二维矩阵,其中行代表细胞,列代表基因。
     (B) 用输入的表达数据进行数据预处理,输出的是一个归一化和列的维度缩减的矩阵。
@@ -307,7 +307,7 @@ $c(n)$ 是归一化因子,定义为二叉搜索树 (BST) 中搜索失败的平�
 其中 $H(i)$ 为谐波数,
 可由 $ln(i) + 0.5772156649$ (欧拉常数) \cite{liu2012isolation}估计,$n$ 为建树时所用的数据点数。
 $s(x,n)$ 的值接近 1 表示异常,远小于 0.5 表示正常观测值。
-我们在这里使用的参数默认值与文献 \cite{liu2008isolation,liu2012isolation}一样,
+本文在这里使用的参数默认值与文献 \cite{liu2008isolation,liu2012isolation}一样,
 即在所有实验中子样本数据为 256,树的集合数目为 100。
 
 虽然用连续值来表示异常得分十分有意义,但有时关于细胞稀有度的二元标注可以极大地简化分析流程 (pipeline)。
@@ -318,7 +318,7 @@ $s(x,n)$ 的值接近 1 表示异常,远小于 0.5 表示正常观测值。
 \label{subsec:de}
 
 使用上一节中介绍的单细胞聚类方法 RafClust 得到了细胞的类别标签后,
-我们采用 NODES \cite{Sengupta049734} 这一快速的非参数化、差异化表达 (DE) 分析工具进行差异基因分析。
+本文采用 NODES \cite{Sengupta049734} 这一快速的非参数化、差异化表达 (DE) 分析工具进行差异基因分析。
 NODES 被证明比传统的基于批量细胞测序的差异分析方法 DESeq2 \cite{love2014moderated}、edgeR \cite{robinson2010edger},
 以及针对单细胞的差异表达分析方法 scde \cite{kharchenko2014bayesian} 和 Wilcoxon 秩和检验 (Wilcoxon rank sum test) 都有效 \cite{Sengupta049734}。
 以 0.05 作为 FDR (False Discovery Rate) 的阈值, FC (fold change) 变化(也就是两个组间表达量的比值) 阈值默认为 log2(5)。
@@ -331,7 +331,7 @@ NODES 被证明比传统的基于批量细胞测序的差异分析方法 DESeq2
 % \label{subsec:datasets} 
 
 为了测试 RafClust 在单细胞聚类场景下的性能,
-我们使用了十个知名的 scRNA-seq 数据集上,细胞数目从小规模到中等规模不等。
+本文使用了十个知名的 scRNA-seq 数据集上,细胞数目从小规模到中等规模不等。
 每个数据集以第一作者的姓氏命名如下: 
 Biase \cite{biase2014cell},
 Treutlein \cite{treutlein2014reconstructing}, 
@@ -398,7 +398,7 @@ ARI 的范围是 -1 到 1 ,其中 1 表示估计的聚类与真实的聚类完�
 % \subsubsection{实验结果分析}
 
 为了测试 RafClust 的性能,
-我们将其应用在十个知名的 scRNA-seq 数据集上 (数据详情见表 \ref{tbl:clusteringdatasets}),
+本文将其应用在十个知名的 scRNA-seq 数据集上 (数据详情见表 \ref{tbl:clusteringdatasets}),
 将其 ARI 值与其它六种方法进行比较,
 包括 RaceID2 \cite{grun2016novo}, CIDR \cite{lin2017cidr}, SIMLR \cite{wang2018simlr}, SAFE \cite{yang2018safe}, RtsneKmeans \cite{hartigan1979algorithm,maaten2008visualizing,van2014accelerating}, RAFSIL \cite{pouyan2018random}。
 这六种聚类方法均以 R 包的形式实现并公开了代码,它们的概述如表 \ref{supp-tbl:clustereringmethods} 所示。
@@ -664,13 +664,12 @@ RafClust 的 R 包可在 GitHub 仓库 \url{https://github.com/chenxofhit/RafClu
 
 虽然连续的分数是有意义的,
 如果能对细胞稀有性给出二元标注 (binary annotations),则有助于简化后续分析。
-为了解决这个问题,我们引入了一个基于得分分布特性的阈值方法。
+为了解决这个问题,本文引入了一个基于得分分布特性的阈值方法。
 图 \ref{supp-fig:dorcsummary} C 显示了 ${\sim}68$k PBMC 数据中检测到的细胞。
 我们利用基于阈值的二分法来标注稀有细胞,
 如预期的那样,
 大部分检测到的稀有细胞来源于已知的次要细胞类型,包括巨核细胞、树状细胞和单核细胞,
 如图 \ref{supp-fig:dorcsummary} A 上所示的分别对应于 CD34+、树枝状和 CD14+ 单核细胞。
-
 
 
 树突状细胞 (DC) 在感知、吞噬和和抗原监视 \cite{villani2017single} 方面起着至关重要的作用。
@@ -758,7 +757,7 @@ C4、C5、C9 和 C11 完全由树枝状细胞组成,根据 Zheng 等人提供 \c
 \label{subsec:recplanted} 
 
 
-我们设计了一个在模拟数据集 Jurkat\_293T 上的实验来评估 DoRC 在细胞类型识别上的性能表现。
+本文设计了一个在模拟数据集 Jurkat\_293T 上的实验来评估 DoRC 在细胞类型识别上的性能表现。
  \textit{Jurkat\_293T} 是由 Jurkat 和 293T 的两个表达谱构建的,同样来自同一研究 \cite{zheng2017massively}。
 Jurkat 数据集由 3258 个细胞组成,而 293T 数据集由 2885 个细胞组成。
 首先,从 293T 数据集中不放回抽样 1500 个细胞。
@@ -809,7 +808,7 @@ F1-score 反应了精度和灵敏度之间的平衡。
 \subsubsection{细胞类型敏感性与可扩展性分析}
 
 
-我们设计了一项模拟研究,来分析 DoRC 评分的鲁棒性和敏感性与差异表达基因 DE 数量之间的关系。
+本文设计了一项模拟研究,来分析 DoRC 评分的鲁棒性和敏感性与差异表达基因 DE 数量之间的关系。
 我们生成一个由 500 个两种细胞类型组成的人工仿真的 scRNA-seq 数据 \textit{Splatter\_500}。
 通过使用 R 包 Splatter \cite{zappia2017splatter},由 500 个细胞组成。
 与两种细胞类型: 25 个细胞是罕见的 (也就是 rare cells),其它 475 个细胞是丰富的 (也就是 abundant cells),因此稀有细胞占总体细胞个数的 5\% 。
@@ -859,7 +858,7 @@ de.facLoc = 0.4, de.facScale = 0.8, nGenes = 5000)}
 \end{figure}
 
 此外,由于 DoRC 和 FiRE 都可以给细胞做二元标注,
-我们对其性能差异感到好奇。
+本文对其性能差异感到好奇。
 在这个数据集中,我们考虑了 DoRC 和 FiRE 之间的 AUC、召回率、精度和 F1-score。
 由于 F1-score 取决于召回率和精度,我们也包括这两个指标作为参考。
 把细胞类型标注为真实标签, AUC 是用 DoRC 评分计算的。
@@ -903,7 +902,7 @@ DoRC 的核心算法孤立森林 (Isolation Forest) 的时间复杂度为 $O(ntl
 这个复杂度没有包括使用 RafClust 来确认稀有细胞的具体类型,
 因为 FiRE 和 LOF 这两种方法也没有包含稀有细胞的类型细化这个步骤。
 
-我们不断变化输入单细胞数据规模的大小,
+本文通过不断变化输入单细胞数据规模的大小,
 分别统计出 DoRC、FiRE、GiniClust、LOF \cite{breunig2000lof} 和 RaceID 所消耗的时间,
 如图 \ref{fig:timecomplexity} 所示。
 测试机器为一台运行 GNU Linux/Ubuntu 16.04 操作系统 4.15.0-47-generic 内核的工作站上,
@@ -941,7 +940,7 @@ DoRC 的实现代码可在 GitHub 仓库 \url{https://github.com/chenxofhit/DoRC
 
 RafClust 是一种纯粹的无模型 (model free) 和数据驱动 (data driven) 的方法,
 不需要其它的先验信息,如细胞或基因的群体结构、通路信息等。
-我们使用多种相似性度量方法刻画细胞的特征,
+本文使用多种相似性度量方法刻画细胞的特征,
 使用随机森林回归模型来学习细胞与细胞之间的相似性矩阵,基于相似性矩阵后采用层次聚类来决定细胞的最终类别。
 该方法既支持按照指定的细胞类别数聚类, 也可以让方法自主决定细胞的类别数,
 还支持聚类结果的可视化和差异基因分析。
@@ -956,7 +955,7 @@ RafClust 是一种纯粹的无模型 (model free) 和数据驱动 (data driven) 
 % DoRC 避免了使用聚类作为中间步骤,
 % 因为聚类方法不仅耗时,但也不可能一次性完全绘制复杂组织中的细胞类型。
 
-进一步地在 RafClust 方法的基础上, 我们提出了一种单细胞稀有细胞识别方法 DoRC。
+进一步地在 RafClust 方法的基础上, 本文提出了一种单细胞稀有细胞识别方法 DoRC。
 该方法首先给每一个细胞表达图谱都单独给出了一个细胞稀有度分数。
 然后通过 IQR 阈值, DoRC 也可以像 RaceID 和 GiniClust 一样提供二元标签预测。
 DoRC 使用了 Isolation Forest 作为核心算法来实现这个功能。

@@ -70,9 +70,9 @@ ARNI \cite{casadiego2017model} 是一个独立于模型的框架,依赖于它们
     \toprule
     &bLARS &SINDy&ARNI&D3GRN\\
     \midrule
-    formal function  decomposition &$\times$ &\checkmark &\checkmark&\checkmark\\ 
-    sparse group  constraints &\checkmark &$\times$ &\checkmark&\checkmark\\
-    network based construction&\checkmark&$\times$ &$\times$&\checkmark\\
+    形式化函数分解 &$\times$ &\checkmark &\checkmark&\checkmark\\ 
+    稀疏组约束 &\checkmark &$\times$ &\checkmark&\checkmark\\
+    基于网络的构造&\checkmark&$\times$ &$\times$&\checkmark\\
     \bottomrule                   
     \end{tabular}
   %  \end{adjustbox}
@@ -271,8 +271,8 @@ $c^i_{j,p}$, $c^i_{js,p}$, $c^i_{jsw,p}$ 为未知系数。
 
 ARNI 虽然是在动态网络构建领域中被提出来,在本质上可以看作是一种机器学习领域里的特征选择方法,
 与知名的 Sparse Group Lasso \cite{friedman2010note} 有异曲同工之处。
-我们在 ARNI 做了修改,使其在非时间序列数据一样适用。
-针对于目的基因,我们应用改进的 ARNI 就能获取其调控因子以及对应的调控关系 (边) 的权重。
+本文对 ARNI 做了修改,使其在非时间序列数据一样适用。
+针对于目的基因,本文应用改进的 ARNI 就能获取其调控因子以及对应的调控关系 (边) 的权重。
 
 \subsubsection{抽样方法}
 
@@ -284,8 +284,7 @@ D3GRN 算法采用抽样方法,用来获取可靠的目标基因的调控候选�
 在重采样中, 从观察样本中均匀随机,有替换地抽取样本。
 重采样技术经常被应用于在欠确定问题的情况下得到稳定的结果 \cite{wang2011random}。
 %在当前的 D3GRN 实现中,抽样次数 $b$=200。
-在每次抽样过程中, 
- $y$ 和 $X$ 是从给定的基因表达数据中均匀随机选择重新采样与替换。
+在每次抽样过程中, $y$ 和 $X$ 是从给定的基因表达数据中均匀随机选择重新采样与替换。
 随后, ARNI 算法被用来选择每次抽样后与目的基因有关的调控因子。
 最后,所有抽样的结果使用基于面积的评分技术进行汇总。
 需要注意的是, D3GRN 算法只应用抽样方法来获得每个目标基因的高置信度调控因子,
@@ -397,16 +396,16 @@ DREAM5 Network 1   & 1643    & 195                & 805       & 4012            
 
 \subsubsection{评价指标}
 
-为了评估 GRN 推理算法的效果,我们使用精确率-召回率曲线下的面积 (AUPR) 作为评价指标。
+为了评估 GRN 推理算法的效果,本文使用精确率-召回率曲线下的面积 (AUPR) 作为评价指标。
 除了 AUPR 之外,接收者操作特征曲线下的面积 (AUROC) 也被广泛用于评估效果。
 一般来说, AUROC 和 AUPR 值越高,说明 GRN 预测得越准确。
 需要注意的是,在稀疏的生物网络中,不存在的边数目 (阴性边) 大大超过现有边的数量 (阳性边),
 因而 AUPR 比 AUROC 更有参考价值 \cite{saito2015precision} 。
 
-我们首先通过比较金标准网络中的调节边和 D3GRN 的排序列表输出前 $q$ 条边,
+本文首先通过比较金标准网络中的调节边和 D3GRN 的排序列表输出前 $q$ 条边,
 计算出真阳性 (TP)、真阴性 (TN)、假阳性 (FP) 和假阴性 (FN) 边的数量。
 随着 $q$ 不断增加, $q = 1,2,\ldots,N\times(N-1)$,其中 $N$ 为基因数,
-我们通过绘制真阳性率 (The true positive rates, TPR) 与假阳性率 (The false positive rates, FPR) ,
+通过绘制真阳性率 (The true positive rates, TPR) 与假阳性率 (The false positive rates, FPR) ,
 便得到了接收者操作特征 (Receiver Operating Characteristic, ROC) 曲线; 
 同样地,
 %The ROC curve is constructed by plotting the true positive rates (TPR = TP/(TP + FN)) versus the false positive rates (FPR = FP/(FP + TN)) for increasing $q$ ($q = 1,2,\ldots,m^2$).
@@ -456,7 +455,7 @@ DREAM4 数据集中我们选用 DREAM4 网络 4 作为一个代表,
   \label{fig:performance_dr5}
 \end{figure}
 
-我们分别在 DREAM4 和 DREAM5 网络进行了对比实验,来评测我们提出的方法 D3GRN。
+我们分别在 DREAM4 和 DREAM5 网络进行了对比实验,来评测本文提出的方法 D3GRN。
 NIMEFI 用 R 实现,而 GENIE3、TIGRESS 是用 MATLAB 实现。
 这些方法的代码从对应论文提供的 URL 进行下载,在实验中各方法中的参数使用它们代码中推荐的默认值。
 我们提出的方法 D3GRN 也是利用 MATLAB 实现的,使用的数据集及代码公开在 GitHub 仓库 \url{https://github.com/chenxofhit/D3GRN} 上。
@@ -549,7 +548,7 @@ D3GRN 在网络 1 上跟其它方法相比 AUPR 值最高。
 本章提出的 D3GRN 方法也遵循同样的假设。
 我们在 DREAM4 和 DREAM5 数据集上评估了我们的方法。
 我们认为,其它基因对目标基因的调控是基多项式非线性函数的混合作用。
-我们方法的实验结果也验证了这一假设,至于这个假设的理论和生物实验分析需要后续的工作来支持。
+本文方法的实验结果也验证了这一假设,至于这个假设的理论和生物实验分析需要后续的工作来支持。
 
 另一个重要问题是关于 D3GRN 的计算复杂度。
 客观地讲, ARNI 适合于构建节点级的小型物理动态网络。
@@ -573,5 +572,5 @@ D3GRN 中采用的抽样策略使其在处理大规模 GRNs 推理时,
 在本研究中,我们提出了一种数据驱动的动态网络构建方法来构建基因调控网络,
 该方法将每个目标基因的调控关系转化为函数分解问题,并利用揭示网络相互作用的算法 ARNI 来构造局部 GRN。
 然而,传统的数据驱动的动态网络恢复方法,如 SINDy 和 ARNI 不具备构建全局网络的能力。
-我们采用抽样和基于面积的评分策略克服了这一缺陷,从而构建出最终的全局 GRN。
+本文采用抽样和基于面积的评分策略克服了这一缺陷,从而构建出最终的全局 GRN。
 在 DREAM4 和 DREAM5 基准数据集上的实验结果表明, D3GRN 在 AUPR 方面的表现具有竞争力。
