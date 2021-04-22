@@ -8,15 +8,15 @@
 到如今,不少基于信息理论的 GRN 构建方法已经被提出来。
 在上一章里面, 我们回顾了各种网络模型和建模方法。
 基于信息理论的 GRN 推断方法属于关联网络建模方法的范畴。
-然而,在传统的DNA 微阵列测序数据中由于存在的外部噪声、
+然而,在传统的 DNA 微阵列测序数据中由于存在的外部噪声、
 网络结构中的拓扑稀疏性和基因之间的传递依赖等因素,
 使得基于信息理论的 GRN 推断方法在网络推断中会引入假阳性的依赖关系。
 特别是随着网络规模的增加,这类方法的表现会大幅下降。
-在本章,本文提出了一种新的网络结构推断方法 Loc-PCA-CMI:
-首先识别局部重叠基因簇 (local overlapped gene clusters),
+在本章,我们提出了一种新的网络结构推断方法 Loc-PCA-CMI。
+该方法首先识别局部重叠基因簇 (local overlapped gene clusters),
 然后基于条件互信息 (PCA-CMI) 的路径一致性算法推断每个簇的局部网络结构,
 最终通过聚合局部网络结构,也就是基因之间的依赖性网络,来构建最终的 GRN。
-我们在 DREAM3 敲除数据集上对 Loc-PCA-CMI 进行了评估,
+我们在 DREAM3 敲除数据集上对 Loc-PCA-CMI 方法进行了评估,
 将该方法与其它基于信息理论的网络结构推断方法,包括 ARACNE、MRNET、PCA-CMI 和 PCA-PMI,进行了比较。
 实验结果证明, Loc-PCA-CMI 在 DREAM3 数据集上特别是在基因数目为 50 和 100 的网络上表现优于其它四种方法。
 
@@ -25,8 +25,8 @@
 
 推断和理解 GRNs 是系统生物学中的一个关键问题, 
 可以帮助生物医学科学家明确识别基因与基因之间复杂的调控关系、理解细胞中的调控机制 \cite{altay2010inferring, basso2005reverse}。
-在过去, GRN 是从实验干预中推断出来的,其中基因之间的调控相互作用被验证。
-显然,这种方法是不可行的 \cite{elnitski2006locating},需要耗费大量时间和相当大的成本。
+在过去, GRN 是从扰动或者敲除实验中推断出来的,然后对基因之间的调控相互作用进行二次验证。
+显然,这种方法针对规模稍微偏大的基因集的调控关系推断是不可行的 \cite{elnitski2006locating},需要耗费大量时间和相当大的成本。
 由于微阵列技术的发展,大量的基因表达数据通过测序被得到,这使得基于计算方法从这些表达数据中推断出 GRN 成为可能 \cite{maetschke2013supervised}。
 % 近年来,基于计算方法的网络推断已成为最重要的目标之一 \cite{altay2010inferring, margolin2006reverse}。
 % 已经提出了各种用于GRN推断的方法,例如基于回归的方法 \cite{Huynh-Thu2010, Haury2012, Huynh-Thu2014, liu2014group, li2017mgt, zheng2018bixgboost},
@@ -44,11 +44,12 @@
 研究者基于各种不同的假设和不同的条件提出了从表达数据构建 GRN 精确结构的各种不同的计算方法 \cite{longabaugh2005computational,karlebach2008modelling}。
 目前的这些方法可以大致分为基于模型 (model-based) 和无模型 (model-free) 两大类别。
 
-基于模型的方法通常制定系统的计算模型并进一步学习这种模型的参数。
+基于模型的方法通常制定系统的计算模型并进一步学习计算这些模型内部的参数。
 典型的计算模型包括布尔网络 \cite{shmulevich2002probabilistic,kim2007boolean,bornholdt2008boolean,zhou2016relative},
 贝叶斯网络 \cite{kim2003inferring,zou2004new,chen2006effective,needham2007primer,lo2015high},
 以及微分方程模型 \cite{gardner2003inferring,di2005chemogenomic,bansal2006inference, honkela2010model,lu2011high,li2011large}。
-这些基于模型的方法的细节在上一章中有详细介绍,接下来我们重点介绍基于无模型 (model-free) 的方法。
+这些基于模型的方法的细节在上一章中有详细介绍, 因此我们不再重点介绍。
+接下来, 我们转而介绍基于无模型 (model-free) 的方法。
 % 布尔网络模型是最简单的网络模型,它通过布尔变量和布尔逻辑实现。
 % 因为基因表达的状态被认为只是活动或非活动,布尔网络模型不能完全捕获复杂的系统行为 \cite{lee2009computational}。
 % 贝叶斯网络模型是一种流行的概率图形模型,其中基因之间的依赖关系通过有向无环图描述。
@@ -64,7 +65,7 @@
 在基于相关性的方法中,调控相互作用由两个基因之间的共表达程度决定,
 例如 Pearson 相关性,秩相关性,欧几里德距离和表达值向量之间的角度 \cite{wang2014review}。
 然而,基于相关性的方法无法识别基因之间的复杂依赖性,例如非线性依赖性 \cite{ruyssinck2014nimefi}。
-此外,相当多的功能相关基因可能不会共表达,因此难以准确推断它们之间的调控相互作用。
+此外,相当多的功能相关的基因, 比如管家基因,可能不会共表达,因此难以准确推断它们之间的调控相互作用。
 基于信息理论的方法也是一种代表性的无模型 (model-free) 方法。
 信息理论在测量两个变量之间的非线性依赖关系时相对高效, 
 因此越来越多地用于衡量基因间的调控关系强弱,其中互信息和条件互信息应用最为广泛。
@@ -103,13 +104,12 @@ CMI 值越高,表明给定变量 $Z$ ,变量 $X$ 和 $Y$ 之间越可能存在�
 
 Margolin 等人 \cite{margolin2006aracne}提出了 ARACNE 方法,使用数据处理不等式 (DPI) 来过滤掉来自三重基因的间接相互作用。
 Meyer \cite{meyer2007information} 的最小冗余网络 (MRNET) 使用最小冗余特征选择方法 \cite{peng2005feature},
-其中对于网络中的每个候选基因,它选择其高度相关基因的子集,同时最小化所选基因之间基于互信息的相关性。
+其中对于网络中的每个候选基因,它选择其高度相关基因的子集, 同时最小化所选基因之间基于互信息的相关性。
 Zhang 等人 \cite{zhang2011inferring} 介绍了一种基于条件互信息的路径一致性算法 PCA-CMI ; 
 Zhao 等人 \cite{zhao2016part} 引入了基于偏互信息的路径一致性算法 PCA-PMI 。
 下面我们将重点介绍 PCA-CMI 算法，PCA-PMI 算法的思路与之类似。
 
-PCA-CMI 算法利用 MI 和 CMI,从低阶到高阶递归地移除调控网络中具有独立或条件
-独立关系的边,其具体步骤如下:
+PCA-CMI 算法利用 MI 和 CMI,从低阶到高阶递归地移除基因调控网络中具有独立或条件独立关系的边, 具体的步骤如下:
 
 步骤 0:初始化。输入基因的表达数据 $M$, 设置阈值参数 $\beta$, 用来判断是否满足独立性。
 选择所有的基因建立全连通网络, 设置 $L=-1$。
@@ -126,11 +126,11 @@ PCA-CMI 算法利用 MI 和 CMI,从低阶到高阶递归地移除调控网络中
 
 从上述步骤可以看出, PCA-CMI 是一种采用了 top-down 策略的算法, 
 从全通图中不断寻找子图, 在每个子图结构里按照 CMI 的独立性阈值条件来删减边,直至满足临界条件。
-显然, 独立性阈值 $\beta$ 是全局变量, 
-需要依靠先验知识来赋值。
+显然, 在这个算法里面独立性阈值 $\beta$ 是全局变量, 需要依靠先验知识来获取合适的值。
 
 路径一致性算法 (Path Consistency Algorithm, PCA) 是一种穷举算法,广泛用于推断 GRN \cite{zhang2011inferring}。
 PCA-CMI 和 PCA-PMI 这两个算法通常会在运行时间和准确度之间进行折衷权衡。
+值得注意的是, 
 随着网络规模的增加, 网络噪声在增加,
 PCA 这种 top-down 的算法的复杂度很高, 而且受到经验参数的影响,使得 GRN 的预测精度急剧下降。
 
@@ -140,15 +140,15 @@ PCA 这种 top-down 的算法的复杂度很高, 而且受到经验参数的影�
 然后使用 PCA-CMI 对每个簇的结构进行构建, GRN 的最终结构是将所有局部网络结构进行合并。
 从这个流程可以看出, Loc-PCA-CMI 方法可以处理相对较大的数据集,
 并且将从 PCA-CMI 在小规模基因子网的相对准确的结构推断上受益。
-在本节中,我们将重点介绍提出的 GRN 结构推断方法 Loc-PCA-CMI 以及 Loc-PCA-PMI。
+接下来,我们将重点介绍我们提出的 GRN 结构推断方法 Loc-PCA-CMI 以及 Loc-PCA-PMI。
 
-\subsubsection{算法 Loc-PCA-CMI }
+\subsubsection{算法 Loc-PCA-CMI}
 
 众所周知,生物系统中节点之间是很少完全连通的,
 大多数节点只直接连接到少量其它节点 \cite{jeong2000large},因此 GRN 也是一种稀疏网络。
 识别网络的稀疏结构的关键步骤是识别可能具有相对高的共表达值的边。
 具体来说,我们提出的 Loc-PCA-CMI 首先通过 Pearson 相关性分析和 $p$ 值错误率 (FDR) 校正选择 top $n$ 条高度共表达的边；
-然后,在缩减的边构成的空间中, 用边连接的基因计算局部重叠基因簇。
+然后,在缩减的边构成的空间中,用边连接的基因计算局部重叠基因簇。
 然后对于每个局部基因簇, 我们应用 PCA-CMI 算法 \cite{zhang2011inferring},
 它可以通过从低到高依赖关联重复去除不相关的边来构建高置信度无向网络 \cite{spirtes2000causation},
 直到没有边可以删除,从而获取到每个局部网络的最终结构 (见 \ref{subsec:relatedwork})。
@@ -157,8 +157,8 @@ PCA 这种 top-down 的算法的复杂度很高, 而且受到经验参数的影�
 需要注意的是,
 在算法 \ref{alg} 里面,
 由于 PCA-CMI 本身就非常适合相对较小的 GRN 结构推断,
-因此我们设置了一个过滤预处理步骤:如果局部类中基因的数量小于或等于常数 $c$,
-则直接应用 PCA-CMI 推断 GRN 的结构。
+因此我们设置了一个过滤预处理步骤: 如果局部网络中基因的数量小于或等于常数 $c$,
+则直接应用 PCA-CMI 推断其对应的 GRN 的结构。
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.95\textwidth]{pca-cmi-framework.pdf}
@@ -222,7 +222,7 @@ PCA 这种 top-down 的算法的复杂度很高, 而且受到经验参数的影�
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.95\textwidth]{pca-pmi-framework.pdf}
-  \caption{Loc-PCA-PMI 方法框架图。}
+  \caption{Loc-PCA-PMI 方法框架图。算法流程与 Loc-PCA-CMI 方法类似。}
   \label{pca-pmi-fr}
 \end{figure}
 
@@ -246,7 +246,7 @@ DREAM 联盟举办了 DREAM3、
 DREAM4 和 DREAM5 等与 GRNs 推理构建相关的挑战赛, 
 举办方提供了标准化的通用输入数据集和性能评估指标来比较不同的候选方法。
 该组织提供的数据集事实上成为了 GRN 推理领域的金标准网络数据集,
-经常被用于评测各种各样新的 GRN 重建算法。
+经常被用于评测各种各样新的 GRN 构建算法。
 
 本文使用来自 DREAM3 挑战赛的六个模拟数据 \cite{schaffter2011genenetweaver} 对 Loc-PCA-CMI 的性能进行了测试。
  DREAM3 使用 GeneNetWeaver 软件来模拟生成基因网络表达数据,
@@ -302,7 +302,7 @@ DREAM4 和 DREAM5 等与 GRNs 推理构建相关的挑战赛,
 同样地,
 %The ROC curve is constructed by plotting the true positive rates (TPR = TP/(TP + FN)) versus the false positive rates (FPR = FP/(FP + TN)) for increasing $q$ ($q = 1,2,\ldots,m^2$).
 精确率-召回率 (Precision-Recall, PR) 曲线是通过绘制精确率 Precision 与召回率 Recall 而得到。
-其中, TPR、FPR、Precision、Recall 的计算如等式 \ref{eq:tpr}、\ref{eq:fpr}、\ref{eq:precision}、\ref{eq:recall} 所示。
+其中, TPR、FPR、Precision、Recall 的计算分别如等式 \ref{eq:tpr}、\ref{eq:fpr}、\ref{eq:precision}、\ref{eq:recall} 所示。
 我们再通过计算曲线下的面积便得到了 AUROC 和 AUPR。
 
 \begin{equation}
@@ -324,7 +324,7 @@ DREAM4 和 DREAM5 等与 GRNs 推理构建相关的挑战赛,
 \begin{equation}
 
 \subsubsection{模型选择}
-如算法 \ref{alg} 中所述,总计有三个参数会影响方法 Loc-PCA-CMI 的性能。
+在算法 \ref{alg} 中总计有三个参数会影响方法 Loc-PCA-CMI 的性能。
 第一个参数是选定的 top 边的数目 $n$,
 如果 $n$ 增加,则考虑的共表达的边数目增大,局部基因簇的大小将增加。
 第二个参数是 $\beta$,它作为 MI 和 CMI 的阈值来决定独立性。
@@ -476,7 +476,7 @@ AUPR 总体上随着 $\beta$ 的增加逐渐增大,然后又逐渐降低。
 Loc-PCA-CMI 仅在 DREAM3-10 Yeast 数据集中的 PCA-PMI (或本章提出的 Loc-PCA-PMI )之后,
 而在其它五个数据集中,就 AUROC 和 AUPR 而言,
 Loc-PCA-CMI 表现优于 ARACNE、MRNET、PCA-PMI 和 PCA-CMI 这四种方法。
-此外,为了更完整地比较,本文还在表中展示了 Loc-PCA-PMI 的实验结果,
+此外,为了更完整地比较,我们还在表中展示了 Loc-PCA-PMI 的实验结果,
 其中 $\beta = 0.03$ 和 $k = 2$。
 Loc-PCA-CMI 和 Loc-PCA-PMI 在 AUROC 上几乎相同。
 然而,在大多数数据集中, Loc-PCA-CMI 的 AUPR 优于 Loc-PCA-PMI。
@@ -515,8 +515,8 @@ Loc-PCA-CMI 和 Loc-PCA-PMI 在 AUROC 上几乎相同。
 
 \subsection{小结}
 
-按照推断局部基因调控网络结构,然后不断合并局部结构来构造全局网络的策略,
-本文提出了一种基于互信息和局部结构融合的 GRN 结构推断方法 Loc-PCA-CMI。
+本章中,我们按照推断局部基因调控网络结构,然后不断合并局部结构来构造全局网络的策略,
+提出了一种基于互信息和局部结构融合的 GRN 结构推断方法 Loc-PCA-CMI。
 与 PCA 类算法 top-down 的思想相反, Loc-PCA-CMI 采用了类似 bottom-up 的策略。
 在 DREAM3 敲除数据集上的实验表明, Loc-PCA-CMI 受益于局部聚类的策略。
 此外, Loc-PCA-CMI 优于其它方法,
@@ -529,7 +529,7 @@ Loc-PCA-CMI 在处理局部网络结构的时候引入了 PCA-CMI,因此其计�
 但是,如果可以控制每个局部簇的大小,本文提出的方法也将适用于大型数据集。
 我们未来的工作之一是改进聚类策略,
 例如整合蛋白质复合物 \cite{li2017identification,li2017dynetviewer},
-以便更有效地处理大规模样本数据。
+以便更有效地处理大规模的基因表达数据。
 另外,值得注意的是,我们主要关注推断 GRN 的结构,并没有考虑网络自身的稳定性问题。
 因此,在未来的研究中我们将尝试从网络稳定性的角度出发,来推断更鲁棒的基因调控网络结构。
 
