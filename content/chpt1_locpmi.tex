@@ -135,7 +135,7 @@ PCA-CMI 和 PCA-PMI 这两个算法通常会在运行时间和准确度之间进
 PCA 这种 top-down 的算法的复杂度很高, 而且受到经验参数的影响,使得 GRN 的预测精度急剧下降。
 
 \subsection{GRN 结构推断方法}
-为了改善 PCA 在随着网络规模增加复杂度变高, GRN 预测精度急剧下降的状况,本文直接从局部结构入手,辅助以合并的策略,提出了一种新的基因调控网络结构推断方法,命名为 Loc-PCA-CMI。
+为了改善 PCA 在随着网络规模增加复杂度变高, GRN 预测精度急剧下降的状况,我们直接从局部结构入手,辅助以合并的策略,提出了一种新的基因调控网络结构推断方法,命名为 Loc-PCA-CMI。
 该方法首先使用高度共同表达的基因作为局部基因簇的质心,
 然后使用 PCA-CMI 对每个簇的结构进行构建, GRN 的最终结构是将所有局部网络结构进行合并。
 从这个流程可以看出, Loc-PCA-CMI 方法可以处理相对较大的数据集,
@@ -212,7 +212,7 @@ PCA 这种 top-down 的算法的复杂度很高, 而且受到经验参数的影�
 
 在算法 \ref{alg} 中,获得每个局部基因簇之后,
  PCA-CMI 和 PCA-PMI 都可以视为后续局部结构推断的候选方法。
-如果在局部结构构建时使用 PCA-PMI 替换 PCA-CMI,本文将该方法命名为 Loc-PCA-PMI。
+如果在局部结构构建时使用 PCA-PMI 替换 PCA-CMI,我们将该方法命名为 Loc-PCA-PMI。
 其对应的方法框架如图 \ref{pca-pmi-fr} 所示, 
  Loc-PCA-PMI 与 Loc-PCA-CMI 唯一不同的地方在局部网络结构构建的时候 (如图 \ref{pca-pmi-fr} 中虚线部分所示),
  Loc-PCA-PMI 的实现细节在这里不再赘述了,感兴趣的读者可以参考算法 \ref{alg} 自行推理出来。
@@ -248,7 +248,7 @@ DREAM4 和 DREAM5 等与 GRNs 推理构建相关的挑战赛,
 该组织提供的数据集事实上成为了 GRN 推理领域的金标准网络数据集,
 经常被用于评测各种各样新的 GRN 构建算法。
 
-本文使用来自 DREAM3 挑战赛的六个模拟数据 \cite{schaffter2011genenetweaver} 对 Loc-PCA-CMI 的性能进行了测试。
+本章使用来自 DREAM3 挑战赛的六个模拟数据 \cite{schaffter2011genenetweaver} 对 Loc-PCA-CMI 的性能进行了测试。
  DREAM3 使用 GeneNetWeaver 软件来模拟生成基因网络表达数据,
 在来自已知生物模式的调节相互作用系统的子网:
  Ecoli (大肠杆菌) 和 Yeast (酵母) 的基础上,得到测试使用的基准网络。 
@@ -289,7 +289,7 @@ DREAM4 和 DREAM5 等与 GRNs 推理构建相关的挑战赛,
 
 \subsubsection{评价指标}
 
-本文通过评估接收者操作特征曲线下面积 (AUROC) 和准确率召回率曲线下面积 (AUPR) 来评估 Loc-PCA-CMI 的性能。
+我们通过评估接收者操作特征曲线下面积 (AUROC) 和准确率召回率曲线下面积 (AUPR) 来评估 Loc-PCA-CMI 的性能。
 与稀疏生物网络一样,不存在的边 (负样本) 的数量明显超过现有边 (正样本) 的数量; 
 事实上, AUPR 对 AUROC 提供了更多信息 \cite{saito2015precision} 。
 本文倾向于使用 AUPR 进行评估,但为了与采用 AUROC 作为评估指标的其它方法进行完整地比较,
@@ -388,7 +388,7 @@ $n$ 的最佳值可以通过交叉验证获得,通常较大的 $n$ 可以促成�
     \label{fig:k}
 \end{figure*}
 
-固定阶数 $k$=2 后, 本文在 $\beta$=[0.01,0.02,0.03,0.05,0.1,0.15,0.2] 上对这四种算法也进行了测试, 
+固定阶数 $k$=2 后, 我们在 $\beta$=[0.01,0.02,0.03,0.05,0.1,0.15,0.2] 上对这四种算法也进行了测试, 
 分别计算出每种方法的 AUROC 和 AUPR。
 图 \ref{fig:beta} 总结了它们在基准数据集上的结果, 
 可以看出, 阈值独立性参数 $\beta$ 会对这四种基于 PCA 的方法的结果产生影响,
@@ -435,7 +435,7 @@ AUPR 总体上随着 $\beta$ 的增加逐渐增大,然后又逐渐降低。
 
 相对于 PCA-CMI,  Loc-PCA-CMI 引入了
 根据共表达的边进行局部基因聚类的策略,为了验证这个策略是否有效,我们对比了 Loc-PCA-CMI 和 PCA-CMI 在 AUPR 上的变化。
-同理, 本文也对比了 Loc-PCA-PMI 和 PCA-PMI。
+同理, 我们也对比了 Loc-PCA-PMI 和 PCA-PMI。
 这四个算法的参数统一设置为: $\beta = 0.03$, $k = 2$。
 结果如图 \ref{fig:loc} 所示,
 在这四个不同的数据集上, Loc-PCA-CMI 和 Loc-PCA-PMI 分别比 PCA-CMI 和 PCA-PMI 具有更高的 AUPR 值,
@@ -465,12 +465,12 @@ AUPR 总体上随着 $\beta$ 的增加逐渐增大,然后又逐渐降低。
 \end{figure*}
 
 % \subsubsection{Loc-PCA-CMI 比其它竞争方法表现更好}
-本文在六个基准数据集上使用 Loc-PCA-CMI 和四种方法 ARACNE、MRNET、PCA-PMI、PCA-CMI 进行了比较实验。
+我们在六个基准数据集上使用 Loc-PCA-CMI 和四种方法 ARACNE、MRNET、PCA-PMI、PCA-CMI 进行了比较实验。
 我们使用 R 包 ``minet"和其默认参数来评估 ARACNE 和 MRNET,
 采用了 Pearson 相关性系数直接从连续基因敲除表达数据中近似估计这两个方法中涉及到的 MI 矩阵 \cite{olsen2008impact,meyer2010information} 。
 为了评估 PCA-PMI 和 PCA-CMI, 我们根据对应的文献 \cite{zhang2011inferring,zhao2016part} 中提供的 URL 下载了 MATLAB 代码。
 另外, PCA-PMI 和 PCA-CMI 方法中的参数使用它们推荐的默认值,也就是 $\beta = 0.03$ 和 $k = 2$。
-对于 Loc-PCA-CMI, 本文还对这两个参数采用了相同的值进行比较。
+对于 Loc-PCA-CMI, 我们还对这两个参数采用了相同的值进行比较。
 表 \ref{tab:performance_comparison} 给出了实验结果的 AUROC 和 AUPR。
 从表中可以看出,当网络规模增大时,所有的方法的 AUPR 都会急剧下降。
 Loc-PCA-CMI 仅在 DREAM3-10 Yeast 数据集中的 PCA-PMI (或本章提出的 Loc-PCA-PMI )之后,
@@ -526,7 +526,7 @@ Loc-PCA-CMI 和 Loc-PCA-PMI 在 AUROC 上几乎相同。
 Loc-PCA-CMI 在处理局部网络结构的时候引入了 PCA-CMI,因此其计算效率也会受到 PCA-CMI 的影响,
 特别是在处理大型数据集时。
 因为在大型网络的情况下,局部基因簇的数量可能会非常大。
-但是,如果可以控制每个局部簇的大小,本文提出的方法也将适用于大型数据集。
+但是,如果可以控制每个局部簇的大小,本章提出的方法 Loc-PCA-CMI 也适用于大型的数据集上进行基因调控网络的构建。
 我们未来的工作之一是改进聚类策略,
 例如整合蛋白质复合物 \cite{li2017identification,li2017dynetviewer},
 以便更有效地处理大规模的基因表达数据。
