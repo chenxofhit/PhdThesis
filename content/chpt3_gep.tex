@@ -13,12 +13,12 @@
 单细胞 RNA-seq 技术的出现提供了一个从细胞水平研究生物机制的前所未有的视角,
 能够从基因、调控、表达等多方面解释细胞变化的原因,
 使得研究人员更严格地处理一些生物问题,比如组织的细胞组成、转录组的异质性,
-以及细胞在发育过程中或在疾病和癌症中类型是如何的变化 \cite{kumar2017understanding,patel2014single}。
+以及细胞在发育过程中或在疾病和癌症中类型是如何的变化 \upcite{kumar2017understanding,patel2014single}。
 
 单细胞 RNA-seq (scRNA-seq) 测序技术下的数据集与 DNA 微阵列测序基因表达数据集有很大区别, 
-表现在 scRNA-seq 数据集本身具有大量的细胞异质性 \cite{wagner2016revealing},
-高度稀疏性导致的很多基因表达值为零 \cite{vallejos2017normalizing},
-细胞与细胞之间的测序深度变化, 细胞周期相关带来的批量效应 (batch effects) \cite{buettner2015computational}。
+表现在 scRNA-seq 数据集本身具有大量的细胞异质性 \upcite{wagner2016revealing},
+高度稀疏性导致的很多基因表达值为零 \upcite{vallejos2017normalizing},
+细胞与细胞之间的测序深度变化, 细胞周期相关带来的批量效应 (batch effects) \upcite{buettner2015computational}。
 在这种截然不同特点的数据集上如果直接应用 DNA 微阵列测序数据下的基因调控网络构建方法,
 基因调控网络构建的准确性会大大降低。
 %  scRNA-seq 数据集最突出的特点是细胞具有异质性,
@@ -33,9 +33,9 @@
 % 上面两个章节分别介绍了无向网络构建的 Loc-PCA-CMI 方法和有向网络构建的 D3GRN 方法, 
 % 它们都是针对 DNA 微阵列测序技术下的基因表达数据集的特点提出来的方法。
 % 单细胞 RNA-seq (scRNA-seq) 测序技术下的数据集与基因芯片数据特点有很大区别, 
-% 表现在 scRNA-seq 数据集本身具有大量的细胞异质性 \cite{wagner2016revealing},
-% 高度稀疏性导致的很多基因表达值为零 \cite{vallejos2017normalizing},
-% 细胞与细胞之间的测序深度变化, 细胞周期相关带来的批量效应 (batch effects) \cite{buettner2015computational}。
+% 表现在 scRNA-seq 数据集本身具有大量的细胞异质性 \upcite{wagner2016revealing},
+% 高度稀疏性导致的很多基因表达值为零 \upcite{vallejos2017normalizing},
+% 细胞与细胞之间的测序深度变化, 细胞周期相关带来的批量效应 (batch effects) \upcite{buettner2015computational}。
 % 在这种截然不同特点的数据集上如果直接应用 DNA 微阵列测序数据下的基因调控网络构建方法,
 % 基因调控网络构建的准确性会大大降低。
 因此,针对 scRNA-seq 数据集,我们需要充分结合数据的特性,
@@ -54,21 +54,21 @@
 在基因调控网络中,基因的协同作用,维持细胞作为特定细胞类型的身份,对外界信号作出反应,并进行复杂的如复制和代谢等细胞活动。
 协调这些功能所需的基因通常是通过转录共同调控来实现的,
 即基因作为一个基因表达程序 (GEP) 一起被诱导,
-来响应适量的内部或外部信号 \cite{eisen1998cluster,segal2003module}。
-通过对整个转录组的无偏测量, RNA-seq 等测序技术正在为系统地发现 GEPs 并揭示其支配的生物机制铺平了道路 \cite{liberzon2015molecular}。
+来响应适量的内部或外部信号 \upcite{eisen1998cluster,segal2003module}。
+通过对整个转录组的无偏测量, RNA-seq 等测序技术正在为系统地发现 GEPs 并揭示其支配的生物机制铺平了道路 \upcite{liberzon2015molecular}。
 
 scRNA-seq 可以让我们观察到许多的单个细胞的基因表达变化,
 极大地提高了我们解析 GEPs 的能力。
 即使如此, GEPs 的构建仍然具有挑战性,
 因为 scRNA-seq 数据是高噪声和高维度的,因此我们需要使用合适的计算方法来挖掘潜在的模式。
 此外,技术上的人为因素,如双胞 (doublets,两个或两个以上不同的细胞被错误地折叠成一个细胞) 和高度表达值缺失 (dropout) 为我们的分析增加了难度。
-最近在降维、聚类、系谱轨迹追踪和差异表达分析方面的进展 \cite{amir2013visne,kharchenko2014bayesian,satija2015spatial,trapnell2014dynamics},
+最近在降维、聚类、系谱轨迹追踪和差异表达分析方面的进展 \upcite{amir2013visne,kharchenko2014bayesian,satija2015spatial,trapnell2014dynamics},
 有助于我们解决其中的一些问题。
 
 在本章中,我们认为从 scRNA-seq 数据中构建基因调控网络的关键是,准确构建出基因表达程序。
 事实上,单个细胞可能表达多个 GEPs,但是单细胞表达谱本身只反应了它们的组合,而不是直接表达 GEPs 本身。
 一个细胞的基因表达是由许多因素形成的,
-包括其细胞类型,其在时间依赖性过程中的状态,如细胞周期,以及其对不同环境刺激的反应 \cite{wagner2016revealing}。
+包括其细胞类型,其在时间依赖性过程中的状态,如细胞周期,以及其对不同环境刺激的反应 \upcite{wagner2016revealing}。
 我们可以在 scRNA-seq 数据中检测到的表达程序可以归为两个大类:
 \begin{enumerate}[label=(\arabic*),itemindent=2em]
     \item 对应于特定细胞类型身份,如肝细胞或黑色素细胞的 GEPs (identity program);
@@ -89,7 +89,7 @@ scRNA-seq 可以让我们观察到许多的单个细胞的基因表达变化,
 其次,它可以描述每个活动 GEP 在组织中各个细胞类型间普遍性的特征。
 最后,活动程序的鉴别可以通过避免活动程序基因被错误地包含在身份程序中, 从而来改进身份程序的构建。
 众所周知,对应于细胞周期不同阶段的 GEP 是广泛存在活动程序的,
-并且会混淆 scRNA-seq 数据中的身份 (细胞类型) 程序构建 \cite{scialdone2015computational,chen2017controlling}。
+并且会混淆 scRNA-seq 数据中的身份 (细胞类型) 程序构建 \upcite{scialdone2015computational,chen2017controlling}。
 在这项研究中, 我们提出了一个带约束的矩阵分解模型, 称为加权半非负稀疏矩阵分解的方法,
 在 scRNA-seq 数据共同构建身份和活动 GEPs,然后在此基础上结合 TRRUST 这个 TF-TG (调控子-靶标基因) 数据库构建基因调控网络。
 据我们所知,目前还没有文献利用类似的思路在 scRNA-seq 数据集上构建基因调控网络。
@@ -123,7 +123,7 @@ scGRNHunter 方法的流程图如图 \ref{fig:gep-flowchart} 所示, 下文我�
 对于每个数据集, 我们首先剔除少于 1000 个统一分子标识符 (UMIs) 检测的细胞,
 然后过滤掉平均 500 个细胞中累加低于 1 个 count 的基因。
 这个过滤后的计数矩阵我们表示为 $X_{ij}$ ($i=1,\ldots,C$ 个细胞, $j=1,\ldots,G$ 个基因)。
-然后我们选择由 v-score \cite{klein2015droplet} 确定的 H 个分散度 (dispersion) 最高的基因作为后续输入。
+然后我们选择由 v-score \upcite{klein2015droplet} 确定的 H 个分散度 (dispersion) 最高的基因作为后续输入。
 对于本章中分析的所有数据集上, H 被设置为 500。
 
 在归一化之前选择一个高分散的基因集合是至关重要的, 
@@ -136,8 +136,8 @@ H 被设置为 500, 主要考虑的是尽量包含足够多的基因保证能检
 我们就可以对矩阵的行 (也就是细胞) 采用行采样。
 如果细胞规模个数小于该预定的数值, 直接忽略掉采样这一步, 
 直接把所有的细胞纳入到后续计算之中。
- scRNA-seq 数据集下细胞采样的方法除了常见的随机采样外,还有按照细胞类型占比等比例采样 \cite{sinha2018dropclust},
-考虑稀有细胞类型的影响而采用的基于几何学的采样 \cite{hie2019geometric} 等。
+ scRNA-seq 数据集下细胞采样的方法除了常见的随机采样外,还有按照细胞类型占比等比例采样 \upcite{sinha2018dropclust},
+考虑稀有细胞类型的影响而采用的基于几何学的采样 \upcite{hie2019geometric} 等。
 
 \subsubsection{加权半非负稀疏矩阵分解算法 WSSMFA}
 
@@ -183,7 +183,7 @@ $W$ 跟 $X$ 的维度相同,并且有：
 
 这个目标函数是双凸 (biconvex) 的, 也就是说, 只在 $F$ 中凸, 或者只在给定的 $L$ 中凸, 但在两者共同变化时不是凸的。
 我们使用交替最小二乘法 (Alternating Least Squares, ALS) 与梯度下降 (gradient descent) 法来优化目标函数 (算法 \ref{alg:wssmfa}, 
-在 R 版本 3.5.1 中实现 \cite{goeman2012penalized,goeman2010l1})。
+在 R 版本 3.5.1 中实现 \upcite{goeman2012penalized,goeman2010l1})。
 在每一次迭代中我们固定 F 并更新 L, 然后固定 L 并更新 F, 当两次迭代之间 F 的差值的 Frobenius 范数 < 0.01 时, 更新结束。
 在每一步更新中, 优化问题都是有约束条件的线性回归。
 由于线性回归的解保证了均方误差与惩罚之和最小,所以代价函数单调下降。
@@ -210,7 +210,7 @@ $W$ 跟 $X$ 的维度相同,并且有：
 \end{algorithm}
 
 \subsubsection{构建单细胞 GRN}
-TRRUST (version 2, \cite{han2018trrust}) 是一个采用数据挖掘辅助建立的人类和小鼠转录调控网络数据库,并提供了网页版本的服务。
+TRRUST (version 2, \upcite{han2018trrust}) 是一个采用数据挖掘辅助建立的人类和小鼠转录调控网络数据库,并提供了网页版本的服务。
 当前版本的 TRRUST 分别包含 800 个人类 TFs (调控因子) 和 828 个小鼠 TFs 的 8,444 和 6,552 个 TF-target 调控关系。
 TRRUST 数据库还提供了调控模式的信息 (激活或抑制)。
 目前已知调控模式的调控关系有 8972 个 (59.8\%)。
@@ -251,7 +251,7 @@ TRRUST 数据库还提供了调控模式的信息 (激活或抑制)。
 在指定的搜索空间内,我们利用之前定义的矩阵分解稳定性标准和学习因子的独立性,即代表足够的稀疏性,
 对所有 $K$、$\alpha$ 和 $\lambda$ 组合的模型进行了评估。
 考虑到矩阵因子化的随机性, Brunet 等人提出了一种寻找最稳定的因子化结果的方法,
-这种方法已经在各种研究中得到应用 \cite{brunet2004metagenes,wu2016stability}。
+这种方法已经在各种研究中得到应用 \upcite{brunet2004metagenes,wu2016stability}。
 我们对每个模型进行随机初始化,运行 30 次后得到共识矩阵 $C$。
 $C$ 中的值在 $0$ 和 $1$ 之间,代表一对细胞被分配到同一个因子的比例。
 利用 $C$ 矩阵,我们计算了共识相关性,用于衡量 $C$ 矩阵的离散程度。
@@ -259,7 +259,7 @@ $C$ 中的值在 $0$ 和 $1$ 之间,代表一对细胞被分配到同一个因�
 
 对于每一个观察到的学习到的非空因子 $K^\textup{'}$ 的平均数 (可能小于输入的 $K$),
 我们对 $\lambda$ 和 $\alpha$ 的不同取值进行了汇总,
-并计算了中位共线性相关性 (cophenetic correlation,\cite{brunet2004metagenes})。
+并计算了中位共线性相关性 (cophenetic correlation,\upcite{brunet2004metagenes})。
 我们从考虑中剔除了任何对应于 K 的中位共时相关性 $< 0.9$ 的 $K^\textup{'}$。
 接下来,在剩下的单个设置中,我们排除任何一个共线性相关性 $< 0.9$ 的参数取值。
 最后,在这些明显稳定的设置中,我们根据因子对之间的最小皮尔逊相关性选择最终的超参数,
@@ -362,7 +362,7 @@ scGRNHunter 的核心算法依赖 WSSMFA 这个矩阵分解方法,
 值得注意的是, 这排除了转录抑制的建模, 也就是说其中一个或多个基因将被一个 GEP 诱导,
 当第二个抑制 GEP 在同一细胞中活跃时, 其表达量会显著降低。
 据我们所知, 这种关系还没有在矩阵因子化框架中表示, 但它们可能更容易纳入新的潜变量模型类别,
-如变分自动编码器 (Variational Auto-encoders, VAEs) \cite{ding2018interpretable,gronbech2018scvae}。
+如变分自动编码器 (Variational Auto-encoders, VAEs) \upcite{ding2018interpretable,gronbech2018scvae}。
 VAEs 代表了一个高度灵活的隐式空间中的建模, 可以捕捉隐式变量之间的非线性和相互作用。
 然而, 虽然隐变量的设计是为了促进输入基因表达数据的准确重建, 
 但它们是否可以直接或间接地解释为不同的 GEPs 相互作用, 还有待证明。
