@@ -8,11 +8,11 @@
 然后将这些数据用计算机存储起来,最后运用数学、物理方法结合计算机技术对这些数据进行统计、分析,
 利用数学理论建立生物系统模型。
 所以系统生物学研究的的方法和手段,决定了系统生物学是一个物理、化学、数学、信息学、计算机科学和分子生物学等多学科交叉学科,
-需要各种学科的密切配合 \cite{ideker2001new}。
+需要各种学科的密切配合 \upcite{ideker2001new}。
 
 在系统生物学上,基础和核心问题之一是理解和认识能够代表基因发育和调控过程因果关系的基因调控网络 (Gene Regulatory Networks, GRNs)。
 基因调控网络描述的是细胞或组织内复杂的生命过程中的功能通路,比如新陈代谢、基因调控、运输机制或者信号传导。
-从宏观上看,基因调控网络是由细胞中参与基因调控作用的 DNA、RNA、蛋白质以及代谢中间物所形成的相互作用的网络 \cite{de2002modeling}。
+从宏观上看,基因调控网络是由细胞中参与基因调控作用的 DNA、RNA、蛋白质以及代谢中间物所形成的相互作用的网络 \upcite{de2002modeling}。
 从微观上看,一个基因的转录由细胞的生化状态所决定,在一个基因的转录过程中,一组转录因子作用于该基因的启动子区域,
 控制该基因转录,而这些转录因子本身又是其它基因的产物。
 当一个基因通过转录、翻译形成功能基因产物后,它将改变细胞的生化状态,
@@ -55,25 +55,25 @@
 
 构建基因调控网络的直接目标是利用基因表达数据来学习和挖掘基因间的调控关系,并借助于可视化技术展现基因调控网络的拓扑结构。
 基因调控网络的构建,有助于我们从网络的角度去了解复杂而精密的生物网络系统所蕴涵的结构和功能信息,
-促进我们发现基因新的功能,预测和疾病相关的潜在的基因 \cite{lee2009computational},分析细胞代谢通路,
+促进我们发现基因新的功能,预测和疾病相关的潜在的基因 \upcite{lee2009computational},分析细胞代谢通路,
 在分子水平上理解癌症发生的机理,
 揭示癌症的内部机制,进一步增强我们对癌症的整体认识,
-甚至是诊断、控制和治疗癌症的方法 \cite{kreeger2009cancer,yan2016biological}。
+甚至是诊断、控制和治疗癌症的方法 \upcite{kreeger2009cancer,yan2016biological}。
 另外,从计算的角度看,基因调控网络的构建有助于我们节省大量的实验费用与资源,
 也可以利用模拟结果有效地指导进一步的生物实验,
-尤其是在肿瘤等复杂疾病研究 \cite{boyle2017expanded},
-例如癌症细胞的分化、扩散和增生、肿瘤药物的筛选和研制等 \cite{hurley2011gene},为攻克癌症等复杂疾病做出贡献。
+尤其是在肿瘤等复杂疾病研究 \upcite{boyle2017expanded},
+例如癌症细胞的分化、扩散和增生、肿瘤药物的筛选和研制等 \upcite{hurley2011gene},为攻克癌症等复杂疾病做出贡献。
 
 总之, 基因调控网络构建是一门理论研究与实践应用相结合的学科,它不仅有重要的学术意义,
 还有很高的商业价值,以及广阔的发展前景。
 随着后基因组时代的到来,基因调控网络不仅可以为生物信息学提供大量的研究线索,
-也可为特定生物问题提供强有力的理论依据,还可在疾病诊断、药物筛选等领域发挥更加广泛的作用 \cite{kreeger2009cancer}。
+也可为特定生物问题提供强有力的理论依据,还可在疾病诊断、药物筛选等领域发挥更加广泛的作用 \upcite{kreeger2009cancer}。
 
 \subsection{国内外研究现状和发展动态}
 
 基因调控网络构建是一种依靠数据挖掘进行的逆向工程研究, 即根据基因表达数据推理基因调控网络中的各类拓扑结构。
 它首先通过生物实验获取高通量生物数据, 然后根据生物网络的先验知识, 针对特定生物问题建立数学模型, 
-并设计合理的算法构建基因调控网络, 最后通过生物学实验验证逐步逼近和发现真实的基因调控网络 \cite{sima2009inference}。
+并设计合理的算法构建基因调控网络, 最后通过生物学实验验证逐步逼近和发现真实的基因调控网络 \upcite{sima2009inference}。
 从计算角度讲,基因调控网络构建依赖于已知的知识数据库发现 (Knowledge Database Discovery, KDD) 工作流程。
 KDD 从输入数据预处理到模型的验证,通过数据库搜索比较之前的实验数据结果来完成的,总计包含六个步骤,如图 \ref{cover-3} 所示。
 \begin{figure}[!htbp]
@@ -83,21 +83,20 @@ KDD 从输入数据预处理到模型的验证,通过数据库搜索比较之前
     \label{cover-3}
 \end{figure}
 
-当前的基因调控网络构建牵涉到三方面的研究问题 \cite{schlitt2007current}:
-(1) 根据数据源建立什么样的网络模型?
-(2) 如何设计与实现网络构建算法?
-(3) 如何评价和甚至是应用构建的网络?
-第三个方面属于应用范畴的研究,不是本文研究的重点, 因此我们仅从前两个方面讨论基因调控网络构建的相关研究现状。
-同时由于大多数方法是跟数据特性密切相关, 因此本文将首先介绍下数据源及其特征。
+当前的基因调控网络构建牵涉到两个方面的研究问题 \upcite{schlitt2007current}:
+(1) 建立什么样的网络模型与网络构建算法?
+(2) 如何评价和甚至是应用构建的网络?
+第二个方面属于应用范畴的研究,不是本文研究的重点, 因此我们仅从第一个方面介绍基因调控网络构建的相关研究现状。
+由于网络构建算法跟所需要处理的数据源的特性密切相关, 因此下文将首先介绍数据源及其特征。
 
 \subsubsection{数据源}
 
 网络模型的建立首先需要我们对现在测序技术产生的数据及其特征有充分的认识。
-在过去十几年中,高通量技术提供了巨大的数据,诸如下一代测序技术 (Next Generation Sequencing, NGS) \cite{BUERMANS20141932}, 
+在过去十几年中,高通量技术提供了巨大的数据,诸如下一代测序技术 (Next Generation Sequencing, NGS) \upcite{BUERMANS20141932}, 
 产生了显著质量、稳健性和低噪声的 DNA 和 RNA 样本数据。
-测序已经成为一种标准方法,被认为是研究生命体的基石 \cite{CEREB2015923}。
+测序已经成为一种标准方法,被认为是研究生命体的基石 \upcite{CEREB2015923}。
 测序产生的基因表达数据使生物学家能够大规模观察基因的表达水平, 对构建基因调控网络起到了至关重要的作用。
-基因表达数据来源包括 DNA 微阵列, RNA-seq \cite{morin2008profiling}和 SAGE (基因表达系列分析) \cite{velculescu1995serial}。
+基因表达数据来源包括 DNA 微阵列, RNA-seq \upcite{morin2008profiling}和 SAGE (基因表达系列分析) \upcite{velculescu1995serial}。
 在基因调控网络构建中我们将主要使用 DNA 微阵列数据 (microarray data) 和单细胞 RNA-seq 数据 (scRNA-seq),
 同时也会结合其它比如 PPI (蛋白质相互作用网络) 数据, TF (转录因子) 结合位点数据等作为先验知识。
 
@@ -111,9 +110,9 @@ DNA 微阵列技术(DNA microarray) 是上个世纪 90 年代产生的最为重�
 该技术能在同一时间内高效快速地分析大量基因的表达水平。
 基因表达谱中蕴含了非常珍贵的信息,可以分析哪些基因的表达发生了更改, 
 基因之间的表达有无相关性,基因的变化会对细胞产生怎样的变化,进而能帮助人们深入地认识诸如基因表达调控、发育、
-疾病与癌症病理、衰老等生物过程 \cite{chen2005selecting,shen2009new,camargo2008identification}。
+疾病与癌症病理、衰老等生物过程 \upcite{chen2005selecting,shen2009new,camargo2008identification}。
 基因表达谱数据天生就具有小样本、高维度、高噪声高变异和非线性四个分析和处理上的难点。
-高维度和小样本,使得基因表达数据处理时存在``维度诅咒"的问题 \cite{wang2006inferring}。
+高维度和小样本,使得基因表达数据处理时存在``维度诅咒"的问题 \upcite{wang2006inferring}。
 高噪声高变异和非线性等使得数据信息的挖掘提取更具有难度。
 所有的这些问题使得准确构建基因之间的调控相互作用,
 尤其是在后基因组时代处理大规模基因表达数据时,
@@ -121,51 +120,44 @@ DNA 微阵列技术(DNA microarray) 是上个世纪 90 年代产生的最为重�
 
 (2) 单细胞 RNA-seq 数据
 
-单细胞 RNA-seq 技术在 2009年首先由 Tang等 \cite{tang2009mrna}提出,
+单细胞 RNA-seq 技术在 2009年首先由 Tang等 \upcite{tang2009mrna}提出,
 但是在 2014 年以后由于新的协议和相对低廉的测序成本使得它在产业界和学术界都颇受欢迎,风靡至今。
 单细胞 RNA-seq 技术与 DNA 微阵列测序技术最为显著的不同是,
 后者测量的基因表达值是多个细胞基因表达值的平均值,
 而前者测量的是单个细胞中的基因表达值。
 单细胞 RNA-seq 测序技术也给数据处理带来诸多挑战,
-比如大量的细胞异质性 \cite{wagner2016revealing},高度稀疏性导致的表达为零 (dropout\footnote{单细胞领域的 dropout 跟深度学习里面的 dropout 不是一个含义}) \cite{vallejos2017normalizing}, 细胞与细胞之间的测序深度变化, 细胞周期相关的批量效应 (batch effects) \cite{buettner2015computational}。
+比如大量的细胞异质性 \upcite{wagner2016revealing},高度稀疏性导致的表达为零 (dropout, 注意单细胞领域的 dropout 跟深度学习里面的 dropout 不是一个含义) \upcite{vallejos2017normalizing}, 细胞与细胞之间的测序深度变化, 细胞周期相关的批量效应 (batch effects) \upcite{buettner2015computational}。
 在数据预处理阶段, 需要实现的目标不同和数据产生的场景, 对基因的 dropout值进行过滤或者填充 (dropout imputation), 或者需要对数据进行批量校正 (batch effects correction), 以提高后续下游分析的稳定性。
 单细胞 RNA-seq 技术可以用来研究在转录组细胞特异性的变化中重要和新的生物学问题,
 如鉴定细胞类型, 研究基因表达的随机性, 细胞发育轨迹推断 (trajectory inference),与细胞类型或者周期相关的基因调控网络的推断。
 相比于微阵列测序数据而言,大多数情况下单细胞 RNA-seq 数据的计算分析需要开发新的方法。
 
-\subsubsection{网络模型}
+\subsubsection{网络模型与构建算法}
 
 寻找一个合适的网络模型是构建网络的首要问题。
-在基因调控网络的研究中,为刻画和反应复杂生物网络的动态或静态行为,数学模型提供了一个强有力的工具。
-不同的数学模型对基因调控网络进行了不同的表达和抽象,然而针对复杂的基因调控网络,
-为对其进行全面描述,需要借助多个层次多种类型的模型来反应基因调控网络的不同特性。
-
 从时空特性上区分,基因调控网络模型可分为:
-静态模型与动态模型,例如,动态贝叶斯网是动态模型;
+静态模型与动态模型,例如,下文中将详细介绍的动态贝叶斯网是动态模型;
 从图论角度区分,分为有向图模型和无向图模型;
-从网络拓扑特性的角度出发,可构造出复杂网络和差异网络的模型。 
-从建模所用的数据区分,模型可分为:
-离散模型与连续模型,时序模型与非时序模型。
-上面介绍的在基因调控网络构建中使用的两大类数据, DNA 微阵列测序数据和单细胞 RNA-seq 数据, 
+从网络拓扑特性上区分,分为复杂网络和差异网络的模型。 
+从建模所用的数据区分,模型分为:离散模型与连续模型,时序模型与非时序模型。
+上文介绍的在基因调控网络构建中使用的两大类数据, DNA 微阵列测序数据和单细胞 RNA-seq 数据, 
 可以划分为时间序列数据 (time series data) 和非时序的扰动实验数据 (perturbation experiments data) 两种。
 时间序列表达数据使生物学家能够调查生物网络中的时间模式,适合用来构建时序模型, 比如可采用微分方程模型建模; 
 扰动表达数据提供了关于基因间调控方向的信息。
 在单细胞数据中,序列的时间也可以是伪时间的, 比如在细胞发育轨迹推断中经常需要依赖伪时间推断算法, 来对细胞的时间先后及间隔进行标注。
-非时序的扰动实验分为两类:基因操作 (即基因缺失,过度表达,温度敏感或动力学突变) \cite{holstege1998dissecting} 或外部处理 (即环境胁迫) \cite{gasch2000genomic}。
+非时序的扰动实验分为两类:基因操作 (即基因缺失,过度表达,温度敏感或动力学突变) \upcite{holstege1998dissecting} 或外部处理 (即环境胁迫) \upcite{gasch2000genomic}。
 
-随着数据来源的多样化,模型改进和模型组合是当前网络模型的主要研究方向。
-模型改进是针对现有的模型引入新的法则来构造新的模型,
-而模型组合则是结合几个不同类型的模型取长补短达到性能最优。
 
-\subsubsection{网络构建算法}
-研究者们提出的基因调控网络的各类模型都在不同层次、不同程度上对真实的调控网络进行了抽象,
+%\subsubsection{网络构建算法}
+研究者们提出的基因调控网络的模型在不同层次、不同程度上对真实的调控网络进行了抽象,
+网络构建算法与网络模型相辅相成,
 目前已提出的主要基因调控网络构建方法有关联网络、布尔网络、微分方程、贝叶斯网络、动态贝叶斯网络、回归方法。
 接下来,本文将对这些方法的优缺点以及对应的研究现状做简要介绍。
 
 (1) 布尔网络
 
 布尔网络与微分方程相比则更为抽象,它对基因的状态做了进一步的简化,
-用布尔函数代替了微分和导数来描述基因间的相互作用关系 \cite{shmulevich2002probabilistic,kim2007boolean,bornholdt2008boolean,zhou2016relative} 。
+用布尔函数代替了微分和导数来描述基因间的相互作用关系 \upcite{shmulevich2002probabilistic,kim2007boolean,bornholdt2008boolean,zhou2016relative} 。
 其中,基因的状态定量为两种不同的状态(``开"和``关")。
 状态``开"表示一个基因转录表达, 状态``关"则代表一个基因未转录。
 如果布尔网络模型进一步推广, 其可转变为时序布尔网络模型 TBN (temporal Boolean networks), 这有利于处理多于一个单位时间跨度的基因间的依赖性。
@@ -174,40 +166,40 @@ DNA 微阵列技术(DNA microarray) 是上个世纪 90 年代产生的最为重�
     \centering
     \includegraphics[width=0.9\textwidth]{introduction-bn.pdf}
     \caption{
-        使用布尔模型的方法的整体工作流程。
-        (a) 这些方法首先对基因表达数据进行二值化,然后生成初始布尔状态。
-        (b) 这些方法针对二值对模型的状态进行优化。
-        (c) 这些方法输出带有激活和抑制边缘的GRN或一组布尔函数。
+        基于布尔模型的 GRN 构建方法的整体工作流程。
+        (a) 首先对基因表达数据进行二值化,然后生成初始布尔状态。
+        (b) 针对二值对模型的状态进行优化。
+        (c) 输出带有激活和抑制边缘的GRN或一组布尔函数。
     }
     \label{fig:pre-bn}
 \end{figure}
 
 基于布尔网络模型的主要工作包括:
- Kauffman \cite{kauffman2003random} 提出布尔网络的分析框架;
-Akusu 等 \cite{akutsu1999identification} 证明了布尔网络推理所需要的最少样本数量;
-Liang 等 \cite{liang1998reveal} 开发了 REVEAL 算法。
-Shmulevich 等 \cite{marshall2007inference} 将马尔可夫链 (Markov Chains) 和布尔网络结合起来,引进了概率布尔网络模型 PBN (probabilistic boolean networks),
+ Kauffman \upcite{kauffman2003random} 提出布尔网络的分析框架;
+Akusu 等 \upcite{akutsu1999identification} 证明了布尔网络推理所需要的最少样本数量;
+Liang 等 \upcite{liang1998reveal} 开发了 REVEAL 算法。
+Shmulevich 等 \upcite{marshall2007inference} 将马尔可夫链 (Markov Chains) 和布尔网络结合起来,引进了概率布尔网络模型 PBN (probabilistic boolean networks),
 比标准布尔网络模型有了更多的优越性。
 在单细胞 RNA-seq 测序数据上,
-Chen 等 \cite{chen2014single} 开发了 SingleCellNet,
+Chen 等 \upcite{chen2014single} 开发了 SingleCellNet,
 采用遗传算法从预期的轨迹通过细胞状态构造概率布尔模型, 他们采用的布尔规则直接来源于文献。
-Moignard 等 \cite{moignard2015decoding} 提出了 SCNS 算法,通过状态转换图分析轨迹来推断一个异步布尔模型。
+Moignard 等 \upcite{moignard2015decoding} 提出了 SCNS 算法,通过状态转换图分析轨迹来推断一个异步布尔模型。
 连接状态转换图在这个算法中起着至关重要的作用,但是它很难从单细胞表达数据中获取。
 
 布尔网络模型是最简单的网络模型,它通过布尔变量和布尔逻辑实现。
 布尔网络建模时, 把基因的表达水平离散化成单一的表达和不表达两个数值,
 而在现实的生物系统中,基因的表达过程是连续的,
 对基因数据进行离散化时不可避免的会丢失很多重要的表达信息,
-布尔网络模型不能完全捕获复杂的系统行为 \cite{lee2009computational};
+布尔网络模型不能完全捕获复杂的系统行为 \upcite{lee2009computational};
 网络中一个节点更新,会使得所有节点同步更新,而在实际的基因表达过程中,更新是异步进行的。
 
 (2) 微分方程模型
 
 微分方程模型是一种连续的确定模型, 具有强大灵活的优点,
-通过抽象基因间的时序调控变化,相比布尔网络来讲, 适合描述更加精细的调控关系,可以较好地建模基因表达数据 \cite{gardner2003inferring,di2005chemogenomic,bansal2006inference, honkela2010model,lu2011high,li2011large}。
+通过抽象基因间的时序调控变化,相比布尔网络来讲, 适合描述更加精细的调控关系,可以较好地建模基因表达数据 \upcite{gardner2003inferring,di2005chemogenomic,bansal2006inference, honkela2010model,lu2011high,li2011large}。
 另外,通过加入新的变量,微分方程模型可以进一步描述环境变化对于基因表达水平的影响。
 
-Chen \cite{chen1999modeling} 最早使用微分方程系统作为基因表达调控网络模型。
+Chen \upcite{chen1999modeling} 最早使用微分方程系统作为基因表达调控网络模型。
 若采用变量 $e_i$ 表示第 $i$ 个基因在 $t$ 时刻的表达水平, 则 $n$ 个基因之间的调控关系可以用微分方程描述如下:
 \begin{equation}
 \frac{{d_{e_i}}}{{dt}} = f_i (e),1 \le i \le n
@@ -235,7 +227,7 @@ Chen \cite{chen1999modeling} 最早使用微分方程系统作为基因表达调
     \centering
     \includegraphics[width=0.9\textwidth]{introduction-df.pdf}
     \caption{
-        基于微分方程的方法的整体工作流程。
+        基于微分方程的 GRN 构建方法的整体工作流程。
         (a) 针对单细胞数据集利用外部算法或软件构建细胞间的伪时序, 或者直接采用数据集提供的时间标签特征。
          DNA 微阵列测序数据直接采用提供的时间标签特征。
         (b) 方法利用微分方程描述基因之间跟时间的关系。
@@ -246,7 +238,7 @@ Chen \cite{chen1999modeling} 最早使用微分方程系统作为基因表达调
 \end{figure}
 
 在单细胞测序数据集上, 
-为了从时间序列数据构建网络, SCODE \cite{matsumoto2017scode} 和 SCOUP \cite{matsumoto2016scoup} 
+为了从时间序列数据构建网络, SCODE \upcite{matsumoto2017scode} 和 SCOUP \upcite{matsumoto2016scoup} 
 分别引入 ODEs 和 SDEs 来计算基因之间的相关性。
 SCODE 将某一基因在某一时间点的基因表达水平构建为对其他基因表达水平的线性依赖关系,
 然后使用线性回归来估计基因之间的相关性矩阵;
@@ -259,47 +251,47 @@ SCOUP 则将各基因表达水平随时间的分化建模为一个连续的随�
 
 (3) 贝叶斯网络
 
-贝叶斯网络 (Bayesian Networks, BNs) 是一种重要的概率模型 \cite{kim2003inferring,zou2004new,chen2006effective,needham2007primer,lo2015high},
+贝叶斯网络 (Bayesian Networks, BNs) 是一种重要的概率模型 \upcite{kim2003inferring,zou2004new,chen2006effective,needham2007primer,lo2015high},
 由条件概率分布和网络结构两部分组成。
-自从 Friedman 等 \cite{friedman2000using} 将贝叶斯网络应用到基因调控网络的重构中后,
+自从 Friedman 等 \upcite{friedman2000using} 将贝叶斯网络应用到基因调控网络的重构中后,
 贝叶斯网络在生物学上的应用越来越广泛,成为现今构建细胞调控网络最有效的方法之一。
 在贝叶斯网络模型中变量之间的结构用有向无环图 (directed acyclic graph, DAG) 来表示,
 变量之间的关系使用联合概率分布来描述。
 相对于布尔网络的粗放定性,微分方程的精细定量,贝叶斯网络模型可看做这两者的折衷。
 
-Cooper 等提出的 K2 算法 \cite{cooper1992bayesian} 是一个基于搜索评分的经典算法,
+Cooper 等提出的 K2 算法 \upcite{cooper1992bayesian} 是一个基于搜索评分的经典算法,
 该算法为评价模型与数据的符合程度,
 首先在给定先验信息和节点顺序的情况下,通过后验概率作为评分标准并利用贪婪搜索方法找出最佳网络结构。
-%Peer \cite{pe2001inferring}等人将贝叶斯网络技术用来处理调控网络中的扰动。
+%Peer \upcite{pe2001inferring}等人将贝叶斯网络技术用来处理调控网络中的扰动。
 % 他们首先将数据离散化后根据评分函数挑选出最佳的的基因网络。
-Imoto 等 \cite{kim2003inferring} 用非参数回归模型来解决离散化造成的阀值选取与信息丢失问题,
+Imoto 等 \upcite{kim2003inferring} 用非参数回归模型来解决离散化造成的阀值选取与信息丢失问题,
 Imoto 等采用这一模型能获得基因之间的线性与非线性结构特征。
-Jansen 等 \cite{jansen2003bayesian} 为利用贝叶斯网模型构建调控网络,
+Jansen 等 \upcite{jansen2003bayesian} 为利用贝叶斯网模型构建调控网络,
 分析和计算各类基因表达数据以及蛋白质相互作用数据,并通过生物实验验证了模型的预测结果。
-2004年 Friedman 等 \cite{friedman2004inferring} 为构建静态基因调控网络,
+2004年 Friedman 等 \upcite{friedman2004inferring} 为构建静态基因调控网络,
 首次基于微阵列数据将贝叶斯网络模型用来预测基因调控关系。
-Hartemink 等 \cite{hartemink2005reverse} 采用 BDe 评分测度作为学习的目标函数,
+Hartemink 等 \upcite{hartemink2005reverse} 采用 BDe 评分测度作为学习的目标函数,
 通过对基因表达数据进行离散化及模拟退火算法来构建基因调控网络。
-Werhli 和 Husmeier \cite{werhli2007reconstructing} 将基因表达数据与来自多种数据源的先验生物学知识结合起来使用贝叶斯网络模型利用马尔科夫链蒙特卡洛 (MCMC) 抽样方案来抽样来自后验分布的超参数,
+Werhli 和 Husmeier \upcite{werhli2007reconstructing} 将基因表达数据与来自多种数据源的先验生物学知识结合起来使用贝叶斯网络模型利用马尔科夫链蒙特卡洛 (MCMC) 抽样方案来抽样来自后验分布的超参数,
 这种与多数据源的结合降低了基因调控网络参数学习的误差率,提高基因调控网络重建的准确性。
-Yavari 等人 \cite{yavari2008gene} 根据基因本体将基因进行聚类,
+Yavari 等人 \upcite{yavari2008gene} 根据基因本体将基因进行聚类,
 并使用贝叶斯网络推断共聚簇基因之间的相互作用。
 这种方法可以解决由于基因数目增加而导致的结构数量指数增加的问题。 
 此外,他们还提出了一种在推理过程中使用共聚基因之间的互相关性的新方法。
 共聚簇基因之间的互相关性为贝叶斯网络提供了时间延迟信息。 
 由此模型产生的精度和灵敏度均有提高,而且结果表明这种模型适合对大规模基因进行建模。
-杨等人 \cite{yang2011bayesian} 建议使用稀疏图搜索 (SGS) 算法减少贝叶斯网络的计算时间。
+杨等人 \upcite{yang2011bayesian} 建议使用稀疏图搜索 (SGS) 算法减少贝叶斯网络的计算时间。
 SGS算法利用迭代统计独立性测试和搜索技术来寻找最佳的网络结构。
 最佳的基因调控网络是使用搜索-打分和基于约束两种方法混合产生的。
 基于搜索和打分是使用优化技术在所有候选网络上搜索最佳网络结构并打分用来评估网络质。
 基于约束的方法通过应用条件独立性检测来取代传统的统计或信息论度量来检测边的存在。
 结果表明,他们提出的方法提高了准确性和计算效率。
-Tan 和 Mohamad \cite{kunga2012using} 使用贝叶斯网络结合爬山法和 Efron 的 bootstrap 抽样方法来构建基因调控网络。
+Tan 和 Mohamad \upcite{kunga2012using} 使用贝叶斯网络结合爬山法和 Efron 的 bootstrap 抽样方法来构建基因调控网络。
 他们首先使用最小局部平方 (LLS) 插值算法来处理微阵列数据集中存在的缺失值, 
 然后采用贝叶斯网络建立网络模型并采用爬山算法进行学习, 
 bootstrap 抽样方法被用来抽取高置信度的边集合。
 他们的基因调控网络构建方法获得了较高的真阳性率, 并且揭示了基因之间更新的关系。 
-Young 等 \cite{young2014fast} 提出一种基于贝叶斯网络的 ScanBMA 算法,
+Young 等 \upcite{young2014fast} 提出一种基于贝叶斯网络的 ScanBMA 算法,
 该方法采取数据变换和新的策略在模型空间搜索时高效快速,
 可应用于大规模的基因调控网络构建。
 
@@ -313,29 +305,29 @@ Young 等 \cite{young2014fast} 提出一种基于贝叶斯网络的 ScanBMA 算�
 
 (4) 动态贝叶斯网络
 
-动态贝叶斯网络 (Dynamic Bayesian Network, DBN) 模型是在静态 BN 网络模型中引入时间因素而形成的动态网络 \cite{dondelinger2010heterogeneous,grzegorczyk2010improvements}。
-DBN 可以很好的表示随机系统的动态特性,也使用图模型的方式来表示模型中随机变量之间的概率依赖关系 \cite{hecker2009gene}。
+动态贝叶斯网络 (Dynamic Bayesian Network, DBN) 模型是在静态 BN 网络模型中引入时间因素而形成的动态网络 \upcite{dondelinger2010heterogeneous,grzegorczyk2010improvements}。
+DBN 可以很好的表示随机系统的动态特性,也使用图模型的方式来表示模型中随机变量之间的概率依赖关系 \upcite{hecker2009gene}。
 DBN 更好地刻画了基因调控网络的动态特性,善于处理非线性关系和由随机现象引起的不确定性,能够描述基因之间的负反馈调控过程,
 相比于静态贝叶斯网它能够克服其有向无环的缺点,具有很好的概率推理能力和知识表达能力,使得模型的预测精度进一步提高。
 
-Friedman 和 Murphy 等 \cite{friedman2004inferring} 考虑到了基因调控存在一定的时延性,
+Friedman 和 Murphy 等 \upcite{friedman2004inferring} 考虑到了基因调控存在一定的时延性,
 从理论的角度分析了 DBN 从时序基因表达数据构建基因调控网络的问题, 提出用动态贝叶斯网络模型分析时序基因表达数据。
-Smith 等 \cite{smith2006computational} 用动态贝叶斯网络模型来分析微阵列数据,
+Smith 等 \upcite{smith2006computational} 用动态贝叶斯网络模型来分析微阵列数据,
 结合了基因调控的负反馈与时延因素, 因此需要采用网络中不同节点来表示同一基因不同时间点的表达向量。
-Wu和Liu等 \cite{wu2008dynamic} 改进了动态贝叶斯网络构建方法,使用了 MCMC 和带重启的贪心爬山算法两种不同的模型搜索方法。 
+Wu和Liu等 \upcite{wu2008dynamic} 改进了动态贝叶斯网络构建方法,使用了 MCMC 和带重启的贪心爬山算法两种不同的模型搜索方法。 
 两种方法在时间效率上不相上下,与带重启的贪心爬山算法相比 MCMC 具有更高的预测精度。
-Song \cite{song2009keller}结合微阵列数据与基因关系的先验知识在 DBN 上提出新的数据整合模型,利用并行算法,构建基因调控网络。
-Kim 等 \cite{del2010efficient} 也在这方面做了大量的工作,
+Song \upcite{song2009keller}结合微阵列数据与基因关系的先验知识在 DBN 上提出新的数据整合模型,利用并行算法,构建基因调控网络。
+Kim 等 \upcite{del2010efficient} 也在这方面做了大量的工作,
 并结合线性或非线性模型以及相应的生物学知识对动态贝叶斯网络进行了改进。
-Norbert \cite{netrapalli2010greedy} 为从基因扰动型实验数据中学习动态贝叶斯网络,
-利用 Husmeier \cite{werhli2006comparative} 提出的离散化方法来对基因表达数据进行预处理,
-并使用 BDe 测度来进行评分搜索,最终构建动态贝叶斯网络, 这种搜索方法实现了减少学习时间,降低计算的时间复杂度的目的 \cite{hurley2011gene}。
-Grzegorczyk 和 Husmeier \cite{grzegorczyk2010improvements} 通过将多变点过程与可逆跳跃马尔可夫链蒙特卡罗方法 (RJMCMC) 结合,改进了基于动态贝叶斯网络构建的方法。 他们通过引入动态编程方案来优化RJMCMC上的收敛性,该方法从正确的条件分布对变化点进行采样。 
+Norbert \upcite{netrapalli2010greedy} 为从基因扰动型实验数据中学习动态贝叶斯网络,
+利用 Husmeier \upcite{werhli2006comparative} 提出的离散化方法来对基因表达数据进行预处理,
+并使用 BDe 测度来进行评分搜索,最终构建动态贝叶斯网络, 这种搜索方法实现了减少学习时间,降低计算的时间复杂度的目的 \upcite{hurley2011gene}。
+Grzegorczyk 和 Husmeier \upcite{grzegorczyk2010improvements} 通过将多变点过程与可逆跳跃马尔可夫链蒙特卡罗方法 (RJMCMC) 结合,改进了基于动态贝叶斯网络构建的方法。 他们通过引入动态编程方案来优化RJMCMC上的收敛性,该方法从正确的条件分布对变化点进行采样。 
 此外,引入了贝叶斯聚类的新方法以促进节点之间的信息共享, 使得模型复杂度能够自动调整。
-Chai 等 \cite{chai2012inferring} 提出了缺失值插补的动态贝叶斯网络模型,
+Chai 等 \upcite{chai2012inferring} 提出了缺失值插补的动态贝叶斯网络模型,
 利用缺失值插补来提高基因调控网络构建中的计算效率,
 同时通过限制潜在调控因子的表达变化来缩短计算时间。
-Vinh 等 \cite{vinh2012gene} 将动态贝叶斯网络方法与基于时间序列表达数据的基因调控网络构建的全局最优化相结合,
+Vinh 等 \upcite{vinh2012gene} 将动态贝叶斯网络方法与基于时间序列表达数据的基因调控网络构建的全局最优化相结合,
 他们在全局优化框架上使用互信息测试来学习高阶带延时的基因相互作用。
 他们的方法能够改善动态贝叶斯网络只适合于小规模网络的缺陷,
 同时能够避免动态贝叶斯网络结构学习容易陷入局部最优的状况。
@@ -361,17 +353,17 @@ pcc(X,Y) = \frac{{\sum\limits_i {(x_i -\bar x_i )(y_i -\bar y_i )} }}{{\sqrt {\s
 当 $pcc(X,Y)$ 为 -1 或者 1 时, 表示两个变量完全相关;
 当 $pcc(X,Y)$ 为 0 时, 表示两个变量完全无关。
 
-PCC 被广泛用于评估变量之间的线性关系 \cite{stuart2003gene},但在不借助其他信息的情况下无法区分直接关系和间接关系,而偏相关分析法 (PC) \cite{baba2004partial} 通过考虑附加信息条件来有效区分直接和间接关系。
-另外, Barabási 等 \cite{barzel2013network} 提出了一个基于动态关联性的方法,该方法通过消除网络中的间接影响进行直接关联性和间接关联性区分; 
-Feizi等 \cite{feizi2013network} 提出了利用网络卷积去除所有关联之间的综合效应区分直接和间接关联性。
+PCC 被广泛用于评估变量之间的线性关系 \upcite{stuart2003gene},但在不借助其他信息的情况下无法区分直接关系和间接关系,而偏相关分析法 (PC) \upcite{baba2004partial} 通过考虑附加信息条件来有效区分直接和间接关系。
+另外, Barabási 等 \upcite{barzel2013network} 提出了一个基于动态关联性的方法,该方法通过消除网络中的间接影响进行直接关联性和间接关联性区分; 
+Feizi等 \upcite{feizi2013network} 提出了利用网络卷积去除所有关联之间的综合效应区分直接和间接关联性。
 这两种方法只能测量线性直接关联性,
 但无法测量非线性关联性, 而非线性关联性在许多非线性系统比如生物系统中发挥着重要的作用。
-基于 PCC 和 PC, 距离相关性 \cite{szekely2007measuring,kosorok2009brownian} 和部分距离相关性 (Pdcor) \cite{szekely2014partial} 被提出用于度量随机向量间的相关性,这些统计量对于依赖偏离很敏感。
-Pdcor 的评估存在假阳性,即当向量 $X$ 非条件独立时, Pdcor(X;Y|Z) 也有可能为零 \cite{szekely2014partial}。
+基于 PCC 和 PC, 距离相关性 \upcite{szekely2007measuring,kosorok2009brownian} 和部分距离相关性 (Pdcor) \upcite{szekely2014partial} 被提出用于度量随机向量间的相关性,这些统计量对于依赖偏离很敏感。
+Pdcor 的评估存在假阳性,即当向量 $X$ 非条件独立时, Pdcor(X;Y|Z) 也有可能为零 \upcite{szekely2014partial}。
 
 互信息 (Mutual Information, MI) 常用来刻画和描述两个系统间的统计相关性,或通
 过熵来反应一个系统中蕴含的另一个系统信息量的大小, 设 $P(x)$ 是 $X=x$ 的概率,
-则随机变量 $X$ 的熵定义为 \cite{cover2012elements}:
+则随机变量 $X$ 的熵定义为 \upcite{cover2012elements}:
 \begin{equation}
     H(X) = - \sum\limits_x {P(x)\log _2 P(x)} 
 \end{equation}
@@ -387,16 +379,16 @@ Pdcor 的评估存在假阳性,即当向量 $X$ 非条件独立时, Pdcor(X;Y|Z)
 \end{equation}
 
 需要注意的是在基因调控网络构建中由于基因表达数据是连续的,而互信息在计算时需要离散化,
-一般使用 B-样条平滑和离散化方法来进行计算 \cite{daub2004estimating}。
+一般使用 B-样条平滑和离散化方法来进行计算 \upcite{daub2004estimating}。
 由于互信息能够捕获有效捕获变量间的非线性相关性,
-因此在复杂的基因调控网络相互作用构建中其应用十分广泛 \cite{brunel2010miss,zhang2011inferring}。
+因此在复杂的基因调控网络相互作用构建中其应用十分广泛 \upcite{brunel2010miss,zhang2011inferring}。
 
 图 \ref{fig:pre-gc} 展示了关联网络模型方法的整体的工作流程。
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.9\textwidth]{introduction-gc.pdf}
     \caption{
-        利用基因表达相关的方法的整体工作流程。
+        利用基因表达相关的 GRN 构建方法的整体工作流程。
         (a) 首先通过计算每个基因对的表达相关性来初始化边缘的权重。
         (b) 进行假设检验,估计每个边缘的显著性,然后使用预定义的显著性阈值去除被认为不显著的边缘。
         (c) 方法输出最大的连接分量。
@@ -405,31 +397,31 @@ Pdcor 的评估存在假阳性,即当向量 $X$ 非条件独立时, Pdcor(X;Y|Z)
 \end{figure}
 
 
-Butte 等 \cite{basso2005reverse} 首先利用互信息计算所有基因对之间的相关性,然后设置互信息阈值。
+Butte 等 \upcite{basso2005reverse} 首先利用互信息计算所有基因对之间的相关性,然后设置互信息阈值。
 为构建关联基因调控网络, 通常定义高于阈值的基因对之间存在关联并使用边连接起来构成网络。
-Margolin 等 \cite{margolin2006aracne} 提出的 ARCANE 采用 Data Processing Inequality (DPI) 来过滤间接作用边。
-Faith 等 \cite{faith2007large} 提出的 CLR 方法使用互信息的经验分布来过滤间接作用边。
-Meyer 等 \cite{meyer2007information} 提出的 MRNET 方法使用最小化冗余特征选择算法 \cite{peng2005feature},
+Margolin 等 \upcite{margolin2006aracne} 提出的 ARCANE 采用 Data Processing Inequality (DPI) 来过滤间接作用边。
+Faith 等 \upcite{faith2007large} 提出的 CLR 方法使用互信息的经验分布来过滤间接作用边。
+Meyer 等 \upcite{meyer2007information} 提出的 MRNET 方法使用最小化冗余特征选择算法 \upcite{peng2005feature},
 在计算后的互信息网络上对每一个目标基因选择一个同目标基因关联最强但与已经候选的基因集合冗余性最低的基因,这个过程不断进行迭代。
-Altay 等 \cite{altay2010inferring} 提出的 C3NET 和其扩展算法 BC3NET \cite{de2012bagging} 结合一个最大化的步骤来估计互信息从而使预测更准确。
+Altay 等 \upcite{altay2010inferring} 提出的 C3NET 和其扩展算法 BC3NET \upcite{de2012bagging} 结合一个最大化的步骤来估计互信息从而使预测更准确。
 
 MI 被广泛用于评估变量之间的非线性相关性,
 它是基于统计独立性进行计算。
 需要注意的是,在只有联合概率时无法计算直接变量之间的 MI,
-并且 MI 和 PCC 一样有假阳性 \cite{frenzel2007partial,schreiber2000measuring}。
-Zhao 等提出了条件互信息 (Conditional Mutual Information, CMI) \cite{zhang2011inferring} 和部分互信息 (Part Mutual Information, PMI) \cite{zhao2016part},
+并且 MI 和 PCC 一样有假阳性 \upcite{frenzel2007partial,schreiber2000measuring}。
+Zhao 等提出了条件互信息 (Conditional Mutual Information, CMI) \upcite{zhang2011inferring} 和部分互信息 (Part Mutual Information, PMI) \upcite{zhao2016part},
 这两个测度在互信息上引入了条件计算的机制减少了假阳性边,
 能有效检测变量之间非线性的间接或直接的相互作用。
-他们将这两个测度与基于贪心策略的路径一致性算法 (Path Consistency Algorithm, PCA) 结合起来先后提出了 PCA-CMI \cite{zhang2011inferring} 和 PCA-PMI \cite{zhao2016part}。
+他们将这两个测度与基于贪心策略的路径一致性算法 (Path Consistency Algorithm, PCA) 结合起来先后提出了 PCA-CMI \upcite{zhang2011inferring} 和 PCA-PMI \upcite{zhao2016part}。
 
 在单细胞测序数据集上,
-Yu 等提出了 NLNET 方法\cite{yu2013hierarchical}, 
+Yu 等提出了 NLNET 方法\upcite{yu2013hierarchical}, 
 两个基因之间的相关性被定义为基于条件有序列表 (Conditional ordered list, DCOL) 的距离,
 其中基因 G1 到基因 G2 的距离取决于通过 G1 中所有样本的表达顺序。
 NLNET 使用的这种距离度量没有考虑到的点是,真实生物网络中的一个基因可能与多个基因相互作用。
-Thalia 等 \cite{chan2017gene} 提出了高效的 PIDC 算法,
+Thalia 等 \upcite{chan2017gene} 提出了高效的 PIDC 算法,
 该算法利用偏信息分解 (partial information decomposition, PID) 测度来衡量基因之间的关系。
-Guo 等 \cite{guo2015sincera} 提出了 SINCERA 方法, 该方法利用低阶偏相关性 (low-order partial correlation),可以在测量中涉及两个以上的基因,是一种更符合实际的方式来呈现复杂网络的相互作用。
+Guo 等 \upcite{guo2015sincera} 提出了 SINCERA 方法, 该方法利用低阶偏相关性 (low-order partial correlation),可以在测量中涉及两个以上的基因,是一种更符合实际的方式来呈现复杂网络的相互作用。
 在 SINCERA 方法中,给定第三个基因 G3,基因 G1 和基因 G2 之间的相关性是 G1 与 G3 的线性回归
 所产生的残差与 G2 与 G3 的线性回归所产生的残差之间的相关性。
 SINCERA 假设基因之间存在线性依赖关系,并使用最小平方估计来计算目标基因和条件基因的回归系数。
@@ -448,34 +440,43 @@ SINCERA 假设基因之间存在线性依赖关系,并使用最小平方估计�
 然后采用 bagging 或者 boosting 的做法,构建出最终的基因调控网络。
 它们应用在基因调控网络构建上优点是计算效率高,网络构建准确率高;
 缺点是一些非线性的模型可解释性较低参数意义不明确,并且缺少对生物结构的支持。
-回归模型成功应用于基因调控网络构建中的典型算法包括基于随机森林的 GENIE3 \cite{Huynh-Thu2010},
-基于 Lasso 回归的 TIGRESS \cite{Haury2012}。
-在处理时间序列数据上有 GENIE3 的扩展方法 GENIE3-lag \cite{huynh2012machine},
-与扩散模型相结合利用随机森林来学习隐含参数的 Jump3 \cite{Huynh-Thu2014}。
+回归模型成功应用于基因调控网络构建中的典型算法包括基于随机森林的 GENIE3 \upcite{Huynh-Thu2010},
+基于 Lasso 回归的 TIGRESS \upcite{Haury2012}。
+在处理时间序列数据上有 GENIE3 的扩展方法 GENIE3-lag \upcite{huynh2012machine},
+与扩散模型相结合利用随机森林来学习隐含参数的 Jump3 \upcite{Huynh-Thu2014}。
 
 在单细胞 RNA-seq 测序数据集上, 
-SCENIC \cite{aibar2017scenic} 融合了 GENIE3、 RcisTarget 和 AUCell 三个算法来在单细胞测序数据上实现了基因调控网络的构建和基因的聚类。
+SCENIC \upcite{aibar2017scenic} 融合了 GENIE3、 RcisTarget 和 AUCell 三个算法来在单细胞测序数据上实现了基因调控网络的构建和基因的聚类。
 单细胞 RNA-seq 也能产生基于时间序列的 RNA-seq 数据。
 与传统的时间序列数据相比,基于单细胞的时序数据在单个时间片上产生了更多的样本,测序的总体成本也变得十分昂贵。
 因此也有很多方法利用原始数据构建出伪时序 (pseudo-time ordering) 后,再利用回归方法构建基因调控网络。
-LEAP \cite{specht2017leap} 简单地使用皮尔逊相关性来计算每个时间窗口的基因之间的相关性。 
+LEAP \upcite{specht2017leap} 简单地使用皮尔逊相关性来计算每个时间窗口的基因之间的相关性。 
 然后,它通过收集所有时间窗口内所有基因对的最大相关性来合并所有相关矩阵。
-SINCERITIES \cite{papili2017sincerities} 利用基因在不同时间片上的表达分布之间的距离来构建基因的表达矢量,
+SINCERITIES \upcite{papili2017sincerities} 利用基因在不同时间片上的表达分布之间的距离来构建基因的表达矢量,
 然后使用格兰杰因果关系 (Granger causality) 的思想结合线性回归模型来构建基因调控网络。
 SINCERITIES 并没有直接来计算在每个时间窗口中基因间的相关性。
-SCIMITAR \cite{cordero2017tracing} 使用连续的多变量高斯混合模型对数据进行建模,
+SCIMITAR \upcite{cordero2017tracing} 使用连续的多变量高斯混合模型对数据进行建模,
 然后使用期望值最大化 (EM) 算法估计参数。
 EM 算法估计了每个分布的参数,以及一个细胞属于每个分布的可能性。
 SCIMITAR 从混合模型的协方差矩阵中计算出每个伪时间的相关矩阵,
 然后该方法通过计算协方差矩阵之间的距离来计算相似度矩阵,
 最后使用相似度矩阵的频谱聚类 (Spectral Clustering) 来确定整个时间轨迹的发展阶段。
 对于每个发展阶段,该方法通过对该阶段的相关矩阵进行平均,最终输出共识网络。
-SINGE \cite{deshpande2019network} 使用回归模型来确定一个时间窗口内两个基因之间的相关性。
+SINGE \upcite{deshpande2019network} 使用回归模型来确定一个时间窗口内两个基因之间的相关性。
 对于每个目标基因,该方法利用基于核函数的格兰杰因果关系 (Granger causality) 回归来计算该基因与所有其它基因的相关性。
-然后采用 Borda 计数聚合方法 \cite{van2000variants} 来对调控边打分,
+然后采用 Borda 计数聚合方法 \upcite{van2000variants} 来对调控边打分,
 该方法偏重于多次格兰杰检验一致性排名靠前的边,对两个基因之间的连接进行随时间的排序。
 上述四种方法中, SCIMITAR 自身能直接从输入的数据中构建出细胞的伪时序, 
 而 LEAP、SINCERITIES 和 SINGE 都依赖用户在输入时提供细胞的时间排序。
+
+
+总之,数学模型提供了一个强有力的工具,
+不同的数学模型对基因调控网络进行了不同的表达和抽象。
+随着数据来源的多样化,模型改进和模型组合是当前网络模型的主要研究方向。
+模型改进是针对现有的模型引入新的法则来构造新的模型,
+而模型组合则是结合几个不同类型的模型取长补短达到性能最优。
+针对复杂的基因调控网络,
+为对其进行全面描述,往往需要借助多层次多类型的模型来反应基因调控网络的不同特性。
 
 \subsection{主要研究工作}
 本课题的主要研究内容是基因调控网络构建。

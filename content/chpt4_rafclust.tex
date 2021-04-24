@@ -3,24 +3,24 @@
 
 \subsection{引言}
 
-基因调控与细胞类型密切相关 \cite{Hocker2020.09.11.291724,kang2020learning},
+基因调控与细胞类型密切相关 \upcite{Hocker2020.09.11.291724,kang2020learning},
 细胞聚类也是单细胞 RNA-seq 数据分析的热门和重要的问题, 
 因此构建基因调控网络的一个不可或缺的前置任务是在单细胞数据集上对细胞的异质性进行聚类分析。
 由于单细胞 RNA-seq 对于每个细胞测得的读数有限,细胞在测序过程中也会发生粘连,
 因此导致每个细胞很多的基因表达量为 0,
-这种现象被称之为单细胞的 dropout \cite{vallejos2017normalizing}。
+这种现象被称之为单细胞的 dropout \upcite{vallejos2017normalizing}。
 同时,单细胞 RNA-seq 测序中将基因作为特征,常见的人和老鼠两种物种都有 20000 多个基因,
-从计算的角度上来说, 高维特征也给单细胞 RNA-seq 数据上的聚类带来挑战 \cite{stegle2015computational}。
+从计算的角度上来说, 高维特征也给单细胞 RNA-seq 数据上的聚类带来挑战 \upcite{stegle2015computational}。
 
 在单细胞数据上的细胞类型识别上,除了聚类之外,还有一个十分具有挑战性的问题,即是如何从超大规模的 scRNA-seq 数据中识别稀有细胞。
 稀有细胞代表了生物体内的次要细胞类型,当测序细胞的数量在数百个规模时,一个孤立的离群点 (singleton) 也很值得关注。
 然而,随着吞吐能力的提高,研究重点转换到次要细胞类型的发现,再也不仅仅是单纯的单个细胞。
 稀有细胞类型包括循环肿瘤细胞、癌症干细胞、循环内皮细胞、内皮祖细胞、抗原特异性 T 细胞、不变性自然杀伤性 T 细胞等。
 尽管丰度较低,但稀有细胞群在决定癌症的发病机制、介导免疫反应、癌症和其它疾病的血管生成等方面起着核心作用。
-抗原特异性 T 细胞对免疫学记忆的形成至关重要 \cite{slansky2003antigen,altman1996phenotypic,manzo2015antigen}。
-内皮祖细胞,来源于骨髓,已被证明是肿瘤血管生成的可靠生物标志物 \cite{kuo2012dynamics,cima2016tumor}。
-干细胞可以替代受损细胞,并用于治疗帕金森氏症、糖尿病、心脏病等疾病 \cite{jang2005stem}。
-循环肿瘤细胞提供了前所未有的视角,为临床管理提供了实时的线索和根据 \cite{krebs2010circulating}。
+抗原特异性 T 细胞对免疫学记忆的形成至关重要 \upcite{slansky2003antigen,altman1996phenotypic,manzo2015antigen}。
+内皮祖细胞,来源于骨髓,已被证明是肿瘤血管生成的可靠生物标志物 \upcite{kuo2012dynamics,cima2016tumor}。
+干细胞可以替代受损细胞,并用于治疗帕金森氏症、糖尿病、心脏病等疾病 \upcite{jang2005stem}。
+循环肿瘤细胞提供了前所未有的视角,为临床管理提供了实时的线索和根据 \upcite{krebs2010circulating}。
 现有的寻找稀有细胞的算法大部分依赖单细胞聚类方法,
 在处理超大规模 scRNA-seq 数据时候非常耗时或者耗费内存。
 
@@ -44,24 +44,24 @@ DoRC 产生的稀有度分数可以帮助生物学家们着重于下游分析,�
 结合聚类方法来确定细胞的类别。国内外研究者针对单细胞 RNA-seq 数据上的异质性研究已取得不少成果。
 一类方法是最传统的聚类方法,比如使用 t-SNE 对数据进行降维然后使用 K-means 对数据进行聚类。
 显然这种方法对噪声十分敏感。
-Gr{\"u}n 等人 \cite{grun2016novo} 提出的 RaceID2 
+Gr{\"u}n 等人 \upcite{grun2016novo} 提出的 RaceID2 
 使用 K-medoids 方法聚类,依据类内散布饱和临界值为依据确定分类个数。
 另一类方法的研究思路是通过对原始数据进行插值处理 (imputation),减轻 scRNA-seq 数据中的 dropout 的影响。
-典型的方法比如 Lin 等人提出的 CIDR 方法 \cite{lin2017cidr}。
+典型的方法比如 Lin 等人提出的 CIDR 方法 \upcite{lin2017cidr}。
 CIDR 对 dropout 与基因表达值的关系进行了建模, 通过隐式插值处理后获取细胞与细胞之间的非相似性矩阵,
 然后使用层次聚类获得最终的结果。
 还有一类最流行的方法的研究思路是通过提高细胞与细胞之间的相似性计算的准确度和鲁棒性。
-Kiselev 等人 \cite{kiselev2017sc3} 提出了一种共识聚类方法 SC3。
+Kiselev 等人 \upcite{kiselev2017sc3} 提出了一种共识聚类方法 SC3。
 SC3 基于计算细胞与细胞间的 Pearson、Spearman 和欧氏距离三种不同相似性和主成分分析、拉普拉斯转换分别获得多个聚类结果,
 然后通过计算这些聚类结果中两个细胞被聚为一类的数目来构建共识矩阵,
 最后利用层次聚类获得最终的结果。
-Wang 等人 \cite{wang2018simlr} 提出了无监督的 SIMLR 聚类方法。
+Wang 等人 \upcite{wang2018simlr} 提出了无监督的 SIMLR 聚类方法。
 SIMLR 构建不同粒度的高斯核矩阵来学习细胞与细胞之间的距离 (相似性) 矩阵,
 并使用已有的比如 K-means 来获得每个细胞的类型。
-Yang 等人 \cite{yang2018safe} 提出了聚合聚类方法 SAFE。
+Yang 等人 \upcite{yang2018safe} 提出了聚合聚类方法 SAFE。
 SAFE 选用了 SC3、CIDR、Seurat 和 t-SNE + K-means 四种聚类方法,
 基于超图划分算法聚合四种聚类方法的结果。
-Pouyan 等人 \cite{pouyan2018random} 提出了一种基于随机森林的计算细胞相似性的方法 RAFSIL。
+Pouyan 等人 \upcite{pouyan2018random} 提出了一种基于随机森林的计算细胞相似性的方法 RAFSIL。
 RAFSIL 首先对基因过滤和聚类,接着对每个基因模块使用主成分降维,合并后作为随机森林的输入,
 根据两个细胞落入同一颗决策树叶子上的数目计算细胞的相似性,然后使用层次聚类或者 K-means 获取每个细胞的类型。
 相比于 SIMLR, RAFSIL 在聚类效果上有一定的提高,
@@ -74,17 +74,17 @@ scRNA-seq 技术的另外一个非常迫切和具有挑战性的应用,是从组
 大规模的转录组样本通过削弱由于扩增阶段的失败所带来的影响,可以更好地捕捉到组织中的微小细胞亚群。
 事实上,稀有细胞检测已经成为目前下游分析流程中的不可缺少的一环。
 到目前为止,聚焦于研究怎样去检测稀有细胞转录组的算法还很少,
-其中代表性的方法有 RaceID \cite{grun2015single}, GiniClust \cite{jiang2016giniclust} 和 FiRE \cite{jindal2018discovery}。
+其中代表性的方法有 RaceID \upcite{grun2015single}, GiniClust \upcite{jiang2016giniclust} 和 FiRE \upcite{jindal2018discovery}。
 RaceID 涉及到计算成本十分高昂的参数模型,并用于检测离群的表达谱值。
 它使用了 \textit{k}-means 聚类这种典型的基于距离的方法和间隙统计计算,
 来作为识别大量细胞类型的中间步骤。
  GiniClust 使用了双管齐下的方法,
 它首先使用 Gini 系数选择信息量大的基因,
-然后它使用基于密度的空间聚类应用与噪声 (DBSCAN) \cite{ester1996density} 来发现离群细胞。
+然后它使用基于密度的空间聚类应用与噪声 (DBSCAN) \upcite{ester1996density} 来发现离群细胞。
 值得注意的是, RaceID 和 GiniClust 都使用聚类步骤来区分主要和次要细胞类型。
 对于超大的 scRNA-seq 数据来说,速度非常慢,而且内存使用效率低。
 相比之下, FiRE 为研究中的每一个细胞表达谱计算出一个稀有度分数。
-它使用 Sketching 技术 \cite{wang2007sizing}来估计每个细胞的密度,
+它使用 Sketching 技术 \upcite{wang2007sizing}来估计每个细胞的密度,
 对于大规模细胞的低维编码来说, FiRE 运行速度非常快。
 
 \subsection{基于随机森林相似性学习的单细胞聚类方法 RafClust}
@@ -116,13 +116,13 @@ RafClust 方法对 scRNA-seq 数据进行细胞聚类,包括几个子步骤,如�
 $x_{i}=\left(x_{i1}, x_{i2},\ldots, x_{ip} \right)$。
 矩阵 $X$ 在加上 1 的伪数 (pseudo-count) 后进行对数变换,即 $X^{\prime} = log_2 (X + 1)$。
 然后,如果基因在细胞总数中的表达低于一个预定频率 $\beta$,则该基因会被过滤掉。
-默认情况下, $\beta$ 设置为 0.06 \cite{kiselev2017sc3}。 
+默认情况下, $\beta$ 设置为 0.06 \upcite{kiselev2017sc3}。 
 基因过滤的动机是,除了保守的基因外,其它一些很普通的甚至是低表达的基因往往对细胞的聚类没有贡献。
 
 \subsubsection{细胞类型识别}
 \label{subsec:rafclust} 
 为了从稀有细胞集合中确认不同的细胞类型,本章提出了一种无监督的基于随机森林的相似性学习算法,命名为 RafClust。
-类似于其它的许多方法 \cite{kiselev2017sc3,pouyan2018random,mohammadi2018geometric,sinha2018dropclust,Srinivasan511626,Li530378,zheng2019sinnlrr},
+类似于其它的许多方法 \upcite{kiselev2017sc3,pouyan2018random,mohammadi2018geometric,sinha2018dropclust,Srinivasan511626,Li530378,zheng2019sinnlrr},
 RafClust 也是两个步骤的方法,
 第一个步骤是使用随机森林进行相似度学习 (相似性学习步骤, similarity learning),
 第二个步骤中使用层次聚类 (聚类步骤, clustering)。
@@ -131,9 +131,9 @@ RafClust 也是两个步骤的方法,
 因此,在基于基因过滤后的表达矩阵 $X^{\prime}$ 上,
 我们利用欧几里德 (Euclidean)、皮尔逊 (Pearson) 和斯皮尔曼 (Spearman) 指标分别计算出三种不同的细胞-细胞距离矩阵 $\{C_1, C_2, C_3\}$。
 然后将主成分分析 PCA 应用于每个距离矩阵,也应用于 $X^{\prime}$ 上,来减少数据维度的同时也去除其本能噪声。
-每个矩阵中信息量最大的成分由``elbow 法" \cite{thorndike1953belongs} 保留,
+每个矩阵中信息量最大的成分由``elbow 法" \upcite{thorndike1953belongs} 保留,
 这样就共计产生了 $\left\{ {F}_{i} \in \mathbb {R} ^ {n \times m_{i}} \right\}_{i = 0}^{3}$ 四个矩阵。
-最终的特征矩阵 $F$ 由这些矩阵按行拼接组成, 行代表细胞, 列代表手工特征 (handcrafted features)\footnote{区分于现在比较流行的深度学习里的 auto-learned features}。
+最终的特征矩阵 $F$ 由这些矩阵按行拼接组成, 行代表细胞, 列代表手工特征 (handcrafted features)。
 \begin{equation}
 \label{lab:f}
 {F} = ({F}_{0}, {F}_{1}, {F}_{2}, {F}_{3})
@@ -167,8 +167,8 @@ $F$ 中的列数 (维度) (即特征总数 $\tilde {p} = \sum_{i = 1}^{k} m_{i}$
     \label{fig:rafsim}
 \end{figure}
 
-RF (随机森林, Random Forest) 是一种应用非常广泛的基于决策树的分类和回归方法 \cite{breiman2001random}。
-它也可以用无监督的方式来推断对象之间的相似性 \cite{shi2006unsupervised,breiman2011manual,pouyan2018random}。
+RF (随机森林, Random Forest) 是一种应用非常广泛的基于决策树的分类和回归方法 \upcite{breiman2001random}。
+它也可以用无监督的方式来推断对象之间的相似性 \upcite{shi2006unsupervised,breiman2011manual,pouyan2018random}。
 基于 RF 的相似性学习方法很容易适应于并行计算,
 对离群值具有鲁棒性,内在具有特征选择的特性,这三个特点特别适合用来分析高维和噪声数据,
 特别是类似于单细胞 RNA 测序图谱数据。
@@ -176,19 +176,19 @@ RF (随机森林, Random Forest) 是一种应用非常广泛的基于决策树�
 在选择一个单一的特征 $j$ (特征矩阵 $F$ 中的第 $j$ 列) 后, 
 我们使用围绕质心点进行划分的算法 PAM (partitioning around medoids),估计类别的数量并得到对应于类别的伪标签。
 与 K-means 聚类算法相比, PAM 对孤立点不敏感。
-%我们直接使用 R 包 fpc \cite{package-fpc}中的 \textit{pamk} 函数来获取该特征 $j$ 的向量中的类标签。
+%我们直接使用 R 包 fpc \upcite{package-fpc}中的 \textit{pamk} 函数来获取该特征 $j$ 的向量中的类标签。
 然后,我们从 $F$ 中去掉第 $j$ 列,并且使用 RF 对缩减后的数据集 $F_{-j}$ 进行对伪标签的回归学习。
 让 $f_p$ 表示 $F_{-j}$ 的第 $p$ 行,
 如果 RF 包含 $N$ 颗树,并定义 $nt(f_p,f_q)$, 作为通过同一片叶子对细胞 $f_p$ 和 $f_q$ 进行归类的树的数量。
 基于 RF 的 $n \times n$ 相似度矩阵 $S_j$ 是通过以下方式定义:
 $S_{j_{pq}} = nt(f_p,f_q) / N, 1 \le p,q \le n$。
-%我们使用 R 包 randomforest \cite{package-randomforest},其默认森林大小为 500 棵,即 $N=500$。
+%我们使用 R 包 randomforest \upcite{package-randomforest},其默认森林大小为 500 棵,即 $N=500$。
 对所有的 $\tilde{p}$ 特征重复这个过程,得到 $\tilde{p}$ 相似度矩阵 $S_j$,$j=1,2,\ldots,\tilde{p}$。
 通过对所有 $S_j$ 进行平均,得到最终的细胞-细胞相似度矩阵 $S$,
 并通过 $D=1-S$ 得到距离矩阵 $D$。
 
 接下来,对距离矩阵 $D$,使用层次聚类中的平均连锁聚类方法 (average linkage clustering) 来对细胞进行聚类,
-使用了来自 R 包 dynamicTreeCut \cite{langfelder2007defining,package-dynamicTreeCut} 的 \textit{cutreeDynamic} 函数自动确定细胞的类别,
+使用了来自 R 包 dynamicTreeCut \upcite{langfelder2007defining,package-dynamicTreeCut} 的 \textit{cutreeDynamic} 函数自动确定细胞的类别,
 并为每个细胞分配正确的类标签。
 另外,我们还提供了使用 R 包 dynamicTreeCut 中的 \textit{cutree} 函数来支持用户自定义细胞的类别数。
 
@@ -196,9 +196,9 @@ $S_{j_{pq}} = nt(f_p,f_q) / N, 1 \le p,q \le n$。
 \label{subsec:de}
 
 使用 RafClust 得到了细胞的类别标签后,
-我们采用 NODES \cite{Sengupta049734} 这一快速的非参数化、差异化表达 (DE) 分析工具进行差异基因分析。
-NODES 被证明比传统的基于批量细胞测序的差异分析方法 DESeq2 \cite{love2014moderated}、edgeR \cite{robinson2010edger},
-以及针对单细胞的差异表达分析方法 scde \cite{kharchenko2014bayesian} 和 Wilcoxon 秩和检验 (Wilcoxon rank sum test) 都有效 \cite{Sengupta049734}。
+我们采用 NODES \upcite{Sengupta049734} 这一快速的非参数化、差异化表达 (DE) 分析工具进行差异基因分析。
+NODES 被证明比传统的基于批量细胞测序的差异分析方法 DESeq2 \upcite{love2014moderated}、edgeR \upcite{robinson2010edger},
+以及针对单细胞的差异表达分析方法 scde \upcite{kharchenko2014bayesian} 和 Wilcoxon 秩和检验 (Wilcoxon rank sum test) 都有效 \upcite{Sengupta049734}。
 以 0.05 作为 FDR (False Discovery Rate) 的阈值, FC (fold change) 变化(也就是两个组间表达量的比值) 阈值默认为 log2(5)。
 在 DE 基因中,在特定类中相对于其余各类显著上调的基因被命名为细胞类型特异基因。
 
@@ -213,7 +213,7 @@ RaceID 中的 \textit{k}-means 聚类是基于距离的,
 基于近邻的方法假设一个离群样本与其最近邻的接近程度与该样本与数据集中大多数其它样本的接近程度有很大的差异。
 聚类性能通常取决于一些参数敏感性且工作效率低下,因为不同分布的数据点之间的近似度不同。
 另一个主要问题是,样本聚类的分辨率 (resolution) 问题。
-一般来说,多级聚类变得至关重要,因为次要的类经常在首次筛选就被过滤掉了 \cite{campbell2017molecular}。
+一般来说,多级聚类变得至关重要,因为次要的类经常在首次筛选就被过滤掉了 \upcite{campbell2017molecular}。
 其它主要细胞类型会影响数据集中的表达差异,
 特别是在处理大型 scRNA-seq 数据集时,情况变得更加糟糕。
 
@@ -233,7 +233,7 @@ DoRC 方法是用于从超大型 scRNA-seq 数据中发现稀有细胞,包括若
 每个数据集上,在至少 3 个细胞中读数超过 2 的基因被保留用于下游分析,
 然后使用中位数归一化。
 除 \textit{Splatter\_500} 之外的其它数据集,
-基于它们的相对分散度 (dispersion,即方差/均值) 与具有相似平均表达量的基因之间的预期分散度 \cite{zheng2017massively,macosko2015highly}选出 1000个变化最大的基因。
+基于它们的相对分散度 (dispersion,即方差/均值) 与具有相似平均表达量的基因之间的预期分散度 \upcite{zheng2017massively,macosko2015highly}选出 1000个变化最大的基因。
 最后,将处理后的伪计数矩阵 (pseudo-count) 加 1 后进行对数变换。
 对所有的数据集进行了预处理之后,后续的关键的处理步骤在下文中将详细讲述。
 
@@ -270,18 +270,18 @@ DoRC 方法是用于从超大型 scRNA-seq 数据中发现稀有细胞,包括若
 \subsubsection{使用孤立森林识别稀有细胞}
 \label{subsec:if} 
 
-孤立森林是一种无模型算法,它的计算效率很高,非常适合并行计算方法的使用 \cite{hariri2018batch}。
-事实证明,它在检测异常方面也是非常有效的 \cite{susto2017anomaly}。
+孤立森林是一种无模型算法,它的计算效率很高,非常适合并行计算方法的使用 \upcite{hariri2018batch}。
+事实证明,它在检测异常方面也是非常有效的 \upcite{susto2017anomaly}。
 该算法的主要优越性在于,它并不依赖于为数据设置复杂的参数配置。
 相反,它利用了异常数据``少而不同"的特点。
-其它大多数异常检测算法 (anomaly detection algorithms) 都是通过了解异常数据的属性分布,并将其从其它正常数据样本中分离出来,从而找到异常数据 \cite{noto2010anomaly,chen2011ordinal,das2016incorporating}。
+其它大多数异常检测算法 (anomaly detection algorithms) 都是通过了解异常数据的属性分布,并将其从其它正常数据样本中分离出来,从而找到异常数据 \upcite{noto2010anomaly,chen2011ordinal,das2016incorporating}。
 在孤立森林中结合树结构,从数据中抽取子样本,
 并根据数据集中随机选取的特征值进行随机切割。
 树枝路径越长,那么该样本为异常样本的可能性越低;
 相反,路径越短的树枝越有可能是异常的。
 因此,每个树枝的总长度可以被看作是对指定点的异常性衡量的``异常得分"。
 
-孤立森林 \cite{liu2008isolation,liu2012isolation} 的算法思想同任何基于树结构的聚合 (ensemble) 方法一样,
+孤立森林 \upcite{liu2008isolation,liu2012isolation} 的算法思想同任何基于树结构的聚合 (ensemble) 方法一样,
 也是在基于决策树结构之上的。
 在训练时,给定一个维度为 $N$ 的数据集,
 该算法选择一个随机的数据子样本来构建一棵二叉树。
@@ -305,9 +305,9 @@ $c(n)$ 是归一化因子,定义为二叉搜索树 (BST) 中搜索失败的平�
     c(n) = 2H(n - 1) - (2(n - 1)/n)
 \end{equation}
 其中 $H(i)$ 为谐波数,
-可由 $ln(i) + 0.5772156649$ (欧拉常数) \cite{liu2012isolation}估计,$n$ 为建树时所用的数据点数。
+可由 $ln(i) + 0.5772156649$ (欧拉常数) \upcite{liu2012isolation}估计,$n$ 为建树时所用的数据点数。
 $s(x,n)$ 的值接近 1 表示异常,远小于 0.5 表示正常观测值。
-我们在这里使用的参数默认值与文献 \cite{liu2008isolation,liu2012isolation}一样,
+我们在这里使用的参数默认值与文献 \upcite{liu2008isolation,liu2012isolation}一样,
 即在所有实验中子样本数据为 256,树的集合数目为 100。
 
 虽然用连续值来表示异常得分十分有意义,但有时关于细胞稀有度的二元标注可以极大地简化分析流程 (pipeline)。
@@ -318,9 +318,9 @@ $s(x,n)$ 的值接近 1 表示异常,远小于 0.5 表示正常观测值。
 \label{subsec:de}
 
 使用上一节中介绍的单细胞聚类方法 RafClust 得到了细胞的类别标签后,
-我们采用 NODES \cite{Sengupta049734} 这一快速的非参数化、差异化表达 (DE) 分析工具进行差异基因分析。
-NODES 被证明比传统的基于批量细胞测序的差异分析方法 DESeq2 \cite{love2014moderated}、edgeR \cite{robinson2010edger},
-以及针对单细胞的差异表达分析方法 scde \cite{kharchenko2014bayesian} 和 Wilcoxon 秩和检验 (Wilcoxon rank sum test) 都有效 \cite{Sengupta049734}。
+我们采用 NODES \upcite{Sengupta049734} 这一快速的非参数化、差异化表达 (DE) 分析工具进行差异基因分析。
+NODES 被证明比传统的基于批量细胞测序的差异分析方法 DESeq2 \upcite{love2014moderated}、edgeR \upcite{robinson2010edger},
+以及针对单细胞的差异表达分析方法 scde \upcite{kharchenko2014bayesian} 和 Wilcoxon 秩和检验 (Wilcoxon rank sum test) 都有效 \upcite{Sengupta049734}。
 以 0.05 作为 FDR (False Discovery Rate) 的阈值, FC (fold change) 变化(也就是两个组间表达量的比值) 阈值默认为 log2(5)。
 在 DE 基因中,在特定类中相对于其余各类显著上调的基因被命名为细胞类型特异基因。
 
@@ -333,16 +333,16 @@ NODES 被证明比传统的基于批量细胞测序的差异分析方法 DESeq2
 为了测试 RafClust 在单细胞聚类场景下的性能,
 我们使用了十个知名的 scRNA-seq 数据集上,细胞数目从小规模到中等规模不等。
 每个数据集以第一作者的姓氏命名如下: 
-Biase \cite{biase2014cell},
-Treutlein \cite{treutlein2014reconstructing}, 
-Pollen \cite{pollen2014low}, 
-Kolod \cite{kolodziejczyk2015single}, 
-Usoskin \cite{usoskin2015unbiased}, 
-Darmanis \cite{darmanis2015survey}, 
-Goolam \cite{goolam2016heterogeneity}, 
-Li \cite{li2017reference},
-Tasic \cite{tasic2016adult}, 
-Zeisel \cite{zeisel2015cell}。
+Biase \upcite{biase2014cell},
+Treutlein \upcite{treutlein2014reconstructing}, 
+Pollen \upcite{pollen2014low}, 
+Kolod \upcite{kolodziejczyk2015single}, 
+Usoskin \upcite{usoskin2015unbiased}, 
+Darmanis \upcite{darmanis2015survey}, 
+Goolam \upcite{goolam2016heterogeneity}, 
+Li \upcite{li2017reference},
+Tasic \upcite{tasic2016adult}, 
+Zeisel \upcite{zeisel2015cell}。
 这十个数据集可以在 \url{https://hemberg-lab.github.io/scRNA.seq.datasets} 上获取, 
 每个数据集的详情介绍如表 \ref{tbl:clusteringdatasets} 所示。
 
@@ -358,17 +358,17 @@ Zeisel \cite{zeisel2015cell}。
   \toprule
   Dataset   &Accession 	&Sequencing protocol &Units &\#Cells &\#Genes	&\#Populations  & References \\
   \midrule
-  Biase     &GSE57249     &SMARTer    &FPKM   &56	     &25 734     &5         &\cite{biase2014cell}\\
-  Treutlein &GSE52583  	&SMARTer   	&FPKM  	&80      &23 271     &5 		&\cite{treutlein2014reconstructing}\\
-  Pollen    &SRP041736 	&SMARTer   	&TPM   	&301     &23 730     &11 		&\cite{pollen2014low} \\
-  %Patel     &GSE57872     &Smart-Seq 	&TPM   	&430     &5 948      &5			&\cite{patel2014single}\\
-  Kolod     &E-MTAB-2600  &SMARTer    &CPM    &704     &38 616     &3         &\cite{kolodziejczyk2015single}\\
-  Usoskin   &GSE59739  	&STRT-Seq  	&RPM   	&622     &25 334     &11 		&\cite{usoskin2015unbiased}\\
-  Darmanis  &GSE67835  	&SMARTer    &CPM    &466     &22 088     &9         &\cite{darmanis2015survey}\\
-  Goolam    &E-MTAB-3321  &Smart-Seq2	&CPM  	&124     &41 480     &5			&\cite{goolam2016heterogeneity}\\
-  Li     	  &GSE81861  	&SMARTer    &CPM   &561     &55 186      &9         &\cite{li2017reference}\\
-  Tasic     &GSE71585     &SMARTer    &RPKM   &1 679   &24 057     &18        &\cite{tasic2016adult}\\
-  Zeisel    &GSE60361     &STRT-Seq  	&UMI   	&3 005   &19 972     &9			&\cite{zeisel2015cell}\\
+  Biase     &GSE57249     &SMARTer    &FPKM   &56	     &25 734     &5         &\upcite{biase2014cell}\\
+  Treutlein &GSE52583  	&SMARTer   	&FPKM  	&80      &23 271     &5 		&\upcite{treutlein2014reconstructing}\\
+  Pollen    &SRP041736 	&SMARTer   	&TPM   	&301     &23 730     &11 		&\upcite{pollen2014low} \\
+  %Patel     &GSE57872     &Smart-Seq 	&TPM   	&430     &5 948      &5			&\upcite{patel2014single}\\
+  Kolod     &E-MTAB-2600  &SMARTer    &CPM    &704     &38 616     &3         &\upcite{kolodziejczyk2015single}\\
+  Usoskin   &GSE59739  	&STRT-Seq  	&RPM   	&622     &25 334     &11 		&\upcite{usoskin2015unbiased}\\
+  Darmanis  &GSE67835  	&SMARTer    &CPM    &466     &22 088     &9         &\upcite{darmanis2015survey}\\
+  Goolam    &E-MTAB-3321  &Smart-Seq2	&CPM  	&124     &41 480     &5			&\upcite{goolam2016heterogeneity}\\
+  Li     	  &GSE81861  	&SMARTer    &CPM   &561     &55 186      &9         &\upcite{li2017reference}\\
+  Tasic     &GSE71585     &SMARTer    &RPKM   &1 679   &24 057     &18        &\upcite{tasic2016adult}\\
+  Zeisel    &GSE60361     &STRT-Seq  	&UMI   	&3 005   &19 972     &9			&\upcite{zeisel2015cell}\\
   \bottomrule                   
   \end{tabular}
   }
@@ -377,7 +377,7 @@ Zeisel \cite{zeisel2015cell}。
 
 % \subsubsection{评价指标}
 聚类的效果是使用真实的类别标签 $L_T$ 和估计的类别标签 $L_E$ 之间的相似性来衡量,
-使用的是调整后的 Rand 指数 (Adjusted Rand index, ARI) \cite{hubert1985comparing,wu2005dynamic}:
+使用的是调整后的 Rand 指数 (Adjusted Rand index, ARI) \upcite{hubert1985comparing,wu2005dynamic}:
 \begin{equation}
 \label{eq:ARI}
 \resizebox{0.8\textwidth}{!}{$
@@ -400,7 +400,7 @@ ARI 的范围是 -1 到 1 ,其中 1 表示估计的聚类与真实的聚类完�
 为了测试 RafClust 的性能,
 我们将其应用在十个知名的 scRNA-seq 数据集上 (数据详情见表 \ref{tbl:clusteringdatasets}),
 将其 ARI 值与其它六种方法进行比较,
-包括 RaceID2 \cite{grun2016novo}, CIDR \cite{lin2017cidr}, SIMLR \cite{wang2018simlr}, SAFE \cite{yang2018safe}, RtsneKmeans \cite{hartigan1979algorithm,maaten2008visualizing,van2014accelerating}, RAFSIL \cite{pouyan2018random}。
+包括 RaceID2 \upcite{grun2016novo}, CIDR \upcite{lin2017cidr}, SIMLR \upcite{wang2018simlr}, SAFE \upcite{yang2018safe}, RtsneKmeans \upcite{hartigan1979algorithm,maaten2008visualizing,van2014accelerating}, RAFSIL \upcite{pouyan2018random}。
 这六种聚类方法均以 R 包的形式实现并公开了代码,它们的概述如表 \ref{supp-tbl:clustereringmethods} 所示。
 通过将每种方法的聚类结果与每个基准数据集的细胞类型注释进行比较,计算出对应的 ARI 值。 
 由于个别方法在代码中引入了随机函数和随机种子,使得运行结果有一定的随机性。
@@ -426,12 +426,12 @@ RafClust 的 R 包可在 GitHub 仓库 \url{https://github.com/chenxofhit/RafClu
       \toprule
       Method                                                                     & Description                                                                                                                                                        & Reference \\
       \midrule
-      CIDR (v0.1.5)                                                              & PCA dimension reduction based on zero-imputed similarities, followed by hierarchical clustering                                                                    & \cite{lin2017cidr}         \\
-      \begin{tabular}[c]{@{}l@{}}RaceID2 (March 3, \\ 2017 version)\end{tabular} & K-medoids clustering based on Pearson correlation dissimilarities                                                                                                  & \cite{grun2016novo}        \\
-      RtsneKmeans                                                                & \begin{tabular}[c]{@{}l@{}}t-SNE dimension reduction (initial PCA dim=50, t-SNE dim=3, perplexity=30) and K-means \\ clustering with 25 random starts\end{tabular} & \cite{hartigan1979algorithm, maaten2008visualizing,van2014accelerating}        \\
-      SAFE (v2.1.0)                                                              & Ensemble clustering using SC3, CIDR, Seurat and t-SNE + K-means                                                                                                     & \cite{yang2018safe}         \\
-      SIMLR                                                                      & An appropriate cell to cell distance metric by multi-kernel learning, followed by spectral clustering                                                                                                                                                          & \cite{wang2018simlr}         \\
-      RAFSIL                                                                     & Random forest based cell to cell similary learning, followed by K-means or hierarchical clustering                                                                                                                                                              & \cite{pouyan2018random}        \\
+      CIDR (v0.1.5)                                                              & PCA dimension reduction based on zero-imputed similarities, followed by hierarchical clustering                                                                    & \upcite{lin2017cidr}         \\
+      \begin{tabular}[c]{@{}l@{}}RaceID2 (March 3, \\ 2017 version)\end{tabular} & K-medoids clustering based on Pearson correlation dissimilarities                                                                                                  & \upcite{grun2016novo}        \\
+      RtsneKmeans                                                                & \begin{tabular}[c]{@{}l@{}}t-SNE dimension reduction (initial PCA dim=50, t-SNE dim=3, perplexity=30) and K-means \\ clustering with 25 random starts\end{tabular} & \upcite{hartigan1979algorithm, maaten2008visualizing,van2014accelerating}        \\
+      SAFE (v2.1.0)                                                              & Ensemble clustering using SC3, CIDR, Seurat and t-SNE + K-means                                                                                                     & \upcite{yang2018safe}         \\
+      SIMLR                                                                      & An appropriate cell to cell distance metric by multi-kernel learning, followed by spectral clustering                                                                                                                                                          & \upcite{wang2018simlr}         \\
+      RAFSIL                                                                     & Random forest based cell to cell similary learning, followed by K-means or hierarchical clustering                                                                                                                                                              & \upcite{pouyan2018random}        \\
       \bottomrule
   \end{tabular}
   }
@@ -565,17 +565,17 @@ RafClust 的 R 包可在 GitHub 仓库 \url{https://github.com/chenxofhit/RafClu
 % \subsubsection{数据集}
 % \label{subsec:datasets} 
 
-% 第一个数据集 \textit{PBMCs\_68k}由 68579 个从健康供体收集的 PBMCs 组成 \cite{zheng2017massively}。
+% 第一个数据集 \textit{PBMCs\_68k}由 68579 个从健康供体收集的 PBMCs 组成 \upcite{zheng2017massively}。
 % 11 个纯化的 PBMCs 亚群的单细胞表达谱被用作细胞类型标签的参考。
 % 该数据集可在 \url{www.10xgenomics.com} 下载。
 
-%第二个数据集textit{MSE/20k}包含了来自小鼠大脑Arc-ME区域周围的 ${sim} 20$k scRNA-seq图谱 \cite{campbell2017molecular}。
+%第二个数据集textit{MSE/20k}包含了来自小鼠大脑Arc-ME区域周围的 ${sim} 20$k scRNA-seq图谱 \upcite{campbell2017molecular}。
 %作者将神经元细胞分为34个簇。
 %和非神经元细胞通过二传聚类方法分为30个聚类。
 %我们只关注30个非神经元集群,其中包括8092个非神经元细胞。
 %数据集 (GSE93374) 是从\url{https://hemberg-lab.github.io/scRNA.seq.datasets/mouse/brain/}下载的。
 
-% 第二个数据集 \textit{Jurkat\_293T} 是由 Jurkat 和 293T 的两个表达谱构建的,同样来自同一研究 \cite{zheng2017massively}。
+% 第二个数据集 \textit{Jurkat\_293T} 是由 Jurkat 和 293T 的两个表达谱构建的,同样来自同一研究 \upcite{zheng2017massively}。
 % Jurkat 数据集由 3258 个细胞组成,而 293T 数据集由 2885 个细胞组成。
 % 首先,从 293T 数据集中不放回抽样 1500 个细胞。
 % 然后,通过从 Jurkat 数据集中取样不同数量的细胞,
@@ -583,7 +583,7 @@ RafClust 的 R 包可在 GitHub 仓库 \url{https://github.com/chenxofhit/RafClu
 % 这两个数据集的表达矩阵也可以从 \url{www.10xgenomics.com} 下载。
 
 % 最后一个数据集 \textit{Splatter\_500} 是一个人工仿真 scRNA-seq 数据,
-% 通过使用 R 包 Splatter \cite{zappia2017splatter},由 500 个细胞组成。
+% 通过使用 R 包 Splatter \upcite{zappia2017splatter},由 500 个细胞组成。
 % 与两种细胞类型: 25 个细胞是罕见的 (也就是 rare cells),其它 475 个细胞是丰富的 (也就是 abundant cells)。
 % 在这个数据集中,每个细胞有 5000 个基因。
 % 在 R 中我们使用下面的命令来生成这个数据集:
@@ -619,14 +619,14 @@ RafClust 的 R 包可在 GitHub 仓库 \url{https://github.com/chenxofhit/RafClu
 \subsubsection{树突状细胞的异质性分析}
 
 我们将 DoRC 应用于包含 ${\sim}68$k 外周血单核细胞的 scRNA-seq 数据集 (PBMCs) 的标注进行比对。
- \textit{PBMCs\_68k}数据集是知名的包含有 11个 纯化的免疫细胞亚型的数据集,由 68579 个从健康供体收集的 PBMCs 组成 \cite{zheng2017massively},
+ \textit{PBMCs\_68k}数据集是知名的包含有 11个 纯化的免疫细胞亚型的数据集,由 68579 个从健康供体收集的 PBMCs 组成 \upcite{zheng2017massively},
 可在 \url{www.10xgenomics.com} 下载。
 研究者首先对细胞进行了无监督聚类,
 然后根据之前已知的标记对类进行注释 (图 \ref{supp-fig:dorcsummary} A)。
 我们将 DoRC 的分数叠加在这一个二维图上 (图 \ref{supp-fig:dorcsummary} B)。
 最高 0.1\% 的 DoRC 分数对应的是最小的, 
 清晰地标注了含有巨核细胞的 CD34+ 类别 (图 \ref{fig:dorcsummary} A)。
-据报道,巨核细胞只含有整个细胞集的 0.3\% \cite{zheng2017massively}。
+据报道,巨核细胞只含有整个细胞集的 0.3\% \upcite{zheng2017massively}。
 然后,我们将这一比例从 0.1\% 增加到 1.0\%,随后又增加到 3.0\%,
 然后下一批次的细胞亚型被选入扩展的稀有细胞集合中。
 这些细胞包括单核细胞和树突状细胞亚型的亚类 (图 \ref{fig:dorcsummary} B-C)。
@@ -637,7 +637,7 @@ RafClust 的 R 包可在 GitHub 仓库 \url{https://github.com/chenxofhit/RafClu
     \includegraphics[width=0.9\textwidth]{DoRCSummarySI.pdf}
     \caption{
     % Performance evaluation of DoRC on PBMCs\_68k. 
-    % (A) t-SNE based 2D embedding of the data with color-marked cluster identities as reported by Zheng et al. \cite{zheng2017massively}. 
+    % (A) t-SNE based 2D embedding of the data with color-marked cluster identities as reported by Zheng et al. \upcite{zheng2017massively}. 
     % (B) Heat map of DoRC scores for the cells on PBMCs\_68k. 
     % The cluster of megakaryocytes (0.3\%), the rarest of all the cell types are assigned the
     % highest DoRC scores.
@@ -654,9 +654,9 @@ RafClust 的 R 包可在 GitHub 仓库 \url{https://github.com/chenxofhit/RafClu
     \centering
     \includegraphics[width=0.9\textwidth]{DoRCSummary.pdf}
     \caption{
-    % DoRC discovers cells with varying degrees of rarity. In the ${\sim}68$k PBMC data \cite{zheng2017massively}, minor cell populations with different grades of rarity show up with an
+    % DoRC discovers cells with varying degrees of rarity. In the ${\sim}68$k PBMC data \upcite{zheng2017massively}, minor cell populations with different grades of rarity show up with an
     % increase in the number of selected rare cells. (A-C) The top 0.1, 1.0 and 3.0\% cells, respectively, selected on the basis of DoRC scores are highlighted
-    DoRC 发现了不同稀有度的细胞。在 ${\sim}68$k PBMC 数据 \cite{zheng2017massively} 中,不同级别的稀有度对应了一个数量不断增加的稀有细胞群。
+    DoRC 发现了不同稀有度的细胞。在 ${\sim}68$k PBMC 数据 \upcite{zheng2017massively} 中,不同级别的稀有度对应了一个数量不断增加的稀有细胞群。
     (A-C) 根据 DoRC 得分选出的前 0.1\%、1.0\% 和 3.0\% 的细胞分别以高亮显示。    
     }
     \label{fig:dorcsummary}
@@ -672,9 +672,9 @@ RafClust 的 R 包可在 GitHub 仓库 \url{https://github.com/chenxofhit/RafClu
 如图 \ref{supp-fig:dorcsummary} A 上所示的分别对应于 CD34+、树枝状和 CD14+ 单核细胞。
 
 
-树突状细胞 (DC) 在感知、吞噬和和抗原监视 \cite{villani2017single} 方面起着至关重要的作用。
-DCs 是最罕见的免疫细胞类型之一,在 PBMCs \cite{zheng2017massively} 数据集上占比约 0.5\%。
-Villani \cite{villani2017single} 的研究划分了六种不同的树突状细胞的亚型。
+树突状细胞 (DC) 在感知、吞噬和和抗原监视 \upcite{villani2017single} 方面起着至关重要的作用。
+DCs 是最罕见的免疫细胞类型之一,在 PBMCs \upcite{zheng2017massively} 数据集上占比约 0.5\%。
+Villani \upcite{villani2017single} 的研究划分了六种不同的树突状细胞的亚型。
 他们通过荧光激活细胞分选 (FACS) 来分析了树突状细胞、分型 DCs 和单核细胞的表达。
 他们在研究中报告的 DC 亚型如下:
 $\text{CD141}^+$ DCs (DC1), 
@@ -687,17 +687,17 @@ $\text{CD1C}^-\text{CD141}^-$(DC4), DC5 和浆细胞 DCs (DC6,pDCs)。
 DoRC 通过使用基于 IQR 的二分法,共发现了 3844 个稀有细胞。
 然后通过 RafClust 对稀有细胞进行聚类 (见 \ref{subsec:rafclust}),得到 12 个子类别。
 在这 12 个可区分的聚类中 (C0-C11),
-C4、C5、C9 和 C11 完全由树枝状细胞组成,根据 Zheng 等人提供 \cite{zheng2017massively}的标注,
+C4、C5、C9 和 C11 完全由树枝状细胞组成,根据 Zheng 等人提供 \upcite{zheng2017massively}的标注,
 如图 \ref{fig:dorc_dendritic} A-C 所示。
 对于这 4 个 DC 类别,我们进行差异表达分析,找出细胞类型特异性基因 (见 \ref{subsec:de})。
 共有 21 个基因被检测为细胞类型特异性基因,使用阈值为 log2(1.5) 的 FC (fold change)。
-通过将我们的差异基因与 Villani \cite{villani2017single} 报道的基因进行叠加。
+通过将我们的差异基因与 Villani \upcite{villani2017single} 报道的基因进行叠加。
 我们可以有信心地解析 6 个亚型中的 5 个 (DC1、DC2、DC4、DC6) (图 \ref{fig:dorc_dendritic} D、表 \ref{supp-tbl:dendritic})。
-从 \cite{villani2017single} 可以看出, DC5 是未识别的 (unresolved) 的,因为该类型是新分离出来的罕见类型。
-在 t-SNE 二维嵌入图中, DC3 与 DC2 属于同一类 \cite{maaten2008visualizing}。
+从 \upcite{villani2017single} 可以看出, DC5 是未识别的 (unresolved) 的,因为该类型是新分离出来的罕见类型。
+在 t-SNE 二维嵌入图中, DC3 与 DC2 属于同一类 \upcite{maaten2008visualizing}。
 在 DoRC 检测到的稀有细胞上使用 RafClust 进行聚类,不能完全划分出树突状细胞亚型正确的数量。
-然而,在最初 \cite{zheng2017massively}的研究中, DC1 和 DC4 也没有被聚类算法识别到。
-事实上,在原始文献 \cite{zheng2017massively} 实验结果的 t-SNE 图上,
+然而,在最初 \upcite{zheng2017massively}的研究中, DC1 和 DC4 也没有被聚类算法识别到。
+事实上,在原始文献 \upcite{zheng2017massively} 实验结果的 t-SNE 图上,
 这些细胞类型在视觉上共同聚集在自身或单核细胞内。
 \begin{figure}[!htbp]
     \centering
@@ -706,18 +706,18 @@ C4、C5、C9 和 C11 完全由树枝状细胞组成,根据 Zheng 等人提供 \c
     % Human blood dendritic cell heterogeneity delineated by DoRC. 
     % (A) DoRC detected rare cells are clustering into 12 sub types with RafClust, 
     % i.e. C0 (a singleton class), C1, $\ldots$, C11.
-    % With the annotation given by \cite{zheng2017massively}, C4, C5, C9, C11 are mostly dendritic cells sub types.
+    % With the annotation given by \upcite{zheng2017massively}, C4, C5, C9, C11 are mostly dendritic cells sub types.
     % Dots with the same color represent one subpopulation by clustering the rare cells with RafClust.
-    % For each subpopulation, the cells annotated with asterisks marking are also dendrotic cells according to the annotation given by \cite{zheng2017massively}. 
+    % For each subpopulation, the cells annotated with asterisks marking are also dendrotic cells according to the annotation given by \upcite{zheng2017massively}. 
     % (B) The cells number for each subpopulation and the number of dendrotic cells in this group. 
     % Apparently, dendritic cells hold the majority of the subpopulation in C4, C5, C9, C11.
     % (C) These four dendritic sub-types cells are highlighted on the \textit{PBMCs\_68k} dataset t-SNE-based 2D plot.
     % (D) Characterization of dendritic cell sub-types utilizing markers obtained from DE analysis (See \ref{subsec:de})
     DoRC 检测到人类血液树突状稀有细胞的异质性。
     % (A) DoRC 检测到的稀有细胞在 RafClust 中被聚成 12 个亚型,即 C0,C1,$\ldots$,C11。
-    % 通过 \cite{zheng2017massively} 给出的标注, C4、C5、C9、C11 多为树枝状细胞亚型。
+    % 通过 \upcite{zheng2017massively} 给出的标注, C4、C5、C9、C11 多为树枝状细胞亚型。
     % 用 RafClust 聚类稀有细胞,同种颜色的点代表一个亚群。
-    % 对于每个亚群,根据 \cite{zheng2017massively} 给出的注释,
+    % 对于每个亚群,根据 \upcite{zheng2017massively} 给出的注释,
     % 用星号标记的细胞也是树突状细胞。
     % (B) 每个亚群的细胞数和本组中树突状细胞的数量。
     % 显然,树枝状细胞在 C4、C5、C9、C11 的亚群中占有多数。
@@ -730,8 +730,8 @@ C4、C5、C9 和 C11 完全由树枝状细胞组成,根据 Zheng 等人提供 \c
 \begin{table}[!htbp]
     \centering
     \caption{
-        %The dendritic cell types correspond to class types reported by Villani \cite{villani2017single}
-        树枝状细胞类型对应于 Villani 报告的细胞类别 \cite{villani2017single}
+        %The dendritic cell types correspond to class types reported by Villani \upcite{villani2017single}
+        树枝状细胞类型对应于 Villani 报告的细胞类别 \upcite{villani2017single}
         }
     \label{supp-tbl:dendritic}
     \resizebox{\columnwidth}{!}{
@@ -758,7 +758,7 @@ C4、C5、C9 和 C11 完全由树枝状细胞组成,根据 Zheng 等人提供 \c
 
 
 我们设计了一个在模拟数据集 Jurkat\_293T 上的实验来评估 DoRC 在细胞类型识别上的性能表现。
- \textit{Jurkat\_293T} 是由 Jurkat 和 293T 的两个表达谱构建的,同样来自同一研究 \cite{zheng2017massively}。
+ \textit{Jurkat\_293T} 是由 Jurkat 和 293T 的两个表达谱构建的,同样来自同一研究 \upcite{zheng2017massively}。
 Jurkat 数据集由 3258 个细胞组成,而 293T 数据集由 2885 个细胞组成。
 首先,从 293T 数据集中不放回抽样 1500 个细胞。
 然后,通过从 Jurkat 数据集中取样不同数量的细胞,
@@ -810,7 +810,7 @@ F1-score 反应了精度和灵敏度之间的平衡。
 
 我们设计了一项模拟研究,来分析 DoRC 评分的鲁棒性和敏感性与差异表达基因 DE 数量之间的关系。
 我们生成一个由 500 个两种细胞类型组成的人工仿真的 scRNA-seq 数据 \textit{Splatter\_500}。
-通过使用 R 包 Splatter \cite{zappia2017splatter},由 500 个细胞组成。
+通过使用 R 包 Splatter \upcite{zappia2017splatter},由 500 个细胞组成。
 与两种细胞类型: 25 个细胞是罕见的 (也就是 rare cells),其它 475 个细胞是丰富的 (也就是 abundant cells),因此稀有细胞占总体细胞个数的 5\% 。
 在这个数据集中,每个细胞有 5000 个基因。
 在 R 中我们使用下面的命令来生成这个数据集:
@@ -894,7 +894,7 @@ DoRC 可以检测到其它 2 个稀有细胞和 1 个假阳性稀有细胞,
     \label{fig:simulate:venn_auc_f1}
 \end{figure}
 
-DoRC 的核心算法孤立森林 (Isolation Forest) 的时间复杂度为 $O(ntlog\psi)$ \cite{liu2008isolation}。
+DoRC 的核心算法孤立森林 (Isolation Forest) 的时间复杂度为 $O(ntlog\psi)$ \upcite{liu2008isolation}。
 其中 $n$、$t$ 和 $\psi$ 分别代表样本数、树的数目和每棵树的子样本数。
 值得注意的是, DoRC 中的 Isolation Forest 在这种情况下没有训练的阶段。
 该方法的参数我们使用默认值, t 设置为 100, $\psi$ 设置为 256。
@@ -903,11 +903,11 @@ DoRC 的核心算法孤立森林 (Isolation Forest) 的时间复杂度为 $O(ntl
 因为 FiRE 和 LOF 这两种方法也没有包含稀有细胞的类型细化这个步骤。
 
 我们通过不断变化输入单细胞数据规模的大小,
-分别统计出 DoRC、FiRE、GiniClust、LOF \cite{breunig2000lof} 和 RaceID 所消耗的时间,
+分别统计出 DoRC、FiRE、GiniClust、LOF \upcite{breunig2000lof} 和 RaceID 所消耗的时间,
 如图 \ref{fig:timecomplexity} 所示。
 测试机器为一台运行 GNU Linux/Ubuntu 16.04 操作系统 4.15.0-47-generic 内核的工作站上,
 硬件配置如下: Intel(R) Xeon(R) Silver 4116 CPU @ 2.10GHz, 48 核, 64GB 内存。
-DoRC 由 Python 实现,使用 scikit-learn包 (版本 0.20.2) \cite{pedregosa2011scikit}和 pyod包 (版本0.6.7)  \cite{zhao2019pyod}。
+DoRC 由 Python 实现,使用 scikit-learn包 (版本 0.20.2) \upcite{pedregosa2011scikit}和 pyod包 (版本0.6.7)  \upcite{zhao2019pyod}。
 由于其它方法不能区分稀有细胞类型,在 DoRC 中我们也因此省略 RafClust 的稀有细胞类型细化的程序。
 FiRE 从 \url{https://github.com/princethewinner/FiRE} 下载 (分支:master,最新提交的 abcba5b)。
 因为 FiRE 的内核算法是用 C++ 编写的,我们在实验中使用的是其 Python 扩展分支。
@@ -916,7 +916,7 @@ GiniClust从 \url{https://github.com/lanjiangboston/GiniClust} 下载 (分支:ma
 额外的步骤包括 t-SNE 可视化和 DE 分析不计入时间对比评测中。
 RaceID从 \url{https://github.com/dgrun/RaceID} 下载 (分支:master,最新提交 0a1e21c)。
 LOF (local outlier factor) 是数据挖掘领域应用广泛的算法。
-我们也直接使用 Pyod 包 (0.6.7版本) \cite{zhao2019pyod} 的 Python 实现 LOF。
+我们也直接使用 Pyod 包 (0.6.7版本) \upcite{zhao2019pyod} 的 Python 实现 LOF。
 值得注意的是, RaceID 和 GiniClust 仅输出了稀有细胞的二分标签预测,
 而 DoRC、FiRE 和 LOF 则同时提供连续得分和二分标签预测。
 \begin{figure}[!htbp]
