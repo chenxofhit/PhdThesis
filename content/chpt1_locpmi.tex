@@ -73,15 +73,48 @@
 因为它可以有效地捕获非线性依赖关系 \upcite{brunel2010miss,zhang2011inferring}。
 近年来,研究者陆续提出了基于信息理论的各种网络推断方法,
 其侧重于区分调控中的直接相互作用和间接相互作用 \upcite{marbach2010revealing}。
-互信息 (MI) 的定义如下:
-\begin{align} % requires amsmath; align* for no eq. number
-    MI(X,Y)=\int \int p(x,y)log \frac{p(x,y)}{p(x)p(y)}dxdy
- \end{align}
- 其中 $p(x,y)$ 表示两个变量 $X$ 和 $Y$ 的联合概率密度函数。
- $X$ 是基因表达量数据,其中的元素表示不同条件 (样本) 中相应基因的表达值。
- $p(x)$ (或者 $p(y)$) 表示 $X$ (或者 $Y$ )的边缘概率密度分布。
 
-条件互信息 (CMI) 可以用熵表示为:
+% 互信息 (MI) 的定义如下:
+% \begin{align} % requires amsmath; align* for no eq. number
+%     MI(X,Y)=\int \int p(x,y)log \frac{p(x,y)}{p(x)p(y)}dxdy
+%  \end{align}
+%  其中 $p(x,y)$ 表示两个变量 $X$ 和 $Y$ 的联合概率密度函数。
+%  $X$ 是基因表达量数据,其中的元素表示不同条件 (样本) 中相应基因的表达值。
+%  $p(x)$ (或者 $p(y)$) 表示 $X$ (或者 $Y$ )的边缘概率密度分布。
+
+对于离散变量~(基因) $X$, 它的熵 $H(X)$ 可以表示为:
+\begin{equation} % requires amsmath; align* for no eq. number
+  \label{eq:h}
+  H(X)=-\sum_{x \in X} p(x) \log p(x)
+\end{equation}
+
+对于离散变量~(基因) $X$ 和 离散变量 $Y$, 其联合熵 $H(X, Y)$ 可以表示为: 
+\begin{equation} % requires amsmath; align* for no eq. number
+H(X, Y)=-\sum_{x \in X, y \in Y} p(x, y) \log p(x, y)
+\end{equation}
+其中, $p(x)$、$p(y)$ 是每个离散值 $x$、$y$ 的概率, 
+$p(x,y)$ 是变量 $X$ 中的值 $x$ 和变量 $Y$ 中的值 $y$ 的联合概率。
+注意变量 $X$ 是一个矢量, 其中的值表示基因在不同的条件下或者样本下的表达值。 
+
+在变量离散化的情况下, 互信息定义为:
+\begin{equation} % requires amsmath; align* for no eq. number
+    MI(X, Y)=-\sum_{x \in X, y \in Y} p(x, y) \log \frac{p(x, y)}{p(x) p(y)}
+\end{equation}
+
+借助于熵, 互信息又可以转换为:
+\begin{equation} % requires amsmath; align* for no eq. number
+  MI(X, Y)=H(X)+H(Y)-H(X, Y)
+\end{equation}
+其中, $H(X,Y)$ 是 $X$ 和 $Y$ 的联合熵。
+MI 值越高说明两个变量联系越紧密, 值越低说明它们之间可能存在独立性。
+
+条件互信息 (CMI) 表示给定其它的变量 (基因) 的前提下两个变量 (基因) 之间的依赖性。
+对于离散化变量 $X$、$Y$ 给定 $Z$ 的前提下,定义为: 
+\begin{equation}
+  MI(X, Y \mid Z)=\sum_{x \in X, y \in Y, z \in Z} p(x, y, z) \log \frac{p(x, y \mid z)}{p(x \mid z) p(y \mid z)}
+\end{equation}
+
+CMI 可以用熵表示为:
 \begin{equation}
 \begin{split}
 CMI(X,Y|Z) &= H(X,Z) + H(Y,Z)\\
@@ -91,15 +124,25 @@ CMI(X,Y|Z) &= H(X,Z) + H(Y,Z)\\
 其中 $H(X,Z)$, $H(Y,Z)$, $H(X,Y,Z)$ 表示联合熵。
 CMI 值越高,表明给定变量 $Z$ ,变量 $X$ 和 $Y$ 之间越可能存在密切关系。
 
-熵可以用高斯核概率密度来估计 \upcite{basso2005reverse},变量 $X$ 的熵可以通过如下方式计算, 
-其中 $|C|$ 是变量 $X$ 协方差矩阵的行列式 \upcite{zhang2011inferring}:
+熵可以用高斯核概率密度来估计 \upcite{basso2005reverse},变量 $X$ 的熵可以通过如下方式计算:
 \begin{equation}
-    H(X) = log(2\pi e )^\frac{n}{2} |C| ^ {-\frac{1}{2}}
+  \label{eq:p}
+P\left(X_{i}\right)=\frac{1}{N} \sum_{j=1}^{N} \frac{1}{(2 \pi)^{n / 2}|C|^{n / 2}} \exp \left(-\frac{1}{2}\left(X_{j}-X_{i}\right)^{T} C^{-1}\left(X_{j}-X_{i}\right)\right)
+\end{equation}
+其中 $C$ 是协方差矩阵, $|C|$ 是变量 $X$ 协方差矩阵的行列式, $N$ 是样本的数目, $n$ 是变量 (基因) 的数目。
+
+根据等式 \ref{eq:h} 和 等式 \ref{eq:p} 可以得到:
+\begin{equation}
+  H(X)=\log \left[(2 \pi e)^{n / 2}|C|^{1 / 2}\right]=\frac{1}{2} \log (2 \pi e)^{n}|C| 
 \end{equation}
 
-进一步地,我们可以得到下面的等式 \upcite{zhang2011inferring}:
+进一步地,我们可以得到下面的等式:
 \begin{equation}
     MI(X,Y)=\frac{1}{2}log\frac{|C(X)|*|C(Y)|}{|C(X,Y)|}
+\end{equation}
+和
+\begin{equation}
+  CMI(X, Y \mid Z)=\frac{1}{2} \log \frac{|C(X, Z)| \cdot|C(Y, Z)|}{|C(Z)| \cdot|C(X, Y, Z)|}
 \end{equation}
 
 Margolin 等人 \upcite{margolin2006aracne}提出了 ARACNE 方法,使用数据处理不等式 (DPI) 来过滤掉来自三重基因的间接相互作用。
@@ -109,7 +152,7 @@ Zhang 等人 \upcite{zhang2011inferring} 介绍了一种基于条件互信息的
 Zhao 等人 \upcite{zhao2016part} 引入了基于偏互信息的路径一致性算法 PCA-PMI 。
 下面我们将重点介绍 PCA-CMI 算法，PCA-PMI 算法的思路与之类似。
 
-PCA-CMI 算法利用 MI 和 CMI,从低阶到高阶递归地移除基因调控网络中具有独立或条件独立关系的边, 具体的步骤如下:
+PCA-CMI 算法利用 MI 和 CMI, 从低阶到高阶递归地移除基因调控网络中具有独立或条件独立关系的边, 具体的步骤如下:
 
 步骤 0:初始化。输入基因的表达数据 $M$, 设置阈值参数 $\beta$, 用来判断是否满足独立性。
 选择所有的基因建立全连通网络, 设置 $L=-1$。
