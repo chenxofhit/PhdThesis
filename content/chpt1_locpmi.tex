@@ -12,7 +12,7 @@
 网络结构中的拓扑稀疏性和基因之间的传递依赖等因素,
 使得基于信息理论的 GRN 推断方法在网络推断中会引入假阳性的依赖关系。
 特别是随着网络规模的增加,这类方法的表现会大幅下降。
-在本章,我们提出了一种新的网络结构推断方法 Loc-PCA-CMI。
+在本章,我们提出了一种基于互信息和局部结构融合的网络结构推断方法 Loc-PCA-CMI。
 该方法首先识别局部重叠基因簇 (local overlapped gene clusters),
 然后基于条件互信息 (PCA-CMI) 的路径一致性算法推断每个簇的局部网络结构,
 最终通过聚合局部网络结构,也就是基因之间的依赖性网络,来构建最终的 GRN。
@@ -48,8 +48,8 @@
 典型的计算模型包括布尔网络 \upcite{shmulevich2002probabilistic,kim2007boolean,bornholdt2008boolean,zhou2016relative},
 贝叶斯网络 \upcite{kim2003inferring,zou2004new,chen2006effective,needham2007primer,lo2015high},
 以及微分方程模型 \upcite{gardner2003inferring,di2005chemogenomic,bansal2006inference, honkela2010model,lu2011high,li2011large}。
-这些基于模型的方法的细节在上一章中有详细介绍, 因此我们不再重点介绍。
-接下来, 我们转而介绍基于无模型 (model-free) 的方法。
+这些基于模型的方法的细节在第 \ref{sec:background} 章中有详细介绍, 因此本章不再赘述。
+在下文中,本章将重点介绍基于无模型 (model-free) 的方法。
 % 布尔网络模型是最简单的网络模型,它通过布尔变量和布尔逻辑实现。
 % 因为基因表达的状态被认为只是活动或非活动,布尔网络模型不能完全捕获复杂的系统行为 \upcite{lee2009computational}。
 % 贝叶斯网络模型是一种流行的概率图形模型,其中基因之间的依赖关系通过有向无环图描述。
@@ -150,7 +150,7 @@ Meyer \upcite{meyer2007information} 的最小冗余网络 (MRNET) 使用最小�
 其中对于网络中的每个候选基因,它选择其高度相关基因的子集, 同时最小化所选基因之间基于互信息的相关性。
 Zhang 等人 \upcite{zhang2011inferring} 介绍了一种基于条件互信息的路径一致性算法 PCA-CMI ; 
 Zhao 等人 \upcite{zhao2016part} 引入了基于偏互信息的路径一致性算法 PCA-PMI 。
-下面我们将重点介绍 PCA-CMI 算法，PCA-PMI 算法的思路与之类似。
+下文本章将重点介绍 PCA-CMI 算法,PCA-PMI 算法的思路与之类似。
 
 PCA-CMI 算法利用 MI 和 CMI, 从低阶到高阶递归地移除基因调控网络中具有独立或条件独立关系的边, 具体的步骤如下:
 
@@ -172,25 +172,25 @@ PCA-CMI 算法利用 MI 和 CMI, 从低阶到高阶递归地移除基因调控�
 显然, 在这个算法里面独立性阈值 $\beta$ 是全局变量, 需要依靠先验知识来获取合适的值。
 
 路径一致性算法 (Path Consistency Algorithm, PCA) 是一种穷举算法,广泛用于推断 GRN \upcite{zhang2011inferring}。
-PCA-CMI 和 PCA-PMI 这两个算法通常会在运行时间和准确度之间进行折衷权衡。
+PCA-CMI 和 PCA-PMI 这两个算法通常会在运行时间和准确度之间进行折衷处理。
 值得注意的是, 
 随着网络规模的增加, 网络噪声在增加,
-PCA 这种 top-down 的算法的复杂度很高, 而且受到经验参数的影响,使得 GRN 的预测精度急剧下降。
+PCA 这种 top-down 的算法的复杂度很高, 而且受到参数经验值的影响,使得 GRN 的预测精度急剧下降。
 
 \subsection{GRN 结构推断方法}
-为了改善 PCA 在随着网络规模增加复杂度变高, GRN 预测精度急剧下降的状况,我们直接从局部结构入手,辅助以合并的策略,提出了一种新的基因调控网络结构推断方法,命名为 Loc-PCA-CMI。
+为了改善 PCA 在随着网络规模增加复杂度变高, GRN 预测精度急剧下降的状况, 本章直接从局部结构入手,辅助以合并的策略,提出了一种新的基因调控网络结构推断方法,命名为 Loc-PCA-CMI。
 该方法首先使用高度共同表达的基因作为局部基因簇的质心,
 然后使用 PCA-CMI 对每个簇的结构进行构建, GRN 的最终结构是将所有局部网络结构进行合并。
 从这个流程可以看出, Loc-PCA-CMI 方法可以处理相对较大的数据集,
 并且将从 PCA-CMI 在小规模基因子网的相对准确的结构推断上受益。
-接下来,我们将重点介绍我们提出的 GRN 结构推断方法 Loc-PCA-CMI 以及 Loc-PCA-PMI。
+接下来,本章将重点介绍我们提出的 GRN 结构推断方法 Loc-PCA-CMI 以及 Loc-PCA-PMI。
 
 \subsubsection{算法 Loc-PCA-CMI}
 
 众所周知,生物系统中节点之间是很少完全连通的,
 大多数节点只直接连接到少量其它节点 \upcite{jeong2000large},因此 GRN 也是一种稀疏网络。
 识别网络的稀疏结构的关键步骤是识别可能具有相对高的共表达值的边。
-具体来说,我们提出的 Loc-PCA-CMI 首先通过 Pearson 相关性分析和 $p$ 值错误率 (FDR) 校正选择 top $n$ 条高度共表达的边；
+具体来说,本章提出的 Loc-PCA-CMI 首先通过 Pearson 相关性分析和 $p$ 值错误率 (FDR) 校正选择 top $n$ 条高度共表达的边；
 然后,在缩减的边构成的空间中,用边连接的基因计算局部重叠基因簇。
 然后对于每个局部基因簇, 我们应用 PCA-CMI 算法 \upcite{zhang2011inferring},
 它可以通过从低到高依赖关联重复去除不相关的边来构建高置信度无向网络 \upcite{spirtes2000causation},
@@ -255,10 +255,10 @@ PCA 这种 top-down 的算法的复杂度很高, 而且受到经验参数的影�
 
 在算法 \ref{alg} 中,获得每个局部基因簇之后,
  PCA-CMI 和 PCA-PMI 都可以视为后续局部结构推断的候选方法。
-如果在局部结构构建时使用 PCA-PMI 替换 PCA-CMI,我们将该方法命名为 Loc-PCA-PMI。
+如果在局部结构构建时使用 PCA-PMI 替换 PCA-CMI,本章将该方法命名为 Loc-PCA-PMI。
 其对应的方法框架如图 \ref{pca-pmi-fr} 所示, 
  Loc-PCA-PMI 与 Loc-PCA-CMI 唯一不同的地方在局部网络结构构建的时候 (如图 \ref{pca-pmi-fr} 中虚线部分所示),
- Loc-PCA-PMI 的实现细节在这里不再赘述了,感兴趣的读者可以参考算法 \ref{alg} 自行推理出来。
+ Loc-PCA-PMI 的实现细节在这里不再赘述,感兴趣的读者可以参考算法 \ref{alg} 自行推理出来。
 同样地,由于子程序 PCA-PMI 跟 PCA-CMI 的算法复杂度相同,
 因此, Loc-PCA-PMI 的计算复杂度跟 Loc-PCA-CMI 保持一致。
 
@@ -296,8 +296,7 @@ DREAM4 和 DREAM5 等与 GRNs 推理构建相关的挑战赛,
 在来自已知生物模式的调节相互作用系统的子网:
  Ecoli (大肠杆菌) 和 Yeast (酵母) 的基础上,得到测试使用的基准网络。 
 在实验中,我们采用了 DREAM3 中的总计六个基因敲除表达网络,
-其包括三种不同规模的网络节点数:
- 10、 50、 100, 和两种不同类型的生物: Ecoli 和 Yeast, 
+其包括三种不同规模的网络节点数: 10、 50、 100, 和两种不同类型的生物: Ecoli 和 Yeast, 
 来对所有的测试方法包括 Loc-PCA-CMI 进行评估。
 
 表 \ref{tbl} 展示了这 6 个数据集的样本数目 (Number of samples)、节点平均 (最大)度 (Average(Max) degree)、边数目 (Number of edges) 和网络密度 (Network density)。
@@ -573,6 +572,6 @@ Loc-PCA-CMI 在处理局部网络结构的时候引入了 PCA-CMI,因此其计�
 我们未来的工作之一是改进聚类策略,
 例如整合蛋白质复合物 \upcite{li2017identification,li2017dynetviewer},
 以便更有效地处理大规模的基因表达数据。
-另外,值得注意的是,我们主要关注推断 GRN 的结构,并没有考虑网络自身的稳定性问题。
+另外,值得注意的是,在本章中我们主要关注推断 GRN 的结构,并没有考虑网络自身的稳定性问题。
 因此,在未来的研究中我们将尝试从网络稳定性的角度出发,来推断更鲁棒的基因调控网络结构。
 
