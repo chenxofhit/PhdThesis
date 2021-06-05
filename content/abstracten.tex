@@ -29,27 +29,7 @@ The method transforms the regulatory relationship for each target gene into a fu
 and uses an improved data-driven method ARNI to infer each sub-network.
 Experimental results on the DREAM4 and DREAM5 benchmark datasets show that D3GRN outperforms the other three methods in terms of AUPR.
 
-
-(3) To address the problem that gene regulatory networks related to cell type and cell activity cannot be inferred simultaneously from single-cell RNA-seq data, 
-a matrix decomposition-based gene regulatory network construction method, scGRNHunter, is proposed. 
-The cell type program and the cell activity program are also isolated, and then a gene regulatory network based on each program is constructed in conjunction with the public database TRRUST. 
-The experimental results on the publicly available brain-like organ single-cell RNA-Seq dataset show that our proposed scGRNHunter method can effectively infer the identity and activity of subprograms, 
-and construct cell type-based and cell activity-based gene regulatory networks based on them.
-
-% (3) In order to solve the problem of inaccurate cell clustering on single-cell RNA-seq datasets, 
-% RafClust is proposed as a random forest similarity learning-based single-cell clustering method, 
-% which uses multiple correlation measures to characterize cells, 
-% and then uses a random forest regression model to further learn the cell-to-cell similarity matrix based on similarity. 
-% The matrix is applied with hierarchical clustering to determine the final category of cells. 
-% The experimental results on ten single-cell datasets show that RafClust outperforms the other six benchmark methods in terms of AUPR.
-
-% (4) To address the problem of time-consuming and memory-consuming algorithms for identifying rare cells from single-cell RNA-seq data, 
-% DoRC is proposed as an isolated forest-based single-cell rare cell identification method, 
-% which uses isolated forest to efficiently generate a rarity fraction for each cell and combines it with a threshold method to binary label the cells for sparsity. 
-% The experimental results on a single cell expression profile of 68k human blood cells from single cell RNA-seq data show that DoRC is highly efficient in classifying human blood dendritic cell subtypes. 
-% In addition, DoRC can identify rare cells in simulated datasets and is sensitive to cell type characteristics.
-
-(4) To address the current problem of inaccurate cell clustering on single-cell RNA-seq datasets, 
+(3) To address the current problem of inaccurate cell clustering on single-cell RNA-seq datasets, 
 a single-cell clustering method based on random forest similarity learning named RafClust is proposed in this study.  
 This method uses multiple correlation measures to characterize cells, and uses a random forest regression model to further learn the cell-to-cell similarity matrix, and then uses a hierarchical clustering based on the similarity matrix to determine the final class of cells. 
 Hierarchical clustering is used to determine the final class of cells based on the similarity matrix. 
@@ -60,5 +40,10 @@ Experimental results on ultra-large-scale single-cell RNA-seq data ${\sim}68$k s
 DoRC is outstandingly effective in delineating human blood dendritic cell subtypes with high execution efficiency. 
 In addition, DoRC can identify rare cells inside the simulated dataset and is sensitive to cell type characteristics as well.
 
+(4) To address the problem that gene regulatory networks related to cell type and cell activity cannot be inferred simultaneously from single-cell RNA-seq data, 
+a matrix decomposition-based gene regulatory network construction method, scGRNHunter, is proposed. 
+The cell type program and the cell activity program are also isolated, and then a gene regulatory network based on each program is constructed in conjunction with the public database TRRUST. 
+The experimental results on the publicly available brain-like organ single-cell RNA-Seq dataset show that our proposed scGRNHunter method can effectively infer the identity and activity of subprograms, 
+and construct cell type-based and cell activity-based gene regulatory networks based on them.
 
 \end{abstracten}
