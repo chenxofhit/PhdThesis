@@ -6,12 +6,14 @@
 在第 \ref{sec:locpcacmi} 章和第 \ref{sec:d3grn} 章, 本文分别介绍了无向网络构建的 Loc-PCA-CMI 方法和有向网络构建的 D3GRN 方法, 
 它们都是针对 DNA 微阵列测序技术下的基因表达数据集提出来的方法。
 当使用的数据转向了单细胞 RNA-seq 数据集的时候, 
-由于单细胞数据本身特性非常不同, 基因调控网络的推断也变得很具有挑战性。
-第 \ref{sec:rafclust} 章介绍了单细胞的细胞类型识别方法,
-包括基于随机森林相似性学习的单细胞聚类方法 RafClust 
-和基于孤立森林的单细胞稀有细胞识别方法 DoRC。
+由于单细胞数据本身非常稀疏, 基因调控网络的构建也变得更加具有挑战性。
+% 第 \ref{sec:rafclust} 章介绍了单细胞的细胞类型识别方法,
+% 包括基于随机森林相似性学习的单细胞聚类方法 RafClust 
+% 和基于孤立森林的单细胞稀有细胞识别方法 DoRC。
 基因调控与细胞类型密切相关 \upcite{Hocker2020.09.11.291724,kang2020learning}, 
-细胞类型的识别是单细胞基因调控网络构建前的一个很有必要的步骤。
+本章在第 \ref{sec:rafclust} 章单细胞细胞类别识别的基础上提出了基于矩阵分解的
+单细胞 GRN 构建方法。
+
 
 单细胞 RNA-seq (scRNA-seq) 技术提供了单细胞水平的转录组测量, 
 使不同组织中细胞类型的鉴定和表示成为可能。
@@ -25,32 +27,16 @@
 表现在 scRNA-seq 数据集本身具有大量的细胞异质性 \upcite{wagner2016revealing},
 高度稀疏性导致的很多基因表达值为零 \upcite{vallejos2017normalizing},
 细胞与细胞之间的测序深度变化, 细胞周期相关带来的批量效应 (batch effects) \upcite{buettner2015computational}。
-在这种具有复杂特性的数据集上如果直接应用 DNA 微阵列测序数据下的基因调控网络构建方法,
-基因调控网络构建的准确性会大大降低。
-%  scRNA-seq 数据集最突出的特点是细胞具有异质性,
-% 在计算建模时候我们可以从表达谱数据中针对细胞进行聚类。
-% 细胞聚类是 scRNA-seq 数据分析上游流程里面最基础的问题,为下游分析流程包括单细胞基因调控网络构建奠定了基础。
-% 本文针对细胞异质性问题展开了研究,
-% 在第 \ref{sec:rafclust} 和第 \ref{sec:dorc} 章中分别提出了一种从 scRNA-seq (单细胞 RNA-seq ) 数据进行细胞聚类的方法 RafClust 
-% 和从超大规模的 scRNA-seq 数据中识别稀有细胞的方法 DoRC。
-% 显然, 对应于每种细胞类型的差异表达基因跟该细胞类型的基因调控网络的构建密切相关。
-% 但是,仅仅停留在构建跟细胞身份类别特征相关的基因调控网络不太完整。
-%
-% 上面两个章节分别介绍了无向网络构建的 Loc-PCA-CMI 方法和有向网络构建的 D3GRN 方法, 
-% 它们都是针对 DNA 微阵列测序技术下的基因表达数据集的特点提出来的方法。
-% 单细胞 RNA-seq (scRNA-seq) 测序技术下的数据集与基因芯片数据特点有很大区别, 
-% 表现在 scRNA-seq 数据集本身具有大量的细胞异质性 \upcite{wagner2016revealing},
-% 高度稀疏性导致的很多基因表达值为零 \upcite{vallejos2017normalizing},
-% 细胞与细胞之间的测序深度变化, 细胞周期相关带来的批量效应 (batch effects) \upcite{buettner2015computational}。
-% 在这种截然不同特点的数据集上如果直接应用 DNA 微阵列测序数据下的基因调控网络构建方法,
-% 基因调控网络构建的准确性会大大降低。
+在这种具有复杂特性的数据集上如果直接应用 DNA 微阵列测序数据下的 GRN 构建方法,
+构建的准确性会大大降低。
+
 因此,针对 scRNA-seq 数据集,需要充分结合数据的特性,
 在此基础上提出合适的基因调控网络的构建方法。
 
 单细胞数据集中承载了细胞异质性的信息,进一步地,识别细胞的基因表达身份程序和细胞的基因表达活动程序 (如生命周期过程、对环境因素的反应) 
 对于理解细胞和组织的组成至关重要。
 虽然 scRNA-seq 数据量化的是单个细胞中的转录本,
-宏观上每类细胞的表达谱可能是这两种类型的程序的混合物,使它们难以分离。
+宏观上每类细胞的表达谱可能是这两种类型的程序的混合体,难以分离。
 本章提出了一种基于矩阵分解的算法 WSSMFA 来解决这个问题。
 在公开的大脑类器官 scRNA-seq 数据集上的实验表明,
 本章提出的 scGRNHunter 方法可以准确地构建出身份和活动性的子程序, 
@@ -59,12 +45,12 @@
 \subsection{相关工作}
 在基因调控网络中,基因的协同作用,维持细胞作为特定细胞类型的身份,对外界信号作出反应,并进行复杂的如复制和代谢等细胞活动。
 协调这些功能所需的基因通常是通过转录共同调控来实现的,
-即基因作为一个基因表达程序 (GEP) 一起被诱导,
+即这些基因作为一个基因表达程序 (GEP) 一起被诱导,
 来响应适量的内部或外部信号 \upcite{eisen1998cluster,segal2003module}。
 通过对整个转录组的无偏测量, RNA-seq 等测序技术正在为系统地发现 GEPs 并揭示其支配的生物机制铺平了道路 \upcite{liberzon2015molecular}。
 
-scRNA-seq 可以让我们观察到许多的单个细胞的基因表达变化,
-极大地提高了我们解析 GEPs 的能力。
+scRNA-seq 可以让研究者观察到许多的单个细胞的基因表达变化,
+极大地提高了解析 GEPs 的能力。
 即使如此, GEPs 的构建仍然具有挑战性,
 因为 scRNA-seq 数据是高噪声和高维度的,因此需要使用合适的计算方法来挖掘潜在的模式。
 此外,技术上的人为因素,如双胞 (doublets, 两个或两个以上不同的细胞被错误地折叠成一个细胞) 和高度表达值缺失 (dropout) 为本文的分析增加了难度。
@@ -76,12 +62,10 @@ scRNA-seq 可以让我们观察到许多的单个细胞的基因表达变化,
 一个细胞的基因表达是由许多因素形成的,
 包括其细胞类型,其在时间依赖性过程中的状态,如细胞周期,以及其对不同环境刺激的反应 \upcite{wagner2016revealing}。
 在 scRNA-seq 数据中检测到的表达程序可以归为两个大类:
-\begin{enumerate}[label=(\arabic*),itemindent=2em]
-    \item 对应于特定细胞类型身份,如肝细胞或黑色素细胞的 GEPs (identity program);
-    \item 独立于细胞类型表达,在任何正在进行特定活动的细胞中,如细胞分裂或免疫细胞激活中表达的 GEPs (activity program)。
+\begin{enumerate}[label=(\arabic*)]
+    \item 身份程序 (identity program): 在特定细胞类型的细胞中唯一表达,对应于特定细胞类型身份,如肝细胞或黑色素细胞这种独立功能类型细胞的 GEPs ;
+    \item 活动程序 (activity program): 独立于细胞类型表达,在一种或多种类型的任何正在进行特定活动的细胞中,可能动态变化,并且可能是连续的或离散的 GEPs,如对应于细胞分裂或免疫细胞激活中表达的 GEPs。
 \end{enumerate}
-在这种表述中,身份程序在特定细胞类型的细胞中唯一表达,
-而活动程序在一种或多种类型的细胞中可能动态变化,并且可能是连续的或离散的。
 
 如果由 scRNA-seq 剖析的细胞子集表达一个给定的活动 GEP,
 有可能直接从数据推断程序,而不需要控制实验。
@@ -98,11 +82,21 @@ scRNA-seq 可以让我们观察到许多的单个细胞的基因表达变化,
 并且会混淆 scRNA-seq 数据中的身份 (细胞类型) 程序构建 \upcite{scialdone2015computational,chen2017controlling}。
 在这项研究中, 本文提出了一个带约束的矩阵分解模型, 称为加权半非负稀疏矩阵分解的方法,
 在 scRNA-seq 数据共同构建身份和活动 GEPs,然后在此基础上结合 TRRUST 这个 TF-TG (调控子-靶标基因) 数据库构建基因调控网络。
-据我们所知,目前还没有文献利用类似的思路在 scRNA-seq 数据集上构建基因调控网络。
+%据我们所知,目前还没有文献利用类似的思路在 scRNA-seq 数据集上构建基因调控网络。
 
 \subsection{单细胞 GRN 构建方法 scGRNHunter}
 
-scGRNHunter 方法的流程图如图 \ref{fig:gep-flowchart} 所示, 下文将详细介绍流程图里的步骤。
+为了从稀疏的 scRNA-seq 数据上构建 GRN, 
+本文采取矩阵分解的策略提出了单细胞 GRN 构建方法 scGRNHunter, 
+将 scRNA-seq 数据分解成稠密的矩阵的线性乘积,
+为了模型的泛化性以及考虑到生物数据本身的特征, 本文还对分解后的矩阵施加规范化约束。
+scGRNHunter 方法的流程图如图 \ref{fig:gep-flowchart} 所示。
+该方法输入的是 scRNA-seq 表达数据,用二维矩阵表示,其行代表细胞,列代表基因。
+首先对输入的表达数据进行数据预处理,选择固定数量的高表达基因输出的是经过归一化处理且列维度缩小的矩阵,如图 \ref{fig:gep-flowchart} A 所示。
+然后使用用户定义的比例或固定数量的细胞从上一步的表达数据中进行细胞采样,如图 \ref{fig:gep-flowchart} B 所示。
+对于采样后的数据集采用本文提出的 WSSMFA 算法进行 GEP 检测,如图 \ref{fig:gep-flowchart} C 所示。
+最后使用 TRRUST 这个 TF-TG 数据集查询出对应到 TG 的 TF 后直接构建单细胞的基因调控网络,如图 \ref{fig:gep-flowchart} D 所示。
+
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{flowchart-gep.pdf}
@@ -113,12 +107,7 @@ scGRNHunter 方法的流程图如图 \ref{fig:gep-flowchart} 所示, 下文将�
         % (B) Cell sampling with a user-defined ratio or a fixed number of cells  from the reduced expression data. 
         % (C) GEP detection with the algorithm WSSMFA. 
         % (D) Gene regulatory network construction with TRRUST.
-        scGRNHunter 流程图。输入的是 scRNA-seq 表达数据,用二维矩阵表示,其行代表细胞,列代表基因。
-        (A) 用输入的表达数据进行数据预处理,输出的是经过归一化处理且列维度缩小的矩阵。
-        选择固定数量的高表达基因进行下游分析。
-        (B) 用用户定义的比例或固定数量的细胞从减少的表达数据中进行细胞采样。
-        (C) 用 WSSMFA 算法进行 GEP 检测。
-        (D) 用 TRRUST 构建基因调控网络。
+        scGRNHunter 流程图。
     }
     \label{fig:gep-flowchart}
 \end{figure}
@@ -168,7 +157,7 @@ H 被设置为 500, 主要考虑的是尽量包含足够多的基因保证能检
 并且满足 $X=LF^T$, 如图 \ref{fig:gep-mf} A 所示。 
 
 本文设计了一个具有以下三个特征的矩阵分解目标函数:
-\begin{enumerate}[label=(\arabic*),itemindent=2em]
+\begin{enumerate}[label=(\arabic*)]
     \item 对残差加权和的惩罚: 为了考虑基因表达值本身的不确定性,也就是 dropout 效应带来的影响,具有 dropout 值的对应位置处的残差被赋予零权重。
           通过这种方式,基因具有更确定的表达值的对最优参数估计有更大的影响。
     \item 稀疏性: 为了减少过拟合,对分解后的矩阵进行了 $l_1$ 惩罚。
@@ -193,7 +182,9 @@ $W$ 跟 $X$ 的维度相同,并且有：
 在每一次迭代中本文固定 F 并更新 L, 然后固定 L 并更新 F, 当两次迭代之间 F 的差值的 Frobenius 范数 < 0.01 时, 更新结束。
 在每一步更新中, 优化问题都是有约束条件的线性回归。
 由于线性回归的解保证了均方误差与惩罚之和最小,所以代价函数单调下降。
+WSSMFA 算法的时间复杂度为 $O(n^2)$, $n$ 为细胞的个数。
 \begin{algorithm}
+    \renewcommand{\thealgorithm}{5-1}
     \caption{Weighted semi-nonnegative sparse matrix factorization algorithm (WSSMFA)}
     \label{alg:wssmfa}
     \begin{algorithmic}[1]
@@ -216,16 +207,20 @@ $W$ 跟 $X$ 的维度相同,并且有：
 \end{algorithm}
 
 \subsubsection{构建单细胞 GRN}
-TRRUST (version 2, \upcite{han2018trrust}) 是一个采用数据挖掘技术辅助建立的人类和小鼠转录调控网络数据库,
-该数据库还提供了网页版本的服务。
-当前版本的 TRRUST 分别包含 800 个人类 TFs (调控因子) 和 828 个小鼠 TFs 的 8,444 和 6,552 个 TF-target 调控关系对。
-TRRUST 数据库还提供了调控模式的信息 (激活或抑制)。
-目前已知调控模式的调控关系有 8972 个 (59.8\%)。
 
 针对因子矩阵 (factor matrix) $F_{G \times K}$, 每一个因子代表了一个 GEP, 
 身份 GEPs 里面的基因没有交集, 活动 GEPs 跟各个身份 GEP 之间一般存在相交的基因, 
-针对身份 GEP 和活动 GEP 本文根据基因列表可以在 TRRUST 线上服务上查询关键的调控因子,然后构建基因调控网络。
+针对身份 GEP 和活动 GEP 本文根据基因列表可以在 TRRUST 线上服务上查询关键的调控因子 (Transcription Factor, TF),
+然后构建基因调控网络。
+
+
 %根据 GEP 结合 TRRUST 数据库找到 TF, 然后构建得到整个的基因调控网络。
+
+TRRUST (version 2, \upcite{han2018trrust}) 是一个采用数据挖掘技术辅助建立的人类和小鼠转录调控网络数据库,
+该数据库还提供了网页版本的服务。
+当前版本的 TRRUST 分别包含 800 个人类 TFs 和 828 个小鼠 TFs 的 8,444 和 6,552 个 TF-target 调控关系对。
+TRRUST 数据库还提供了调控模式的信息 (激活或抑制)。
+目前已知调控模式的调控关系有 8972 个 (59.8\%)。
 
 \subsection{实验结果}
 \subsubsection{数据集}
@@ -233,10 +228,30 @@ TRRUST 数据库还提供了调控模式的信息 (激活或抑制)。
 需要注意的是, 聚类的结果和原始的 count 矩阵在 GEO 中无法获取到,
 因而从文献的作者那里获得了聚类的标签和非规范化的原始数据。
 原始的 scRNA-seq 数据中一共包含 66889 个细胞, 每个细胞包含 25984 个基因。
-文献作者提供的细胞标签总计包含 10 个类别。
+文献作者提供的细胞标签总计包含 10 个类别 C1、C2、\ldots、C10, 
+其中 C4 和 C5 分别还包括 5  和 6 个子类别, 详细的类别列表如下:
+`C1 - Meso. Precursors', 
+`C2 - Astroglia', `C3 - Dop. Neurons', 
+`C4 - Forebrain',
+`C4 - Forebrain - Callosal neurons',
+`C4 - Forebrain - Corticofugal neurons',
+`C4 - Forebrain - Intermediate progenitors',
+`C4 - Forebrain - Interneurons',
+`C4 - Forebrain - Radial glial cells', 
+`C5 - Retina',
+`C5 - Retina - Amacrine cells', 
+`C5 - Retina - Bipolar cells',
+`C5 - Retina - Mueller glia', 
+`C5 - Retina - Photoreceptors',
+`C5 - Retina - Pigmented epithelia',
+`C5 - Retina - Retinal ganglion cells', 
+`C6', `C7', `C8',
+`C9 - Neuroepi. cells',
+`C10 - Prol. precursors'。
 
 \begin{table}[!htbp]
-    \caption{\label{tab:dataset}使用的公开数据集} 
+    \caption{使用的公开数据集描述} 
+    \label{tab:dataset}
     \resizebox{\columnwidth}{!}{%  
     \begin{tabular}{lllll}
     \hline
@@ -247,7 +262,7 @@ TRRUST 数据库还提供了调控模式的信息 (激活或抑制)。
     }
 \end{table}
 
-\subsubsection{模型选择}
+\subsubsection{参数设置}
 WSSMFA 算法的超参数,包括因子个数 ($K$) 和稀疏惩罚参数 ($\alpha$,$\lambda$)。
 本文在 [20,25,30,35,40] 范围内评估 $K$, 在 [4.9,24.5,49,245,490] 范围内评估 $\alpha$ 和 $\lambda$。
 这些范围的选择是通过考虑单细胞中的一些已知的先验知识比如类别数来定义 $K$ 的可信值,
@@ -292,7 +307,8 @@ t-SNE 图来反应了 scRNA-seq 数据中细胞分布的宏观结构,
 即 15 个因子 (f1, f2, $\ldots$, f15),也就是对应 15 个 GEP。
 负荷矩阵 $L$ 揭示了各细胞的表达量与因子之间的组合线性关系,本文按照细胞类别对负荷矩阵进行统计,
 针对每个 GEP 可以画出对应类别的负荷的箱形图 (boxplot),如图 \ref{fig:gep-gep} 所示。
-将 GEP1,GEP2,\ldots,GEP15 和 图 \ref{fig:gep-tsne} 叠加起来可视化,用以观察 GEP 在该 scRNA-seq 数据中的分布,
+将 GEP1,GEP2,\ldots,GEP15 和图 \ref{fig:gep-tsne} 叠加起来可视化,
+用以观察各个 GEP 在该 scRNA-seq 数据中各个细胞类别中的分布,
 结果如图 \ref{fig:gep-distribution} 所示。
 
 \begin{figure}[!htbp]
@@ -301,21 +317,19 @@ t-SNE 图来反应了 scRNA-seq 数据中细胞分布的宏观结构,
     \caption{
     % GEPs detected with WSSMFA.
     % GEP1, GEP2, $\ldots$, GEP15 are the 15 GEPs derived with WSSMFA algorithm.
-    % For each GEP, the loading values based on the 10 different clusters,i.e. C1, C2, $\ldots$, C10,  are visualized with boxplot.
-    用 WSSMFA 检测的 GEPs。
-    GEP1, GEP2,$\ldots$, GEP15 是用 WSSMFA 算法计算得到的 15 个 GEP。
-    对于每个 GEP,根据 10 个不同的类别,
-    即 C1, C2,$\ldots$, C10,用箱形图直观地显示出其负载值。 
+    % For each GEP, the loading values based on the 10 different clusters,i.e. C1, C2, $\ldots$, C10,  
+    % are visualized with boxplot.
+    算法 WSSMFA 检测到的 GEPs 示意图。
     }
     \label{fig:gep-gep}
 \end{figure}
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=0.9\textwidth]{tsne_Clusters_QuadratoEtAI.pdf}
+    \includegraphics[width=0.9\textwidth]{GEP_tsne_2d_QuadratoEtAI.pdf}
     \caption{
     %The sampled brain organisms data visualized with t-SNE.
-    采样后的大脑器官数据结合文献作者提供的细胞类别标签使用 t-SNE 进行可视化
+    采样后的大脑器官数据使用 t-SNE 及细胞类别标签进行可视化。
     }
     \label{fig:gep-tsne}
 \end{figure}
@@ -325,43 +339,71 @@ t-SNE 图来反应了 scRNA-seq 数据中细胞分布的宏观结构,
     \includegraphics[width=0.9\textwidth]{GEP_tsne_2d_loading_QuadratoEtAI.pdf}
     \caption{
     %The sampled brain organisms data visualized with t-SNE.
-    GEP 在 采样后的大脑器官数据上的分布可视化
+    采样后的大脑器官数据上所有的 GEPs 分布可视化。
     }
     \label{fig:gep-distribution}
+\end{figure}
+
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{GEP_tsne_2d_activegep_QuadratoEtAI.pdf}
+    \caption{
+    %The sampled brain organisms data visualized with t-SNE.
+    大脑器官数据上的活动 GEPs 分布可视化。
+    }
+    \label{fig:gep-activetsne}
+\end{figure}
+
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{GEP_tsne_2d_identitygep_QuadratoEtAI.pdf}
+    \caption{
+    %The sampled brain organisms data visualized with t-SNE.
+    大脑器官数据上的身份 GEPs 分布可视化。
+    }
+    \label{fig:gep-identitytsne}
 \end{figure}
 
 如果结合单细胞数据集的细胞类别标签,可以判断 GEP 是不是身份 GEP 或者是活动 GEP。
 如果一个 GEP 仅仅在一个细胞类别中表达, 那么它就是一个身份 GEP;
 如果在两个或者多个细胞类别中表达,那么它就属于活动 GEP。
-结合图 \ref{fig:gep-gep} 、图 \ref{fig:gep-tsne} 和图 \ref{fig:gep-distribution} 可以看出, 
+结合图 \ref{fig:gep-gep}、图 \ref{fig:gep-tsne} 和图 \ref{fig:gep-distribution} 可以看出, 
 GEP6 和 GEP8 是典型的身份 GEPs (分别对应到类别 C3 和 C1), GEP1、GEP9 和 GEP14 是典型的活动 GEPs。
 GEP1 牵涉到类别 C2、C4、C6 和 C10; GEP14 牵涉到类别 C3、C4 和 C5。
+身份 GEPs 如图 \ref{fig:gep-identitytsne} 所示,
+活动 GEPs 如图 \ref{fig:gep-activetsne} 所示。
 
 %\subsubsection{身份调控网络与活动调控网络的构建}
 
-结合因子矩阵 $F$,每一列中系数不为零的基因即是该因子 (也就是 GEP ) 中所包含的基因,
+结合因子矩阵 $F$,每一列中系数不为零的基因即是该因子 (也就是 GEP) 中所包含的基因,
 针对每个 GEP,可以结合 TRRUST (version 2) 提供的 web service 获取这些基因的 TF 从而构建其 GRN。
 显然,基于单细胞上的聚类分析和差异表达基因分析的方法只能构建身份GRN, 无法构建活动 GRN。
-差异表达基因分析后，每个类别的marker 基因集合获取到之后, 
+差异表达基因分析后,每个类别的marker 基因集合获取到之后, 
 然后利用 TRRUST 找到对应的 TF 转录因子后构建身份 GRN。
 STRING (https://string-db.org/) 蛋白质相互作用数据库,
 是 Search Tool for the Retrieval of Interaction Gene/Proteins 的缩写,
 该数据库中收录了已知和预测的蛋白质/基因间的相互作用关系,比较完整。
-本文利用 STRING 提供的人类 GRN 数据集作为 GRN 构建的金标准网络数据集来评测相关方法的性能, 该数据集总共包含 198285 条已确认的基因调控关系。
+本文利用 STRING 提供的人类 GRN 数据集作为 GRN 构建的金标准网络来评测相关方法的性能, 
+该网络数据集总共包含 198285 条已确认的基因调控关系。
 
 为了测试 scGRNHunter 在构建单细胞身份 GRN 上的效果,
 本文选择了在单细胞上差异表达基因分析构建身份 GRN 与之进行对比。 
 利用 Seurat 这个流行的单细胞数据分析软件 R 包对该数据集进行分析,
-由于该数据集已经提供了细胞类别标签，因此不使用 Seurat 的聚类方法。
-每一个类别的细胞的差异表达基因是利用 Seurat 提供的 FindAllMarkers 函数获取, 差异表达分析时候默认采用的是 Wilcoxon Rank Sum test。
-从细胞类型的角度来看, C1 这个细胞类型对应的是身份 GEP，也就是 GEP8, 如图 \ref{fig:gep-tsne} 所示。
+由于该数据集已经提供了细胞类别标签,因此不使用 Seurat 的聚类方法。
+每一个类别的细胞的差异表达基因是利用 Seurat 提供的 FindAllMarkers 函数获取, 
+差异表达分析时候默认采用的是 Wilcoxon Rank Sum Test。
+从细胞类型的角度来看, 
+C1 这个细胞类型对应的是身份 GEP,也就是 GEP8, 如图 \ref{fig:gep-tsne} 所示。
 首先对比 C1 类别的差异表达基因和利用 WSSMFA 算法获取的 GEP8 的基因, 如图 \ref{fig:gep-grn-comparison} A 所示。
 Seurat 的差异表达基因 和 WSSMFA 算法得到的基因在 C1 细胞类别上重合率为 14\%, 且前面的差异表达得到的基因数目偏多。 
-利用 C1 类别的差异表达基因结合 TRRUST 数据库查找每个目标基因的转录因子后, 将得到的 GRN (如图 \ref{fig:gep-grn-comparison} C 所示)和利用 scGRNHunter 方法得到的 GRN (如图 \ref{fig:gep-grn-comparison} D 所示)
-分别计算了 GRN 的准确率。
+利用 C1 类别的差异表达基因结合 TRRUST 数据库查找每个目标基因的转录因子后, 
+将得到的 GRN (如图 \ref{fig:gep-grn-comparison} C 所示)和利用 scGRNHunter 方法得到的 GRN (如图 \ref{fig:gep-grn-comparison} D 所示)
+分别计算其 GRN 的准确率 accuracy。
 图 \ref{fig:gep-grn-comparison} C 和 图 \ref{fig:gep-grn-comparison} D 中, TF 用蓝色节点表示, TG 用红色节点表示。
-前者构建的 GRN 准确性只有 0.29, 
-而利用 scGRNHunter 构建的 GRN 准确性达到了 0.39, 从准确率上 scGRNHunter 提高了 34\%, 如图 \ref{fig:gep-grn-comparison} B 所示。
+如图 \ref{fig:gep-grn-comparison} B 所示, 对比方法构建的 GRN 准确性只有 0.29, 
+而利用 scGRNHunter 构建的 GRN 准确性达到了 0.39, 从准确率上 scGRNHunter 提高了 34\%。
 该实验表明, scGRNHunter 能够构建准确的单细胞身份 GRN。
 
 \begin{figure}[!htbp]
@@ -390,7 +432,7 @@ GEP14 是对应到细胞类别 C4、C5、C6 的活动 GEP。
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=1\textwidth]{gep_active.pdf}
-    \caption{由 GEP14 构建的单细胞活动 GRN 及其富集性分析}
+    \caption{由 GEP14 构建的单细胞活动 GRN 及其富集性分析。}
     \label{fig:gep-active}
 \end{figure}
 

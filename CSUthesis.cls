@@ -35,6 +35,7 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 \RequirePackage{geometry}
 % 数学宏包
 \RequirePackage{amsmath}
+
 \RequirePackage{ntheorem}
 \RequirePackage{amsfonts}
 \RequirePackage{amssymb}
@@ -92,8 +93,8 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 % % 尺寸计算
 % \RequirePackage{calc}
 % 算法编号
-\RequirePackage{algorithm}
 
+\RequirePackage{algorithm}
 \usepackage{tikz}
 \usepackage{algorithm,algorithmicx,algpseudocode}
 
