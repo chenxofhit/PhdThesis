@@ -1,6 +1,6 @@
 # 基因调控网络构建方法研究
 
-My 2020 Phd Thesis
+My 2020-2021 Phd Thesis
 
 ## 论文编译
 
@@ -68,4 +68,5 @@ make wordcount：论文字数统计；
 
 ## 其它问题
 
-模板问题请详细查看 README_local.md, 主体文件 copy from https://github.com/lsyer/CSU-Thesis-LaTeX-Template (last commit:2758256)，针对我自己的情况有改动。如果有问题或者需要交流的，欢迎提 issues 或者给我发送邮件: chenxofhit[at]gmail[dot]com.
+模板问题请详细查看 README_local.md, 主体文件 copy from https://github.com/lsyer/CSU-Thesis-LaTeX-Template (last commit:2758256)，针对我自己的情况有改动。如果有问题或者需要交流的，欢迎提 issues 或者给我发送邮件: chenxofhit[at]gmail[dot]com. 该总结部分已经同步到博文：https://chenxofhit.com/posts/%E5%8D%9A%E5%A3%AB%E8%AE%BA%E6%96%87%E7%9A%84%E6%92%B0%E5%86%99%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%93/ 。
+
