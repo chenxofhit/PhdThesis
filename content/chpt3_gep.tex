@@ -344,6 +344,15 @@ t-SNE 图来反应了 scRNA-seq 数据中细胞分布的宏观结构,
     \label{fig:gep-distribution}
 \end{figure}
 
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{GEP_tsne_2d_identitygep_QuadratoEtAI.pdf}
+    \caption{
+    %The sampled brain organisms data visualized with t-SNE.
+    大脑器官数据上的身份 GEPs 分布可视化。
+    }
+    \label{fig:gep-identitytsne}
+\end{figure}
 
 \begin{figure}[!htbp]
     \centering
@@ -353,17 +362,6 @@ t-SNE 图来反应了 scRNA-seq 数据中细胞分布的宏观结构,
     大脑器官数据上的活动 GEPs 分布可视化。
     }
     \label{fig:gep-activetsne}
-\end{figure}
-
-
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=0.9\textwidth]{GEP_tsne_2d_identitygep_QuadratoEtAI.pdf}
-    \caption{
-    %The sampled brain organisms data visualized with t-SNE.
-    大脑器官数据上的身份 GEPs 分布可视化。
-    }
-    \label{fig:gep-identitytsne}
 \end{figure}
 
 如果结合单细胞数据集的细胞类别标签,可以判断 GEP 是不是身份 GEP 或者是活动 GEP。
@@ -399,10 +397,10 @@ C1 这个细胞类型对应的是身份 GEP,也就是 GEP8, 如图 \ref{fig:gep-
 首先对比 C1 类别的差异表达基因和利用 WSSMFA 算法获取的 GEP8 的基因, 如图 \ref{fig:gep-grn-comparison} A 所示。
 Seurat 的差异表达基因 和 WSSMFA 算法得到的基因在 C1 细胞类别上重合率为 14\%, 且前面的差异表达得到的基因数目偏多。 
 利用 C1 类别的差异表达基因结合 TRRUST 数据库查找每个目标基因的转录因子后, 
-将得到的 GRN (如图 \ref{fig:gep-grn-comparison} C 所示)和利用 scGRNHunter 方法得到的 GRN (如图 \ref{fig:gep-grn-comparison} D 所示)
+将得到的 GRN (如图 \ref{fig:gep-grn-comparison} B 左图所示)和利用 scGRNHunter 方法得到的 GRN (如图 \ref{fig:gep-grn-comparison} B 右图所示)
 分别计算其 GRN 的准确率 accuracy。
-图 \ref{fig:gep-grn-comparison} C 和 图 \ref{fig:gep-grn-comparison} D 中, TF 用蓝色节点表示, TG 用红色节点表示。
-如图 \ref{fig:gep-grn-comparison} B 所示, 对比方法构建的 GRN 准确性只有 0.29, 
+在图 \ref{fig:gep-grn-comparison} B 所示的两个网络中, TF 是用蓝色节点来表示, TG 则是用红色节点表示。
+如图 \ref{fig:gep-grn-comparison} C 所示, 对比方法构建的 GRN 准确性只有 0.29, 
 而利用 scGRNHunter 构建的 GRN 准确性达到了 0.39, 从准确率上 scGRNHunter 提高了 34\%。
 该实验表明, scGRNHunter 能够构建准确的单细胞身份 GRN。
 
