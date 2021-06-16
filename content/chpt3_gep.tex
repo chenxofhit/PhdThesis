@@ -434,28 +434,6 @@ GEP14 是对应到细胞类别 C4、C5、C6 的活动 GEP。
     \label{fig:gep-active}
 \end{figure}
 
-
-% 由 GEP6 构建的基因调控网络如图 \ref{fig:gep-grn-gep6} 所示,
-% 该网络总共包含 30 个节点 (TF 用蓝色节点表示, TG 用红色节点表示,下同), 41 条调控边。默认的调控方向都是 TF 调控 TG, 因此在基因调控网络的可视化图中本文不显式突出边的方向。
-
-% \begin{figure}[!htbp]
-%     \centering
-%     \includegraphics[width=1\textwidth]{GEP6.pdf}
-%     \caption{由 GEP6 构建的基因调控网络。}
-%     \label{fig:gep-grn-gep6}
-% \end{figure}
-
-
-% 由 GEP14 构建的基因调控网络如图 \ref{fig:gep-grn-gep14} 所示。
-% 该网络总共包含 122 个节点, 195 条调控边。
-% \begin{figure}[!htbp]
-%     \centering
-%     \includegraphics[width=1\textwidth]{GEP14.pdf}
-%     \caption{由 GEP14 构建的基因调控网络。}
-%     \label{fig:gep-grn-gep14}
-% \end{figure}
-
-
 \subsection{小结}
 scGRNHunter 的核心算法依赖 WSSMFA 矩阵分解算法,
 该方法的前提假设是细胞的表达可以被建模为 GEPs 的线性组合,
