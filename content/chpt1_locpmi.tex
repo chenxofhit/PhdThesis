@@ -192,7 +192,12 @@ PCA 这种 top-down 的算法的复杂度很高, 而且受到参数经验值的�
 然后对于每个局部基因簇, 使用 PCA-CMI 算法 \upcite{zhang2011inferring} 通过从低到高依赖关联重复去除不相关的边来构建高置信度无向网络 \upcite{spirtes2000causation},
 直到没有边可以删除,从而获取到每个局部网络的最终结构 (见 \ref{subsec:relatedwork})。
 最后, 该方法通过对每个推断的局部子网络结构边权重取平均,来获得完整的调控网络的边的权重。
-整个方法的流程如图 \ref{pca-cmi-fr} 所示,实现的细节如算法 \ref{alg} 所示。
+整个方法的流程如图 \ref{pca-cmi-fr} 所示: (a) 从基因表达矩阵 $M$ 中抽取 top $n$ 条共表达边,其对应的候选基因为 $g_1,g_2,\ldots,g_{p} $。
+这些候选基因被分组到局部簇中 $LOC_{M_1}, LOC_{M_2},\ldots,LOC_{M_{p}}$,
+其中 $g_1,g_2,\ldots,g_{p}$ 是分别作为每个簇的质心;
+(b) 对每一个局部之间有重叠的簇, 应用 PCA-CMI 算法来得到它准确的结构;
+(c) 聚合 $G_1, G_2, \ldots, G_p$ 来得到 GRN 的最终结构图 $G$。
+为了读者更容易理解, 算法 \ref{alg} 展示了更详细的实现细节。
 需要注意的是,
 在算法 \ref{alg} 里面,
 由于 PCA-CMI 本身就非常适合相对较小的 GRN 结构推断,
@@ -201,12 +206,8 @@ PCA 这种 top-down 的算法的复杂度很高, 而且受到参数经验值的�
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.95\textwidth]{pca-cmi-framework.pdf}
-    \caption{Loc-PCA-CMI 方法框架图。
-    (a) 从基因表达矩阵 $M$ 中抽取 top $n$ 条共表达边,其对应的候选基因为 $g_1,g_2,\ldots,g_{p} $。
-    这些候选基因被分组到局部簇中 $LOC_{M_1}, LOC_{M_2},\ldots,LOC_{M_{p}}$,
-    其中 $g_1,g_2,\ldots,g_{p}$ 是分别作为每个簇的质心。
-    (b) 对每一个局部之间有重叠的簇, 应用 PCA-CMI 算法来得到它准确的结构。
-    (c) 聚合 $G_1, G_2, \ldots, G_p$ 来得到 GRN 的最终结构图 $G$。
+    \caption{Loc-PCA-CMI 方法框架图
+    
     }
     \label{pca-cmi-fr}
 \end{figure}
@@ -262,7 +263,7 @@ PCA 这种 top-down 的算法的复杂度很高, 而且受到参数经验值的�
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.95\textwidth]{pca-pmi-framework.pdf}
-  \caption{Loc-PCA-PMI 方法框架图。算法流程与 Loc-PCA-CMI 方法类似。}
+  \caption{Loc-PCA-PMI 方法框架图}
   \label{pca-pmi-fr}
 \end{figure}
 
@@ -424,7 +425,7 @@ $n$ 的最佳值可以通过交叉验证获得,通常较大的 $n$ 可以促成�
       \medskip  
     \end{minipage}
     \caption{%AUPR and AUROC  by varying $k$ from 1 to 10 of four PCA based methods on four different datasets: 
-    在四个不同的数据集上 k 值从 1 改变到 10, 基于路径一致性的四个算法的 AUPR 和 AUROC 结果示意图。
+    在四个不同的数据集上 k 值从 1 改变到 10, 基于路径一致性的四个算法的 AUPR 和 AUROC 结果示意图
     }
     \label{fig:k}
 \end{figure*}
@@ -466,7 +467,7 @@ AUPR 总体上随着 $\beta$ 的增加逐渐增大,然后又逐渐降低。
       \medskip  
     \end{minipage}
     \caption{%AUPR and AUROC  by varying $k$ from 1 to 10 of four PCA based methods on four different datasets: 
-    在四个不同的数据集上 $\beta$ 逐步改变, 基于路径一致性的四个算法的 AUPR 和 AUROC 结果示意图。
+    在四个不同的数据集上 $\beta$ 逐步改变, 基于路径一致性的四个算法的 AUPR 和 AUROC 结果示意图
     }
     \label{fig:beta}
 \end{figure*}
@@ -500,7 +501,7 @@ AUPR 总体上随着 $\beta$ 的增加逐渐增大,然后又逐渐降低。
   \end{minipage}
     
   \caption{
-    局部结构策略的引入提升了 PCA-CMI 和 PCA-PMI 的性能。
+    局部结构策略的引入提升了 PCA-CMI 和 PCA-PMI 的性能
   }
   \label{fig:loc}
 \end{figure*}
@@ -573,4 +574,3 @@ Loc-PCA-CMI 在处理局部网络结构的时候引入了 PCA-CMI,因此其计�
 以便更有效地处理大规模的基因表达数据。
 另外,值得注意的是,在本章中我们主要关注推断 GRN 的结构,并没有考虑网络自身的稳定性问题。
 因此,在未来的研究中我们将尝试从网络稳定性的角度出发,来推断更鲁棒的基因调控网络结构。
-

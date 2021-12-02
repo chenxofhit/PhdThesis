@@ -62,7 +62,7 @@ scRNA-seq 可以让研究者观察到许多的单个细胞的基因表达变化,
 一个细胞的基因表达是由许多因素形成的,
 包括其细胞类型,其在时间依赖性过程中的状态,如细胞周期,以及其对不同环境刺激的反应 \upcite{wagner2016revealing}。
 在 scRNA-seq 数据中检测到的表达程序可以归为两个大类:
-\begin{enumerate}[label=(\arabic*)]
+\begin{enumerate}[label=(\arabic*),itemindent=2em]  %在这里设置缩进的距离
     \item 身份程序 (identity program): 在特定细胞类型的细胞中唯一表达,对应于特定细胞类型身份,如肝细胞或黑色素细胞这种独立功能类型细胞的 GEPs ;
     \item 活动程序 (activity program): 独立于细胞类型表达,在一种或多种类型的任何正在进行特定活动的细胞中,可能动态变化,并且可能是连续的或离散的 GEPs,如对应于细胞分裂或免疫细胞激活中表达的 GEPs。
 \end{enumerate}
@@ -107,7 +107,7 @@ scGRNHunter 方法的流程图如图 \ref{fig:gep-flowchart} 所示。
         % (B) Cell sampling with a user-defined ratio or a fixed number of cells  from the reduced expression data. 
         % (C) GEP detection with the algorithm WSSMFA. 
         % (D) Gene regulatory network construction with TRRUST.
-        scGRNHunter 流程图。
+        scGRNHunter 流程图
     }
     \label{fig:gep-flowchart}
 \end{figure}
@@ -144,9 +144,7 @@ H 被设置为 500, 主要考虑的是尽量包含足够多的基因保证能检
         % A.Matrix factorization with the scRNA-seq data 2D-matrix. 
         % B.The objective function, where $W$ is the mask matrix, $\alpha$ and $\lambda$ are sparsity penalty parameters, and C is
         % the number of cells.
-        算法 WSSMFA 的示意图。
-        A. 对 scRNA-seq 数据进行矩阵因子化。
-        B. WSSMFA 优化的目标函数,其中 W 为掩码矩阵, $\alpha$ 和 $\lambda$ 为稀疏度惩罚参数, C 为细胞数。
+        算法 WSSMFA 的示意图
     }
     \label{fig:gep-mf}
 \end{figure}
@@ -157,7 +155,7 @@ H 被设置为 500, 主要考虑的是尽量包含足够多的基因保证能检
 并且满足 $X=LF^T$, 如图 \ref{fig:gep-mf} A 所示。 
 
 本文设计了一个具有以下三个特征的矩阵分解目标函数:
-\begin{enumerate}[label=(\arabic*)]
+\begin{enumerate}[label=(\arabic*),itemindent=2em]  %在这里设置缩进的距离
     \item 对残差加权和的惩罚: 为了考虑基因表达值本身的不确定性,也就是 dropout 效应带来的影响,具有 dropout 值的对应位置处的残差被赋予零权重。
           通过这种方式,基因具有更确定的表达值的对最优参数估计有更大的影响。
     \item 稀疏性: 为了减少过拟合,对分解后的矩阵进行了 $l_1$ 惩罚。
@@ -319,7 +317,7 @@ t-SNE 图来反应了 scRNA-seq 数据中细胞分布的宏观结构,
     % GEP1, GEP2, $\ldots$, GEP15 are the 15 GEPs derived with WSSMFA algorithm.
     % For each GEP, the loading values based on the 10 different clusters,i.e. C1, C2, $\ldots$, C10,  
     % are visualized with boxplot.
-    算法 WSSMFA 检测到的 GEPs 示意图。
+    算法 WSSMFA 检测到的 GEPs 示意图
     }
     \label{fig:gep-gep}
 \end{figure}
@@ -329,7 +327,7 @@ t-SNE 图来反应了 scRNA-seq 数据中细胞分布的宏观结构,
     \includegraphics[width=0.9\textwidth]{GEP_tsne_2d_QuadratoEtAI.pdf}
     \caption{
     %The sampled brain organisms data visualized with t-SNE.
-    采样后的大脑器官数据使用 t-SNE 及细胞类别标签进行可视化。
+    采样后的大脑器官数据使用 t-SNE 及细胞类别标签进行可视化
     }
     \label{fig:gep-tsne}
 \end{figure}
@@ -339,7 +337,7 @@ t-SNE 图来反应了 scRNA-seq 数据中细胞分布的宏观结构,
     \includegraphics[width=0.9\textwidth]{GEP_tsne_2d_loading_QuadratoEtAI.pdf}
     \caption{
     %The sampled brain organisms data visualized with t-SNE.
-    采样后的大脑器官数据上所有的 GEPs 分布可视化。
+    采样后的大脑器官数据上所有的 GEPs 分布可视化
     }
     \label{fig:gep-distribution}
 \end{figure}
@@ -349,7 +347,7 @@ t-SNE 图来反应了 scRNA-seq 数据中细胞分布的宏观结构,
     \includegraphics[width=0.9\textwidth]{GEP_tsne_2d_identitygep_QuadratoEtAI.pdf}
     \caption{
     %The sampled brain organisms data visualized with t-SNE.
-    大脑器官数据上的身份 GEPs 分布可视化。
+    大脑器官数据上的身份 GEPs 分布可视化
     }
     \label{fig:gep-identitytsne}
 \end{figure}
@@ -359,7 +357,7 @@ t-SNE 图来反应了 scRNA-seq 数据中细胞分布的宏观结构,
     \includegraphics[width=0.9\textwidth]{GEP_tsne_2d_activegep_QuadratoEtAI.pdf}
     \caption{
     %The sampled brain organisms data visualized with t-SNE.
-    大脑器官数据上的活动 GEPs 分布可视化。
+    大脑器官数据上的活动 GEPs 分布可视化
     }
     \label{fig:gep-activetsne}
 \end{figure}
@@ -407,7 +405,7 @@ Seurat 的差异表达基因 和 WSSMFA 算法得到的基因在 C1 细胞类别
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=1\textwidth]{gep_analysis.pdf}
-    \caption{细胞类别 C1 的身份 GRN 构建结果对比示意图。}
+    \caption{细胞类别 C1 的身份 GRN 构建结果对比示意图}
     \label{fig:gep-grn-comparison}
 \end{figure}
 
@@ -430,7 +428,7 @@ GEP14 是对应到细胞类别 C4、C5、C6 的活动 GEP。
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=1\textwidth]{gep_active.pdf}
-    \caption{由 GEP14 构建的单细胞活动 GRN 及其富集性分析。}
+    \caption{由 GEP14 构建的单细胞活动 GRN 及其富集性分析}
     \label{fig:gep-active}
 \end{figure}
 

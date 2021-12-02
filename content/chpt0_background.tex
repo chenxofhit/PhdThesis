@@ -21,6 +21,7 @@
 从而直接或间接地影响其它基因的表达或者自身的表达。
 多个基因的表达不断变化,使得细胞的生化状态不断地变化,构成复杂的基因调控网络。
 图 \ref{cover-2} 展示了从宏观上对应的生物过程 (Biological Reality) 到微观上对应的抽象模型 (Abstract Model) 的一个实例。
+这些模型试图表示生物过程分子实体之间复杂的相互作用,比如基因激活、抑制或反馈环路。
 总体而言,基因调控具有如下三个特征: 
 (1) 调控方式多样化: 既存在一对一的基因之间的调控,也存在一对多或多对一的多因子调控;
 (2) 类型多样性,可由 DNA、RNA、蛋白质、小分子等多种类型参与;
@@ -29,8 +30,7 @@
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.95\textwidth]{cover-2.pdf}
-    \caption{GRNs 构建的主要目标是为实际生物过程生成抽象模型。
-    这些模型试图表示生物过程分子实体之间复杂的相互作用,比如基因激活、抑制或反馈环路。
+    \caption{GRNs 构建的主要目标是为实际生物过程 (Biological Reality) 生成抽象模型 (Abstract Model)
     }
     \label{cover-2}
 \end{figure}
@@ -45,7 +45,7 @@
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.5\textwidth]{cover-1.pdf}
-    \caption{GRNs 示例图。节点表示基因, 边代表的是基因之间的调控关系。}
+    \caption{GRNs 示例图,节点表示基因, 边代表的是基因之间的调控关系}
     \label{cover-1}
 \end{figure}
 
@@ -87,7 +87,7 @@ KDD 从输入数据预处理到模型的验证,通过数据库搜索比较之前
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{kdd-cn.pdf}
-    \caption{基于 KDD 工作流程的 GRN 重建步骤。}
+    \caption{基于 KDD 工作流程的 GRN 重建步骤}
     \label{cover-3}
 \end{figure}
 
@@ -169,15 +169,14 @@ DNA 微阵列技术(DNA microarray) 是上个世纪 90 年代产生的最为重�
 其中,基因的状态定量为两种不同的状态(``开"和``关")。
 状态``开"表示一个基因转录表达, 状态``关"则代表一个基因未转录。
 如果布尔网络模型进一步推广, 其可转变为时序布尔网络模型 TBN (temporal Boolean networks), 这有利于处理多于一个单位时间跨度的基因间的依赖性。
-图 \ref{fig:pre-bn} 展示了使用布尔模型方法的整体的工作流程。
+图 \ref{fig:pre-bn} 展示了使用布尔模型方法的整体的工作流程: (a) 首先对基因表达数据进行二值化,然后生成初始布尔状态。
+(b) 针对二值对模型的状态进行优化。
+(c) 输出带有激活和抑制边缘的GRN或一组布尔函数。
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.9\textwidth]{introduction-bn.pdf}
     \caption{
-        基于布尔模型的 GRN 构建方法的整体工作流程。
-        (a) 首先对基因表达数据进行二值化,然后生成初始布尔状态。
-        (b) 针对二值对模型的状态进行优化。
-        (c) 输出带有激活和抑制边缘的GRN或一组布尔函数。
+        基于布尔模型的 GRN 构建方法的整体工作流程
     }
     \label{fig:pre-bn}
 \end{figure}
@@ -233,17 +232,16 @@ Chen \upcite{chen1999modeling} 最早使用微分方程系统作为基因表达�
 \frac{{d_{e_i } }}{{dt}} = AS(\sum\nolimits_j {w_{ij} e_j } + b_i) - D_i e_i ,1 \le i \le n
 \end{equation}
 
-图 \ref{fig:pre-df} 展示了使用微分方程模型方法的整体的工作流程。
+图 \ref{fig:pre-df} 展示了使用微分方程模型方法的整体的工作流程: (a) 针对单细胞数据集利用外部算法或软件构建细胞间的伪时序, 或者直接采用数据集提供的时间标签特征。
+DNA 微阵列测序数据直接采用提供的时间标签特征;
+(b) 方法利用微分方程描述基因之间跟时间的关系;
+(c) 使用不同的优化技术进行参数估计;
+(d) 根据使用优化后的参数结合微分方程构建出基因之间的关系,输出关联矩阵。
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.9\textwidth]{introduction-df.pdf}
     \caption{
-        基于微分方程的 GRN 构建方法的整体工作流程。
-        (a) 针对单细胞数据集利用外部算法或软件构建细胞间的伪时序, 或者直接采用数据集提供的时间标签特征。
-         DNA 微阵列测序数据直接采用提供的时间标签特征。
-        (b) 方法利用微分方程描述基因之间跟时间的关系。
-        (c) 使用不同的优化技术进行参数估计。
-        (d) 根据使用优化后的参数结合微分方程构建出基因之间的关系,输出关联矩阵。
+        基于微分方程的 GRN 构建方法的整体工作流程
     }
     \label{fig:pre-df}
 \end{figure}
@@ -356,7 +354,9 @@ Vinh 等 \upcite{vinh2012gene} 将动态贝叶斯网络方法与基于时间序�
 其主要思路是: 对于预先设定的阈值,若基因间相关性不在阈值范围内,则在网络中基因间有边相连。
 若两基因间具有相同或相近的调控机制,则两个基因相关性较高,
 尤其是,对于同一转录因子的靶基因或同一条生物通路上的基因,它们的相似度或相关性较高。
-图 \ref{fig:pre-gc} 展示了关联网络模型方法的整体的工作流程。
+图 \ref{fig:pre-gc} 展示了关联网络模型方法的整体的工作流程: (a) 首先通过计算每个基因对的表达相关性来初始化边缘的权重;
+(b) 进行假设检验,估计每个边缘的显著性,然后使用预定义的显著性阈值去除被认为不显著的边缘;
+(c) 方法输出最大的连接分量。
 
 皮尔逊相关系数 (PCC) 是一种线性相关系数, 它反应了两个变量间的线性相关程度。
 设 $X$,$Y$ 为随机变量, $pcc(X,Y)$ 定义如下:
@@ -404,10 +404,7 @@ Pdcor 的评估存在假阳性,即当向量 $X$ 非条件独立时, Pdcor(X;Y|Z)
     \centering
     \includegraphics[width=0.9\textwidth]{introduction-gc.pdf}
     \caption{
-        利用基因表达相关的 GRN 构建方法的整体工作流程。
-        (a) 首先通过计算每个基因对的表达相关性来初始化边缘的权重。
-        (b) 进行假设检验,估计每个边缘的显著性,然后使用预定义的显著性阈值去除被认为不显著的边缘。
-        (c) 方法输出最大的连接分量。
+        利用基因表达相关的 GRN 构建方法的整体工作流程
     }
     \label{fig:pre-gc}
 \end{figure}
@@ -601,7 +598,7 @@ DoRC 产生的稀有度分数可以帮助生物学家们只关注超大规模 sc
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{pre-structure-plus.pdf}
-    \caption{本文主要研究工作的关系图。}
+    \caption{本文主要研究工作的关系图}
     \label{fig:pre-structure}
 \end{figure}
 
