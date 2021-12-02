@@ -10,7 +10,7 @@
 然后将这些数据用计算机存储起来,最后运用数学、物理方法结合计算机技术对这些数据进行统计、分析,
 利用数学理论建立生物系统模型。
 所以系统生物学研究的的方法和手段,决定了系统生物学是一个物理、化学、数学、信息学、计算机科学和分子生物学等多学科交叉学科,
-需要各种学科的密切配合 \upcite{ideker2001new}。
+需要各种学科的密切配合 \upcite{ideker2001new,wangpei2013,leiyao2004}。
 
 在系统生物学上,基础和核心问题之一是理解和认识能够代表基因发育和调控过程因果关系的基因调控网络 (Gene Regulatory Networks, GRNs)。
 基因调控网络描述的是细胞或组织内复杂的生命过程中的功能通路,比如新陈代谢、基因调控、运输机制或者信号传导。
@@ -118,7 +118,7 @@ DNA 微阵列技术(DNA microarray) 是上个世纪 90 年代产生的最为重�
 该技术能在同一时间内高效快速地分析大量基因的表达水平。
 基因表达谱中蕴含了非常珍贵的信息,可以分析哪些基因的表达发生了更改, 
 基因之间的表达有无相关性,基因的变化会对细胞产生怎样的变化,进而能帮助人们深入地认识诸如基因表达调控、发育、
-疾病与癌症病理、衰老等生物过程 \upcite{chen2005selecting,shen2009new,camargo2008identification,wangpei2013,leiyao2004}。
+疾病与癌症病理、衰老等生物过程 \upcite{chen2005selecting,shen2009new,camargo2008identification,hrj2018,cgb2019}。
 基因表达谱数据天生就具有小样本、高维度、高噪声高变异和非线性四个分析和处理上的难点。
 高维度和小样本,使得基因表达数据处理时存在``维度诅咒"的问题 \upcite{wang2006inferring}。
 高噪声高变异和非线性等使得数据信息的挖掘提取更具有难度。
@@ -249,7 +249,7 @@ DNA 微阵列测序数据直接采用提供的时间标签特征;
 在单细胞测序数据集上, 
 为了从时间序列数据构建网络, SCODE \upcite{matsumoto2017scode} 和 SCOUP \upcite{matsumoto2016scoup} 
 分别引入 ODEs 和 SDEs 来计算基因之间的相关性。
-SCODE 将某一基因在某一时间点的基因表达水平构建为对其他基因表达水平的线性依赖关系,
+SCODE 将某一基因在某一时间点的基因表达水平构建为对其它基因表达水平的线性依赖关系,
 然后使用线性回归来估计基因之间的相关性矩阵;
 SCOUP 则将各基因表达水平随时间的分化建模为一个连续的随机扩散 Ornstein-Uhlenbeck (OU) 过程,
 其中的某一个基因在某一时间点的表达量可以通过当前 OU 过程的正态分布来估计,
@@ -370,7 +370,7 @@ pcc(X,Y) = \frac{{\sum\limits_i {(x_i -\bar x_i )(y_i -\bar y_i )} }}{{\sqrt {\s
 当 $pcc(X,Y)$ 为 -1 或者 1 时, 表示两个变量完全相关;
 当 $pcc(X,Y)$ 为 0 时, 表示两个变量完全无关。
 
-PCC 被广泛用于评估变量之间的线性关系 \upcite{stuart2003gene},但在不借助其他信息的情况下无法区分直接关系和间接关系,而偏相关分析法 (PC) \upcite{baba2004partial} 通过考虑附加信息条件来有效区分直接和间接关系。
+PCC 被广泛用于评估变量之间的线性关系 \upcite{stuart2003gene},但在不借助其它信息的情况下无法区分直接关系和间接关系,而偏相关分析法 (PC) \upcite{baba2004partial} 通过考虑附加信息条件来有效区分直接和间接关系。
 另外, Barabási 等 \upcite{barzel2013network} 提出了一个基于动态关联性的方法,该方法通过消除网络中的间接影响进行直接关联性和间接关联性区分; 
 Feizi等 \upcite{feizi2013network} 提出了利用网络卷积去除所有关联之间的综合效应区分直接和间接关联性。
 这两种方法只能测量线性直接关联性,
@@ -428,7 +428,7 @@ Zhao 等提出了条件互信息 (Conditional Mutual Information, CMI) \upcite{z
 他们将这两个测度与基于贪心策略的路径一致性算法 (Path Consistency Algorithm, PCA) 结合起来先后提出了 PCA-CMI \upcite{zhang2011inferring} 和 PCA-PMI \upcite{zhao2016part}。
 
 在单细胞测序数据集上,
-Yu 等提出了 NLNET 方法\upcite{yu2013hierarchical}, 
+Yu 等提出了 NLNET 方法 \upcite{yu2013hierarchical}, 
 两个基因之间的相关性被定义为基于条件有序列表 (Conditional ordered list, DCOL) 的距离,
 其中基因 G1 到基因 G2 的距离取决于通过 G1 中所有样本的表达顺序。
 NLNET 使用的这种距离度量没有考虑到的点是,真实生物网络中的一个基因可能与多个基因相互作用。
